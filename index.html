@@ -84,7 +84,19 @@ aside{flex:1 1 270px;max-width:100%;display:flex;flex-direction:column;gap:20px}
 h2{margin:0;font-size:20px}
 .linkbtn{font-size:15px;color:var(--accent);background:none;border:0;text-decoration:underline;cursor:pointer;min-height:44px;padding:0 4px}
 .fbody{display:flex;flex-direction:column;gap:22px}
-@media (max-width:899px){details.filters[open]>summary{margin-bottom:12px}}
+@media (max-width:899px){
+  details.filters{padding:0;gap:0}
+  details.filters>summary{padding:6px 16px;font-size:17px}
+  details.filters>summary .sum-r{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:var(--accent)}
+  details.filters>summary .chev{transition:transform .15s}
+  details.filters[open]>summary .chev{transform:rotate(180deg)}
+  details.filters[open]>summary{border-bottom:1px solid var(--line-soft)}
+  details.filters .fbody{padding:16px}
+  details.filters .panelhead h2{display:none}
+  details.filters .panelhead{justify-content:flex-end;margin-bottom:-12px}
+}
+.fclose{display:none}
+@media (max-width:899px){.fclose{display:inline-flex;align-self:stretch;justify-content:center}}
 details.filters{display:block}
 details.filters>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:44px;font-weight:700;font-size:18px}
 details.filters>summary::-webkit-details-marker{display:none}
@@ -249,7 +261,7 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
     <div class="layout" style="margin-top:20px">
       <aside>
         <details class="filters panel" id="filters" open>
-          <summary>Filter <span class="badge" id="fcount" hidden></span></summary>
+          <summary><span>Filter<span class="badge" id="fcount" hidden></span></span><span class="sum-r"><span class="sum-t">einblenden</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></summary>
           <div class="fbody">
           <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
           <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was wir an der Schule haben</span></label>
@@ -258,6 +270,7 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
           <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
           <fieldset><legend>Durchführung</legend><div class="chips" id="f-set"></div></fieldset>
           <fieldset><legend>Wo verzeichnet?</legend><div class="chips" id="f-src"></div></fieldset>
+          <button type="button" class="btn primary fclose" id="fclose">Treffer anzeigen</button>
           </div>
         </details>
         <div class="panel small merk">
@@ -612,6 +625,9 @@ $("#qclear").addEventListener("click",()=>{st.q="";$("#q").value="";render();$("
 $("#vorh").addEventListener("change",e=>{st.vorh=e.target.checked;render()});
 $("#sort").addEventListener("change",e=>{st.sort=e.target.value;render()});
 $("#reset").addEventListener("click",resetAll);
+const sumT=()=>{$("#filters .sum-t").textContent=$("#filters").open?"ausblenden":"einblenden"};
+$("#filters").addEventListener("toggle",sumT);
+$("#fclose").addEventListener("click",()=>{$("#filters").open=false;$("#count").scrollIntoView({block:"start"})});
 $("#merk-copy").addEventListener("click",()=>{const l=T.filter(t=>merk.has(t.id)).map(t=>"• "+t.short+": "+noteLine(t)).join("\n");copy(l||"(Merkliste ist leer)","Merkliste kopiert")});
 $("#merk-show").addEventListener("click",()=>{st.onlyMerk=!st.onlyMerk;if(st.onlyMerk)st.vorh=false;render()});
 function resetAll(){st.q="";$("#q").value="";st.quick=null;["fsp","ber","set","src","status"].forEach(k=>st[k].clear());st.kl=null;st.vorh=true;st.onlyMerk=false;render()}
@@ -621,6 +637,7 @@ function fallback(text,done){const ta=document.createElement("textarea");ta.valu
 let tt;function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("on"),1800)}
 document.documentElement.dataset.variant="b";
 if(window.matchMedia&&matchMedia("(max-width:899px)").matches)$("#filters").open=false;
+sumT();
 render();
 
 </script>
