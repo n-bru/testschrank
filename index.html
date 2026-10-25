@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Unser Testschrank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: Kopf mit Suche und Schnellwahl, Kennzahlenleiste, links Filter, rechts Treffer in drei Ansichten (Karten, Liste, Abdeckung), Steckbrief als Seitenleiste.
+   Zwei Designvarianten: A „Finder“ (dunkler Kopf), B „Hell“ (heller Kopf, petrolgrün). Beide bewusst nur hell. */
+:root{
+  color-scheme:light;
+  --ground:#F2F4F3; --ink:#16202B; --card:#FFFFFF; --line:#D5DADF; --line-soft:#E6E9EC; --chip-line:#AAB3BC; --muted:#4A5563;
+  --head:#16202B; --head-ink:#FFFFFF; --head-sub:#B9C6D3; --head-chip:#24313F; --head-chip-line:#3A4A5C;
+  --accent:#1D5C8A; --accent-dark:#123E5E; --accent-soft:#E3EDF5; --tag:#EEF0F2;
+  --warn-bg:#FFF4E5; --warn-line:#E8C48A; --warn-ink:#7A4A00;
+  --ok:#1F6B3F; --ok-bg:#E2F1E7; --info:#1D5C8A; --info-bg:#E3EDF5; --bad:#9B2C24; --bad-bg:#F8E3E0; --grey:#5B6672; --grey-bg:#EEF0F2;
+  --gap-bg:#FBEDEA; --cover1:#CFE0EE; --cover2:#8DB6D6; --cover3:#1D5C8A;
+  --radius:12px;
+  --f-word:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+:root[data-variant="b"]{
+  --ground:#F5F7F6; --ink:#14231F; --line:#D3DDD9; --line-soft:#E4EBE8; --chip-line:#A6B5AF; --muted:#4B5B55;
+  --head:#FFFFFF; --head-ink:#14231F; --head-sub:#4B5B55; --head-chip:#EEF4F2; --head-chip-line:#C9D7D2;
+  --accent:#0E6B5C; --accent-dark:#094A40; --accent-soft:#DDF0EB; --tag:#EDF2F0;
+  --info:#0E6B5C; --info-bg:#DDF0EB; --cover1:#CDE8E1; --cover2:#7DC2B2; --cover3:#0E6B5C;
+  --radius:8px;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-word);font-size:16px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--head)}
+a{color:var(--accent)}a:hover{color:var(--accent-dark)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.gutter{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+@media (max-width:480px){.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.inner{max-width:1280px;margin:0 auto}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* Kopf */
+header{background:var(--head);color:var(--head-ink);padding-block:32px 28px}
+:root[data-variant="b"] header{border-bottom:1px solid var(--line)}
+header .inner{display:flex;flex-direction:column;gap:20px}
+.titlerow{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--head-sub)}
+h1{margin:4px 0 0;font-size:40px;line-height:1.1;text-wrap:balance}
+@media (max-width:480px){h1{font-size:30px}}
+.headnote{font-size:15px;color:var(--head-sub)}
+.searchbox{display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:10px;padding:0 8px 0 16px;min-height:58px;border:1px solid transparent}
+:root[data-variant="b"] .searchbox{border-color:var(--chip-line)}
+.searchbox:focus-within{outline:3px solid var(--cover2);outline-offset:2px}
+.searchbox input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-size:18px;color:var(--ink);background:transparent;padding:14px 0}
+.searchbox .clear{border:0;background:none;color:var(--muted);min-width:44px;min-height:44px;border-radius:8px;cursor:pointer;font-size:20px}
+.searchlab{font-size:15px;font-weight:700}
+.quick{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.quick span{font-size:14px;color:var(--head-sub);margin-right:4px}
+.qchip{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--head-chip-line);background:var(--head-chip);color:var(--head-ink);cursor:pointer;font-size:15px;display:inline-flex;align-items:center;gap:8px}
+.qchip[aria-pressed="true"]{background:#FFFFFF;color:#16202B;border-color:#FFFFFF;font-weight:700}
+:root[data-variant="b"] .qchip[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;border-color:var(--accent)}
+.qchip svg{flex:none}
+
+/* Kennzahlen */
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding-block:20px 0}
+@media (max-width:760px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{min-height:64px;padding:10px}.stat b{font-size:22px}}
+@media (max-width:340px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-height:76px}
+.stat b{font-family:var(--f-mono);font-size:26px;line-height:1.1;font-weight:600}
+.stat span{font-size:14px;color:var(--muted)}
+.stat[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.stat .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+/* Hauptbereich */
+main{padding-block:20px 64px}
+.layout{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+aside{flex:1 1 270px;max-width:100%;display:flex;flex-direction:column;gap:20px}
+@media (min-width:900px){aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;flex:0 0 290px}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:22px}
+.panel.small{gap:12px}
+.panelhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+h2{margin:0;font-size:20px}
+.linkbtn{font-size:15px;color:var(--accent);background:none;border:0;text-decoration:underline;cursor:pointer;min-height:44px;padding:0 4px}
+.fbody{display:flex;flex-direction:column;gap:22px}
+@media (max-width:899px){details.filters[open]>summary{margin-bottom:12px}}
+details.filters{display:block}
+details.filters>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:44px;font-weight:700;font-size:18px}
+details.filters>summary::-webkit-details-marker{display:none}
+details.filters>summary .badge{font-size:13px;background:var(--accent);color:#FFFFFF;border-radius:10px;padding:2px 8px;margin-left:8px}
+@media (min-width:900px){details.filters>summary{display:none}}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column}
+legend{font-weight:700;font-size:15px;padding:0;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.chip{font-size:15px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--chip-line);background:#FFFFFF;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chips.grid .chip{border-radius:8px;padding:0 6px;justify-content:center}
+.chip .c{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;border-color:var(--accent)}
+.chip[aria-pressed="true"] .c{color:#DCE8F2}
+.chip:disabled{opacity:.45;cursor:default}
+.check{display:flex;align-items:center;gap:12px;min-height:44px;font-size:15px;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--accent);margin:0;flex:none}
+.hint{font-size:14px;color:var(--muted)}
+
+/* Ergebnisse */
+.results{flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.toolbar h2{font-size:22px}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;min-height:38px;padding:0 12px;border-radius:7px;cursor:pointer;font-size:15px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;font-weight:700}
+select{font:inherit;font-size:15px;min-height:44px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.active{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:14px;background:var(--accent-soft);color:var(--accent-dark);border:0;border-radius:16px;padding:0 6px 0 12px;min-height:32px;cursor:pointer}
+.pill span{font-size:16px;line-height:1}
+
+/* Karten */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+@media (max-width:420px){.cards{grid-template-columns:minmax(0,1fr)}}
+article{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ahead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.anames{display:flex;flex-direction:column;gap:2px;min-width:0}
+h3{margin:0;font-family:var(--f-mono);font-size:20px;font-weight:600;letter-spacing:-.01em;overflow-wrap:anywhere}
+.full{font-size:15px;color:var(--muted)}
+.star{flex:none;border:1px solid var(--line);background:#FFFFFF;color:var(--muted);min-width:44px;min-height:44px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.star[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;font-weight:700;color:var(--ink);background:var(--tag);border-radius:4px;padding:3px 8px;white-space:nowrap}
+.st{display:inline-flex;align-items:center;gap:6px}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.st-aktuell{background:var(--ok-bg);color:var(--ok)}
+.st-brauchbar{background:var(--info-bg);color:var(--info)}
+.st-veraltet{background:var(--bad-bg);color:var(--bad)}
+.st-unklar{background:var(--warn-bg);color:var(--warn-ink)}
+.st-informell{background:var(--grey-bg);color:var(--grey)}
+.have{font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft)}
+.nohave{font-size:13px;color:var(--muted);background:#FFFFFF;border:1px solid var(--line)}
+.desc{margin:0;font-size:15px}
+.band{display:flex;flex-direction:column;gap:4px}
+.band .lab{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.band .cells{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.band .cell{height:22px;border-radius:4px;background:var(--line-soft);font-family:var(--f-mono);font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.band .cell.on{background:var(--accent);color:#FFFFFF}
+.band .cell.unk{background:repeating-linear-gradient(135deg,var(--line-soft) 0 5px,#FFFFFF 5px 10px)}
+.afoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line-soft);padding-top:10px;margin-top:auto}
+.facts{font-size:14px;color:var(--muted)}
+.facts b{color:var(--ink)}
+.open{font-weight:700;font-size:15px;color:var(--accent);background:none;border:0;cursor:pointer;min-height:44px;padding:0 4px;display:inline-flex;align-items:center;gap:4px}
+
+/* Liste */
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--ground);position:sticky;top:0}
+th button{border:0;background:none;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer;padding:0;min-height:32px}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--accent-soft)}
+td.mono{font-family:var(--f-mono);font-weight:600}
+.miniband{display:inline-grid;grid-template-columns:repeat(6,12px);gap:2px}
+.miniband i{height:12px;border-radius:2px;background:var(--line-soft)}
+.miniband i.on{background:var(--accent)}
+
+/* Abdeckung */
+.matrixwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:4px}
+.matrix{min-width:640px}
+.matrix th,.matrix td{border-bottom:1px solid var(--line-soft);text-align:center;padding:8px}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.matrix td.cellm{font-family:var(--f-mono);font-size:15px;font-weight:600;cursor:pointer;border-left:3px solid var(--card)}
+.matrix td.cellm.l0{background:var(--gap-bg);color:var(--bad)}
+.matrix td.cellm.l1{background:var(--cover1)}
+.matrix td.cellm.l2{background:var(--cover2)}
+.matrix td.cellm.l3{background:var(--cover3);color:#FFFFFF}
+.legendrow{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted);align-items:center}
+.legendrow i{display:inline-block;width:16px;height:16px;border-radius:3px;vertical-align:-3px;margin-right:6px}
+.callout{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.callout ul{margin:0;padding-left:20px}
+
+.empty{background:var(--card);border:1px dashed var(--chip-line);border-radius:var(--radius);padding:36px 24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.empty strong{font-size:18px}
+.btn{font-weight:700;font-size:15px;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--accent);background:#FFFFFF;color:var(--accent);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn.primary{background:var(--accent);color:#FFFFFF}
+.btn.primary:hover{background:var(--accent-dark);color:#FFFFFF}
+
+/* Steckbrief-Seitenleiste */
+.scrim{position:fixed;inset:0;background:rgba(10,20,30,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--card);z-index:41;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.18);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.dhead{background:var(--head);color:var(--head-ink);padding:20px 24px;display:flex;flex-direction:column;gap:10px}
+:root[data-variant="b"] .dhead{border-bottom:1px solid var(--line)}
+.dtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.dhead h2{font-family:var(--f-mono);font-size:26px}
+.dhead p{margin:0;color:var(--head-sub)}
+.x{border:0;background:var(--head-chip);color:var(--head-ink);min-width:44px;min-height:44px;border-radius:10px;cursor:pointer;font-size:22px;flex:none}
+.dbody{overflow:auto;padding:20px 24px 28px;display:flex;flex-direction:column;gap:18px}
+.dl{margin:0;display:grid;grid-template-columns:minmax(120px,160px) minmax(0,1fr);gap:10px 16px}
+.dl dt{color:var(--muted);font-size:14px;padding-top:2px}
+.dl dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+@media (max-width:440px){.dl{grid-template-columns:minmax(0,1fr)}.dl dd{margin-bottom:6px}}
+.warnbox{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.warnbox svg{flex:none;margin-top:1px}
+.dactions{display:flex;gap:10px;flex-wrap:wrap}
+.dsec{display:flex;flex-direction:column;gap:10px}
+.loc{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted);background:var(--tag);border-radius:6px;padding:6px 10px}
+.loc b{color:var(--ink)}
+.loc .linkbtn{min-height:28px;font-size:14px;font-weight:700}
+.loc.free{background:var(--ok-bg);color:var(--ok);font-weight:700}
+.lform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:440px){.lform{grid-template-columns:minmax(0,1fr)}}
+.lform label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+.lform input{font:inherit;font-size:16px;min-height:44px;padding:0 10px;border:1px solid var(--chip-line);border-radius:8px;color:var(--ink);background:#FFFFFF;min-width:0}
+
+.dsec h3{font-family:var(--f-word);font-size:16px}
+
+.merk ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+footer{border-top:1px solid var(--line);padding-block:20px 32px;font-size:14px;color:var(--muted)}
+footer .inner{display:flex;flex-direction:column;gap:10px}
+.variant{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#FFFFFF;padding:12px 18px;border-radius:8px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+
+<header class="gutter">
+  <div class="inner">
+    <div class="titlerow">
+      <div>
+        <span class="eyebrow">Sonderpädagogik-Team · intern</span>
+        <h1>Unser Testschrank</h1>
+      </div>
+      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 25.10.2026</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label for="q" class="searchlab">Was möchtest du erfassen?</label>
+      <div class="searchbox">
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+        <input id="q" type="search" placeholder="Testname, Thema oder Stichwort, z. B. Lesen, Angst, LSL" autocomplete="off">
+        <button type="button" class="clear" id="qclear" aria-label="Suche leeren" hidden>×</button>
+      </div>
+    </div>
+    <div class="quick" id="quick" role="group" aria-label="Schnellwahl"><span>Schnellwahl:</span></div>
+  </div>
+</header>
+
+<main class="gutter">
+  <div class="inner">
+    <div class="stats" id="stats" role="group" aria-label="Überblick nach Stand"></div>
+    <div class="layout" style="margin-top:20px">
+      <aside>
+        <details class="filters panel" id="filters" open>
+          <summary>Filter <span class="badge" id="fcount" hidden></span></summary>
+          <div class="fbody">
+          <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
+          <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was wir an der Schule haben</span></label>
+          <fieldset><legend>Förderschwerpunkt</legend><div class="chips" id="f-fsp"></div></fieldset>
+          <fieldset><legend>Bereich</legend><div class="chips" id="f-ber"></div></fieldset>
+          <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
+          <fieldset><legend>Durchführung</legend><div class="chips" id="f-set"></div></fieldset>
+          <fieldset><legend>Wo verzeichnet?</legend><div class="chips" id="f-src"></div></fieldset>
+          </div>
+        </details>
+        <div class="panel small merk">
+          <h2>Merkliste</h2>
+          <ul id="merk-list"></ul>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn" id="merk-copy">Kopieren</button>
+            <button type="button" class="btn" id="merk-show">Nur Gemerkte zeigen</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="results" aria-label="Treffer">
+        <div class="toolbar">
+          <h2 id="count" aria-live="polite">0 Instrumente</h2>
+          <div class="tools">
+            <div class="seg" role="group" aria-label="Ansicht">
+              <button type="button" data-view="cards" aria-pressed="true">Karten</button>
+              <button type="button" data-view="list" aria-pressed="false">Liste</button>
+              <button type="button" data-view="matrix" aria-pressed="false">Abdeckung</button>
+            </div>
+            <label class="hint" for="sort" style="display:inline-flex;align-items:center;gap:6px">Sortieren
+              <select id="sort">
+                <option value="name">Name</option>
+                <option value="status">Handlungsbedarf zuerst</option>
+                <option value="ber">Bereich</option>
+                <option value="year">Neueste zuerst</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="active" id="active"></div>
+        <div id="view"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="gutter">
+  <div class="inner">
+    <span>Quellen: <a href="https://diagnostiksuchmaschine.de" target="_blank" rel="noopener">diagnostiksuchmaschine.de</a> und die Produktseiten auf hogrefe.com (Stand 18.10.2026). Eigene Übersicht des Teams, kein Angebot der Diagnostik-Suchmaschine oder des Verlags. Keine Schülerdaten eintragen. <button type="button" class="linkbtn" data-report="">Fehler melden</button></span>
+  </div>
+</footer>
+<div id="drawer-root"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===== Einstellungen: hier anpassen (Anleitung: testschrank_einrichten.md) ===== */
+const FORM_AUSLEIHE="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ye1PFot4eEOo6cGv5tvgp0oRQ6w_gRFDuVHEQhbVjrtUMUMzTko5MFVJUUlNWEk4MDUwRUNJQzI4WiQlQCN0PWcu&r24b75db3cd064f03816150afdf14ad6c=TESTNAME&re6c716e7e03041a8b0dd864657d43eb0=KUERZEL&rc33f896df9144249b6563b72c6b80c3d=%22Ausleihe%22"; // vorausgefüllter Forms-Link mit TESTNAME, KUERZEL und Ausleihe
+const AUSLEIHE_URL="";  // Link zur Excel-Datei mit den Antworten, zum Nachsehen
+const MELDEN_FORM="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ye1PFot4eEOo6cGv5tvgp0oRQ6w_gRFDuVHEQhbVjrtUNzRNRUcwNVRaQlkwSzY0WEMyWVVOQUVESyQlQCN0PWcu&rce8d212bb23941008c9df5aacd4f7a08=TESTNAME"; // vorausgefüllter Forms-Link für Fehlermeldungen mit TESTNAME
+const MELDEN_MAIL="";   // falls kein Formular: Mailadresse für Fehlermeldungen
+/* ============================================================================ */
+const R="https://diagnostiksuchmaschine.de";
+const H="https://www.hogrefe.com/at/shop/";
+const T=[
+{id:"demat5",vorh:true,short:"DEMAT 5+",name:"Deutscher Mathematiktest für fünfte Klassen",ber:"Mathematik",fsp:["Lernen"],status:"brauchbar",jg:[5,6],set:["Gruppe"],reg:"teilweise",regName:"DEMAT (nur DEMAT 1+ beschrieben)",hog:"Götz, Lingel & Schneider, 1. Aufl. 2013, lieferbar",year:"2013",norm:"N = 2.435 aus 9 Bundesländern, Normen nach Schulform; Erhebungsjahr nicht genannt",alter:"–",dauer:"35 Min.",desc:"Curricular orientierter Leistungstest Mathematik, ab 6 Wochen vor Ende Kl. 5 bis Mitte Kl. 6.",note:"Für Jg. 5/6 brauchbar. Die Normen sind über 10 Jahre alt.",link:R+"/test/1013",hlink:H+"deutscher-mathematiktest-fuer-fuenfte-klassen.html"},
+{id:"hrt",vorh:true,short:"HRT 1-4",name:"Heidelberger Rechentest",ber:"Mathematik",fsp:["Lernen"],status:"veraltet",jg:[1,5],set:["Gruppe","Einzel"],reg:"ja",regName:"HRT 1-4 (Haffner et al.)",hog:"Haffner et al., 1. Aufl. 2005, lieferbar, kein Nachfolger",year:"2005",norm:"N = 3.075 aus 4 Bundesländern, Quartalsnormen; Erhebungsjahr nicht genannt",alter:"–",dauer:"45–60 Min.",desc:"Rechenfertigkeiten und numerisch-logische Fähigkeiten, Ende Kl. 1 bis Anfang Kl. 5.",note:"Nur zu Beginn von Jg. 5 oder zieldifferent auf Grundschulniveau sinnvoll.",link:R+"/test/1015",hlink:H+"heidelberger-rechentest.html"},
+{id:"zrt",vorh:true,short:"Züricher Rechentest",name:"vermutlich ZAREKI-R, Testbatterie für Zahlenverarbeitung und Rechnen",ber:"Mathematik",fsp:["Lernen"],status:"unklar",jg:[1,4],set:["Einzel"],reg:"nein",hog:"ZAREKI-R: von Aster et al., 4. Aufl. 2013, lieferbar",year:"ZAREKI-R: 2013 (4. Aufl.)",norm:"ZAREKI-R: N = 764 (421 DE, 343 CH), nur Kl. 1–4",alter:"Kl. 1–4",dauer:"15–30 Min.",desc:"Falls ZAREKI-R: Einzeltest zu Zahlverarbeitung und Rechnen bei Verdacht auf Dyskalkulie.",note:"Bitte prüfen, ob es der ZAREKI-R ist. Er ist nur bis Kl. 4 normiert, für Sek I passt eher BASIS-MATH.",link:R+"/bereich/mathematik",hlink:H+"testverfahren-zur-dyskalkulie-bei-kindern-revidierte-fassung.html"},
+{id:"zlvt",vorh:true,short:"ZLVT 4–6",name:"Zürcher Leseverständnistest für das 4. bis 6. Schuljahr",ber:"Lesen",fsp:["Lernen","SQ"],status:"veraltet",jg:[4,6],set:["Einzel"],reg:"nein",hog:"Grissemann & Baumberger, 2. Aufl. 2000, noch lieferbar",year:"2000 (2. Aufl.)",norm:"Prozentränge und T-Werte; Jahr und Stichprobe nicht genannt",alter:"–",dauer:"max. 50 Min.",desc:"Leseverständnis für das 4. bis 6. Schuljahr, Einzeltest.",note:"Alt. Ersatz: ELFE II oder SLS 2-9.",link:R+"/bereich/lesen",hlink:H+"zuercher-leseverstaendnistest-fuer-das-4-bis-6-schuljahr.html"},
+{id:"zlt",vorh:true,short:"ZLT",name:"Zürcher Lesetest, Förderdiagnostik bei gestörtem Schriftspracherwerb",ber:"Lesen",fsp:["Lernen","SQ"],status:"veraltet",jg:[1,4],set:["Einzel"],reg:"nein",hog:"Nachfolger ZLT-II: Petermann & Daseking, 4. Aufl. 2019, Kl. 1–8",year:"alte Fassung; ZLT-II 2019",norm:"ZLT-II: N = 1.367, Normen Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"ZLT-II: 15–35 Min.",desc:"Lesefertigkeit mit Blick auf Fehlerarten, als Grundlage für Förderung.",note:"Eure Fassung ist der alte ZLT. Der ZLT-II reicht bis Kl. 8 und wäre für uns der bessere Kauf.",link:R+"/bereich/lesen",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
+{id:"sdd",vorh:true,short:"Schnell-Diagnose Deutsch",name:"Schnell-Diagnosetests Deutsch",ber:"Deutsch",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand im Fach Deutsch.",note:"Nur als informelle Lernstandserhebung nutzbar, nicht für Gutachten.",link:"",hlink:""},
+{id:"elfe",vorh:true,short:"ELFE II",name:"Ein Leseverständnistest für Erst- bis Siebtklässler",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,7],set:["Einzel","Gruppe"],reg:"ja",regName:"ELFE II (Lenhard et al.)",hog:"Lenhard, Lenhard & Schneider, 6. korr. Aufl. 2026, lieferbar",year:"2020 (aktuell 6. Aufl. 2026)",norm:"5.073 Datensätze aus 9 Bundesländern; Normstichprobe N = 1.520 Papier, N = 1.287 PC",alter:"–",dauer:"20–30 Min.",desc:"Leseverständnis auf Wort-, Satz- und Textebene, als Papier- und Computerversion.",note:"Aktuell. Gut für Jg. 5/6 und zieldifferent Lernende.",link:R+"/test/1027",hlink:H+"ein-leseverstaendnistest-fuer-erst-bis-siebtklaessler-version-ii.html"},
+{id:"lsl",vorh:true,short:"LSL",name:"Lehrereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"brauchbar",jg:[1,13],set:["Fragebogen"],reg:"ja",regName:"LSL (Petermann & Petermann)",hog:"Petermann & Petermann, 2. Aufl. 2013, lieferbar, auch digital",year:"2013 (2. Aufl.)",norm:"N = 1.480 aus BW, HE und NRW, auch Gesamtschulen",alter:"6–19 J.",dauer:"5 Min.",desc:"Lehrkräfte schätzen Sozial- und Lernverhalten ein, z. B. Kooperation, Selbstkontrolle, Konzentration.",note:"Noch brauchbar. Das Selbsturteil SSL ergänzt die Sicht der Lernenden.",link:R+"/test/15",hlink:H+"lehrereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
+{id:"set",vorh:true,short:"SET",name:"vermutlich SET 5–10, Sprachstandserhebungstest",ber:"Sprache",fsp:["SQ"],status:"unklar",jg:[0,5],set:["Einzel"],reg:"nein",hog:"SET 5–10: Petermann, 3. Aufl. 2018, teilweise neu normiert, lieferbar",year:"SET 5–10: 2018 (3. Aufl.)",norm:"SET 5–10: N = 1.052, bundesweit",alter:"5–10 J.",dauer:"ca. 45 Min.",desc:"Falls SET 5–10: Sprachstand in Wortschatz, Grammatik, Sprachverständnis und Gedächtnis.",note:"Bitte prüfen, ob es der SET 5–10 ist. Dann nur für Jg. 5 bis 10 Jahre nutzbar.",link:R+"/bereich/sprache",hlink:H+"sprachstandserhebungstest-fuer-kinder-im-alter-zwischen-5-und-10-jahren.html"},
+{id:"eldib",vorh:true,short:"ELDiB",name:"Entwicklungspädagogischer Lernziel-Diagnose-Bogen",ber:"Sozial-emotional",fsp:["ESE"],status:"informell",jg:null,set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Beobachtungsbogen zu Verhalten, Kommunikation, Sozialisation und Lernen.",note:"Förderplannahes Beobachtungsinstrument. Weiter sinnvoll.",link:"",hlink:""},
+{id:"kat",vorh:true,short:"KAT-III",name:"Kinder-Angst-Test III",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[1,12],set:["Fragebogen"],reg:"nein",hog:"Tewes & Naumann, 1. Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"Trait-Skala 2016 neu geeicht, N = 2.825 (6–18 J.)",alter:"6–18 J.",dauer:"5–15 Min.",desc:"Ängstlichkeit (Trait) und Zustandsangst vor und nach Belastungssituationen.",note:"Aktuell. Nicht im Register, aber gut nutzbar.",link:"",hlink:H+"kinder-angst-test-iii.html"},
+{id:"lavi",vorh:true,short:"LAVI",name:"Lern- und Arbeitsverhaltensinventar",ber:"Sozial-emotional",fsp:["Lernen","ESE"],status:"veraltet",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"Keller & Thiel, 1. Aufl. 1998, noch lieferbar, auch digital",year:"1998",norm:"N = 927, Kl. 5–10",alter:"–",dauer:"ca. 30 Min.",desc:"Selbsteinschätzung zu Arbeitsverhalten, Lernstrategien und Motivation, Kl. 5–10.",note:"Passt inhaltlich genau zu uns, die Normen sind aber über 25 Jahre alt. Ergänzend: SSL oder SELLMO.",link:R+"/test/44",hlink:H+"lern-und-arbeitsverhaltensinventar.html"},
+{id:"d2",vorh:true,short:"d2(-R)",name:"Aufmerksamkeits-Belastungstest",ber:"Kognition",fsp:["Lernen","ESE"],status:"aktuell",jg:[4,13],set:["Einzel","Gruppe"],reg:"ja",regName:"d2-R (Schmidt-Atzert & Brickenkamp)",hog:"d2-R: Brickenkamp et al., 2010, lieferbar, auch digital",year:"d2-R: 2010",norm:"d2-R: rund 4.000 Personen, 9–60 J.",alter:"9–60 J.",dauer:"ca. 15 Min.",desc:"Konzentration und Aufmerksamkeit unter Zeitdruck.",note:"Aktuell nur als d2-R. Prüft, ob ihr die R-Fassung habt.",link:R+"/test/1008",hlink:H+"test-d2-revision.html"},
+{id:"mesk",vorh:true,short:"MESK",name:"Titel noch offen",ber:"Sozial-emotional",fsp:["ESE"],status:"unklar",jg:null,set:["Fragebogen"],reg:"nein",hog:"bei Hogrefe nicht gefunden",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Verfahren aus dem Bereich ESE, laut alten MPT-Folien in Gebrauch.",note:"Vollständigen Titel prüfen.",link:R+"/bereich/emotionales-und-soziales-verhalten",hlink:""},
+{id:"mzt",vorh:true,short:"Mann-Zeichen-Test",name:"Der Mann-Zeichen-Test",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,8],set:["Einzel"],reg:"nein",hog:"nach Ziler (1950), bearb. Brosat & Tötemeyer, 13. unveränd. Aufl. 2019, lieferbar",year:"Original 1950, 13. Aufl. 2019",norm:"N = 1.125, 3–14 J.; Erhebungsjahr nicht genannt",alter:"3–14 J.",dauer:"–",desc:"Kinder zeichnen einen Menschen, daraus wird der Entwicklungsstand grob geschätzt.",note:"Noch im Handel, aber als Intelligenzmaß nicht mehr vertretbar.",link:"",hlink:H+"der-mann-zeichen-test.html"},
+{id:"cft",vorh:true,short:"CFT 20-R",name:"Grundintelligenztest Skala 2, Revision, mit WS/ZF-R",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[3,13],set:["Gruppe"],reg:"ja",regName:"CFT 20-R (Weiß)",hog:"2. Auflage, Normerhebung 2011–2015, lieferbar, auch digital",year:"2019 (2. Aufl.)",norm:"Erhebungen 2011–2015",alter:"ab 8;5 J.",dauer:"ca. 60 Min.",desc:"Sprachfreier Test zum schlussfolgernden Denken, mit Wortschatz- und Zahlenfolgentest kombinierbar.",note:"Aktuell. Standardverfahren für Sek I.",link:R+"/test/1002",hlink:H+"grundintelligenztest-skala-2-revision-cft-20-r-mit-wortschatztest-ws-und-zahlenfolgentest-zf-revision-ws-zf-r-94342.html"},
+{id:"sonr",vorh:true,short:"SON-R 6-40",name:"Snijders-Oomen Nonverbaler Intelligenztest",ber:"Kognition",fsp:["Lernen","SQ","HK"],status:"aktuell",jg:[1,13],set:["Einzel"],reg:"nein",hog:"Tellegen, Laros & Petermann, 1. Aufl. 2012, lieferbar",year:"2012",norm:"Erhebung 2009–2011 in DE und NL, N = 1.933",alter:"6–40 J.",dauer:"ca. 50 Min.",desc:"Nonverbaler Intelligenztest, ohne sprachliche Anforderungen durchführbar.",note:"Wichtig bei DaZ, Sprache und HK. Behalten.",link:"",hlink:"https://www.hogrefe.com/de/shop/non-verbaler-intelligenztest-49020.html"},
+{id:"kabc",vorh:true,short:"KABC-II",name:"Kaufman Assessment Battery for Children",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[0,12],set:["Einzel"],reg:"nein",hog:"dt. Bearbeitung Melchers & Melchers, 1. Aufl. 2015, lieferbar",year:"2015",norm:"repräsentative Normen DE/AT/CH für 16 Altersgruppen",alter:"3–18 J.",dauer:"30–75 Min.",desc:"Intelligenz- und Entwicklungstest mit Skalen zu Gedächtnis, Lernen und Planen.",note:"Nicht im Register, aber aktuell und anerkannt.",link:"",hlink:H+"kaufman-assessment-battery-for-children-second-edition.html"},
+{id:"ids",vorh:true,short:"IDS 5–10",name:"Intelligence and Development Scales",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,4],set:["Einzel"],reg:"Nachfolger",regName:"IDS-2 (Grob & Hagmann-von Arx)",hog:"IDS: 2009. Nachfolger IDS-2: 2018, 5–20 J., lieferbar",year:"2009",norm:"IDS: 2007–2008, N = 1.330. IDS-2: 2015–2017, N = 1.672",alter:"5;0–10;11 J.",dauer:"–",desc:"Intelligenz und Entwicklung in mehreren Funktionsbereichen.",note:"Eure Fassung endet bei 10;11 J. Nur die IDS-2 deckt Sek I ab.",link:R+"/test/1004",hlink:H+"intelligence-and-development-scales-2-86715.html"},
+{id:"svs",vorh:true,short:"SVS",name:"Titel noch offen",ber:"unklar",fsp:[],status:"unklar",jg:null,set:[],reg:"nein",hog:"bei Hogrefe nicht gefunden",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Kürzel noch nicht eindeutig zugeordnet.",note:"Vollständigen Titel prüfen.",link:"",hlink:""},
+{id:"itrf",vorh:true,short:"ITRF-G",name:"Integrated Teacher Report Form, deutsche Fassung",ber:"Sozial-emotional",fsp:["ESE"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"ITRF Kurzversion (Volpe & Fabiano)",hog:"nicht bei Hogrefe (frei verfügbar über die Forschung)",year:"2013",norm:"deutsche Fassung im Register nicht beschrieben",alter:"–",dauer:"–",desc:"Lehrkräfte schätzen lernförderliches und störendes Verhalten im Unterricht ein.",note:"Passt zur Verlaufsdiagnostik mit DBR bzw. der Lens-App.",link:R+"/test/12",hlink:""},
+{id:"sdm",vorh:true,short:"Schnelldiagnostik Mathe",name:"Schnelldiagnostik Mathematik",ber:"Mathematik",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand in Mathematik.",note:"Nur informell nutzbar.",link:"",hlink:""},
+// Aus dem Register, bei uns nicht vorhanden
+{id:"hsp",vorh:false,short:"HSP 1–10",name:"Hamburger Schreib-Probe",ber:"Rechtschreibung",fsp:["Lernen"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"HSP 1-10 (May et al.)",hog:"May, Malitzky & Vieluf, Ausgabe 2018, lieferbar",year:"2018",norm:"bundesweit; Kl. 1–6 normiert 2012, Kl. 7–10 2015",alter:"–",dauer:"unter 30 Min.",desc:"Rechtschreibstrategien über alle Klassenstufen bis Ende Klasse 10.",note:"Ein Rechtschreibtest fehlt bei uns bisher.",link:R+"/test/1043",hlink:H+"hamburger-schreib-probe-1-10-90204.html"},
+{id:"zlt2",vorh:false,short:"ZLT-II",name:"Zürcher Lesetest II",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,8],set:["Einzel"],reg:"nein",hog:"Petermann & Daseking, 4. Aufl. 2019, lieferbar",year:"2019 (4. Aufl.)",norm:"N = 1.367, Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"15–35 Min.",desc:"Lautes Lesen von Wörtern, Pseudowörtern und Text mit Fehleranalyse.",note:"Nachfolger eures ZLT, reicht bis Kl. 8.",link:"",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
+{id:"sls",vorh:false,short:"SLS 2-9",name:"Salzburger Lese-Screening",ber:"Lesen",fsp:["Lernen"],status:"aktuell",jg:[2,9],set:["Einzel","Gruppe"],reg:"ja",regName:"SLS 2-9 (Wimmer & Mayringer)",hog:"Wimmer & Mayringer, 2014, lieferbar",year:"2014",norm:"N = 11.900",alter:"–",dauer:"ca. 15 Min.",desc:"Schnelles Screening der Lesegeschwindigkeit für ganze Klassen.",note:"Guter Ersatz für den ZLVT.",link:R+"/test/1033",hlink:H+"test-komplett-bestehend-aus-manual-je-5-testheften-form-a1-a2-b1-und-b2-schablonensatz-und-box.html"},
+{id:"feess",vorh:false,short:"FEESS 5-6",name:"Fragebogen zur Erfassung emotionaler und sozialer Schulerfahrungen",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[5,6],set:["Fragebogen","Gruppe"],reg:"ja",regName:"FEESS 5-6 (Rauer & Schuck)",hog:"Rauer & Schuck, 1. Aufl. 2021, lieferbar",year:"2021",norm:"Kl. 5 N = 886, Kl. 6 N = 856, auch Förderschulen",alter:"–",dauer:"2 × ca. 20 Min.",desc:"Sicht der Lernenden auf Klasse, Lehrkräfte und Schule.",note:"Frisch normiert, mit Zusatzzeit für inklusive Klassen.",link:R+"/test/33",hlink:H+"fragebogen-zur-erfassung-emotionaler-und-sozialer-schulerfahrungen-in-der-5-und-6-klassenstufe.html"},
+{id:"sdq",vorh:false,frei:true,flink:"https://www.sdqinfo.org/",short:"SDQ",name:"Strengths and Difficulties Questionnaire",ber:"Sozial-emotional",fsp:["ESE"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"SDQ (Goodman), Lehrkraft-, Eltern- und Selbstversion",hog:"nicht bei Hogrefe (kostenfrei auf sdqinfo.org)",year:"2005",norm:"–",alter:"4–17 J.",dauer:"5–10 Min.",desc:"Kurzes Screening zu Stärken und Schwierigkeiten, in drei Perspektiven.",note:"Papierversion kostenfrei.",link:R+"/test/2",hlink:""},
+{id:"afs",vorh:false,short:"AFS",name:"Angstfragebogen für Schüler",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[4,12],set:["Fragebogen"],reg:"ja",regName:"AFS (Wieczerkowski et al.)",hog:"7. überarb. und neu normierte Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"2015 neu normiert, N > 2.300, Kl. 4–12, u. a. NRW",alter:"9–18 J.",dauer:"10–25 Min.",desc:"Prüfungsangst, manifeste Angst, Schulunlust und soziale Erwünschtheit.",note:"Ergänzt den KAT-III um schulbezogene Angst.",link:R+"/test/41",hlink:H+"angstfragebogen-fuer-schueler.html"},
+{id:"ssl",vorh:false,short:"SSL",name:"Schülereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"aktuell",jg:[4,13],set:["Fragebogen"],reg:"ja",regName:"SSL (Petermann & Petermann)",hog:"Petermann & Petermann, 1. Aufl. 2014, lieferbar",year:"2014",norm:"N = 3.403 aus 4 Bundesländern",alter:"ab Kl. 4",dauer:"ca. 10 Min.",desc:"Selbsturteil der Lernenden, passend zur LSL.",note:"Ergänzt eure LSL um die Sicht der Lernenden.",link:R+"/test/16",hlink:H+"schuelereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
+{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ESE","SQ"],status:"aktuell",jg:null,set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
+{id:"stolle",vorh:false,frei:true,flink:"https://www.uni-potsdam.de/de/gsp-deutsch/forschung/stolle",short:"STOLLE",name:"Stolperwörter-Lesetest",ber:"Lesen",fsp:["Lernen","SQ"],status:"brauchbar",jg:[1,4],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei, Uni Potsdam)",year:"laufend (Uni Potsdam)",norm:"Vergleichstabellen nur Kl. 1–4",alter:"–",dauer:"ca. 5 Min.",desc:"Gruppen-Lesetest auf Satzebene: In jedem Satz steht ein falsches Wort, das gestrichen wird. Misst Tempo und Genauigkeit.",note:"Kostenlos als PDF nach Anforderung. In Sek I nur ohne Normen nutzbar, gut zur schnellen Einordnung zieldifferent Lernender.",link:"",hlink:""},
+{id:"vera8",vorh:false,frei:true,flink:"https://www.schulministerium.nrw/06102025-durchfuehrung-der-vergleichsarbeiten-8-vera-8-im-jahr-2026",short:"VERA-8",name:"Vergleichsarbeiten 8 (Lernstand 8 NRW)",ber:"Mathematik",fsp:["Lernen"],status:"aktuell",jg:[8,8],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (QUA-LiS NRW)",year:"jährlich",norm:"Landesvergleich nach Kompetenzstufen",alter:"–",dauer:"1 Schulstunde je Fach",desc:"Landesweite Lernstandserhebung in Deutsch, Mathematik und Englisch, mit Aufgaben und Hinweisen früherer Jahre.",note:"Habt ihr ohnehin. Die Kompetenzstufen und alten Aufgaben lassen sich für Förderpläne in Kl. 7–9 nutzen.",link:"",hlink:""},
+{id:"ndaz",vorh:false,frei:true,flink:"https://www.nibis.de/uploads/2med-eckert/ibus/Niveaubeschreibungen_DaZ_sekI.pdf",short:"Niveaubeschr. DaZ",name:"Niveaubeschreibungen Deutsch als Zweitsprache, Sek I (IQSH)",ber:"Sprache",fsp:["SQ"],status:"informell",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (IQSH Schleswig-Holstein, frei als PDF)",year:"2014",norm:"keine; vier Niveaustufen an den KMK-Bildungsstandards",alter:"–",dauer:"Beobachtung im Unterricht",desc:"Beobachtungsbogen zu Sprechen, Wortschatz, Aussprache, Lesen, Schreiben und Grammatik.",note:"Kein Test, aber strukturiert. Schließt bei uns die Lücke Sprache in Sek I.",link:"",hlink:""},
+{id:"piq",vorh:false,frei:true,flink:"https://www.piqinfo.ch",short:"PIQ",name:"Perceptions of Inclusion Questionnaire",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"brauchbar",jg:[3,9],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei auf piqinfo.ch)",year:"2015",norm:"keine Normen; validiert u. a. in Kl. 8",alter:"empfohlen Kl. 3–9",dauer:"ca. 5 Min.",desc:"12 Fragen zu emotionalem Wohlbefinden, sozialer Einbindung und schulischem Selbstkonzept, als Schüler-, Eltern- und Lehrkraftversion.",note:"Kostenlos, sehr kurz. Gut, um die Sicht der Lernenden auf ihre Inklusion zu erfassen.",link:"",hlink:""}
+];
+const FSP=["Lernen","ESE","SQ","KM","HK"];
+const BER=["Mathematik","Lesen","Rechtschreibung","Deutsch","Sprache","Kognition","Sozial-emotional","Verlaufsdiagnostik"];
+const KL=["alle","5","6","7","8","9","10"];
+const SET=["Einzel","Gruppe","Fragebogen"];
+const SRC=["Suchmaschine","Hogrefe","nirgends"];
+const STATUS=[["aktuell","aktuell"],["brauchbar","brauchbar"],["veraltet","veraltet"],["unklar","zu klären"],["informell","informell"]];
+const NEED={veraltet:0,unklar:1,informell:2,brauchbar:3,aktuell:4};
+const QUICK=[
+  {k:"lesen",l:"Lesen",f:t=>t.ber==="Lesen"},
+  {k:"rechnen",l:"Rechnen",f:t=>t.ber==="Mathematik"},
+  {k:"schreiben",l:"Rechtschreibung",f:t=>t.ber==="Rechtschreibung"||t.ber==="Deutsch"},
+  {k:"verhalten",l:"Verhalten",f:t=>t.ber==="Sozial-emotional"&&!/angst/i.test(t.name)},
+  {k:"angst",l:"Angst",f:t=>/angst/i.test(t.name+t.desc)},
+  {k:"konz",l:"Konzentration",f:t=>/konzentration|aufmerksam/i.test(t.name+t.desc)},
+  {k:"iq",l:"Intelligenz",f:t=>t.ber==="Kognition"&&!/aufmerksam/i.test(t.name)},
+  {k:"sprache",l:"Sprache",f:t=>t.ber==="Sprache"||t.fsp.includes("SQ")&&t.ber==="Kognition"&&/nonverbal/i.test(t.name)},
+  {k:"frei",l:"Kostenlos",f:t=>!!t.frei}
+];
+const st={q:"",quick:null,fsp:new Set(),ber:new Set(),set:new Set(),src:new Set(),status:new Set(),kl:null,vorh:true,onlyMerk:false,view:"cards",sort:"name",countAll:false};
+const store={get(k,d){try{const v=localStorage.getItem("testschrank-"+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("testschrank-"+k,JSON.stringify(v))}catch(e){}}};
+let merk=new Set(store.get("merk",[]));
+const DEF_LOC="C134";
+const locOf=t=>t.standort||(t.vorh?DEF_LOC:"");
+let myKz=store.get("kuerzel","");
+function locLine(t){
+  if(!t.vorh)return t.frei?`<div class="loc free"><span>Kostenlos verfügbar</span></div>`:"";
+  return `<div class="loc"><span>Standort <b>${esc(locOf(t))}</b></span>${FORM_AUSLEIHE?`<button type="button" class="linkbtn" data-open="${t.id}">Ausleihen</button>`:""}</div>`;
+}
+function loanSec(t){
+  if(!t.vorh)return "";
+  const list=AUSLEIHE_URL?`<a href="${esc(AUSLEIHE_URL)}" target="_blank" rel="noopener">Ausleihliste ansehen ↗</a>`:"";
+  if(!FORM_AUSLEIHE)return `<div class="dsec"><h3>Standort und Ausleihe</h3><p style="margin:0">Standort <b>${esc(locOf(t))}</b>. ${list}</p></div>`;
+  return `<div class="dsec"><h3>Standort und Ausleihe</h3><p style="margin:0">Standort <b>${esc(locOf(t))}</b>. ${list}</p>
+    <div class="lform"><label>Dein Kürzel<input id="f-kz" maxlength="8" value="${esc(myKz)}" placeholder="z. B. MUE" autocomplete="off"></label></div>
+    <div class="dactions">
+      <button type="button" class="btn primary" data-loan="Ausleihe" data-id="${t.id}">Ausleihen</button>
+      <button type="button" class="btn" data-loan="Rückgabe" data-id="${t.id}">Zurückgeben</button>
+    </div>
+    <p class="hint" style="margin:0">Es öffnet sich ein vorausgefülltes Formular. Dort nur noch auf „Absenden“ klicken. Nur dein Kürzel eintragen, keine Namen von Schüler:innen.</p></div>`;
+}
+const fillForm=(url,map)=>{let u=url;for(const [k,v] of Object.entries(map))u=u.split(k).join(encodeURIComponent(v));return u};
+function loanAction(kind,id){
+  const t=T.find(x=>x.id===id);const kz=($("#f-kz").value||"").trim();
+  if(!kz){toast("Bitte dein Kürzel eintragen");$("#f-kz").focus();return}
+  if(/\s/.test(kz)){toast("Bitte nur ein Kürzel, keinen Namen");$("#f-kz").focus();return}
+  myKz=kz;store.set("kuerzel",kz);
+  let url=fillForm(FORM_AUSLEIHE,{TESTNAME:t.short,KUERZEL:kz});
+  if(kind==="Rückgabe")url=url.split("Ausleihe").join(encodeURIComponent("Rückgabe"));
+  window.open(url,"_blank","noopener");
+}
+function reportText(t){return `Test: ${t.short} (${t.name})\n\nWas stimmt nicht?\n\n\nWas wäre richtig?\n\n\nQuelle (optional):\n\n\nBitte keine Namen oder Daten von Schüler:innen eintragen.`}
+function report(t){
+  const name=t?t.short:"Übersicht allgemein";
+  if(MELDEN_FORM){window.open(fillForm(MELDEN_FORM,{TESTNAME:name}),"_blank","noopener");return}
+  if(MELDEN_MAIL){location.href="mailto:"+MELDEN_MAIL+"?subject="+encodeURIComponent("Testschrank: Fehler bei "+name)+"&body="+encodeURIComponent(t?reportText(t):"Was stimmt nicht?\n\n");return}
+  copy("Testschrank: Fehler bei "+name+"\n\n"+(t?reportText(t):""),"Meldetext kopiert, bitte an die Fachleitung schicken");
+}
+
+st.view=store.get("view","cards");
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ICON={
+  star:'<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  starOn:'<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  warn:'<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7A4A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16.5" x2="12" y2="16.5"></line></svg>'
+};
+const statusLabel=s=>(STATUS.find(x=>x[0]===s)||[s,s])[1];
+const srcOf=t=>{const a=[];if(t.reg!=="nein")a.push("Suchmaschine");if(t.hlink)a.push("Hogrefe");if(!a.length)a.push("nirgends");return a};
+const klLabel=t=>!t.jg?"–":t.jg[0]<1?"bis "+(t.jg[1]>10?"10+":t.jg[1]):t.jg[0]+"–"+(t.jg[1]>10?"10+":t.jg[1]);
+const covers=(t,j)=>t.jg&&j>=t.jg[0]&&j<=t.jg[1];
+const yearOf=t=>{const m=String(t.year).match(/(19|20)\d\d/g);return m?Math.max(...m.map(Number)):0};
+
+/* Filter */
+function passes(t,skip){
+  if(st.vorh&&!t.vorh&&skip!=="vorh"&&st.quick!=="frei")return false;
+  if(st.onlyMerk&&!merk.has(t.id))return false;
+  if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
+  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||""].join(" ").toLowerCase().includes(st.q))return false;
+  const any=(k,arr)=>skip===k||st[k].size===0||arr.some(x=>st[k].has(x));
+  if(!any("fsp",t.fsp)||!any("ber",[t.ber])||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
+  if(skip!=="kl"&&st.kl!==null&&!covers(t,st.kl))return false;
+  return true;
+}
+function sorted(list){
+  const by={name:(a,b)=>a.short.localeCompare(b.short,"de"),status:(a,b)=>NEED[a.status]-NEED[b.status]||a.short.localeCompare(b.short,"de"),ber:(a,b)=>a.ber.localeCompare(b.ber,"de")||a.short.localeCompare(b.short,"de"),year:(a,b)=>yearOf(b)-yearOf(a)};
+  return list.slice().sort(by[st.sort]);
+}
+
+/* Bedienelemente aufbauen */
+function chipRow(el,key,vals){
+  el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false">${esc(lab)} <span class="c"></span></button>`}).join("");
+}
+chipRow($("#f-fsp"),"fsp",FSP);chipRow($("#f-ber"),"ber",BER);chipRow($("#f-set"),"set",SET);chipRow($("#f-src"),"src",[["Suchmaschine","Diagnostik-Suchmaschine"],["Hogrefe","Hogrefe"],["nirgends","nirgends"]]);
+$("#f-kl").innerHTML=KL.map(v=>`<button type="button" class="chip" data-k="kl" data-v="${v}" aria-pressed="false">${v}</button>`).join("");
+$("#quick").insertAdjacentHTML("beforeend",QUICK.map(x=>`<button type="button" class="qchip" data-quick="${x.k}" aria-pressed="false">${x.l}</button>`).join(""));
+
+function syncControls(){
+  document.querySelectorAll(".chip").forEach(c=>{
+    const k=c.dataset.k,v=c.dataset.v;
+    const on=k==="kl"?(v==="alle"?st.kl===null:st.kl===+v):st[k].has(v);
+    c.setAttribute("aria-pressed",on);
+    const cnt=c.querySelector(".c");
+    if(cnt){const n=T.filter(t=>passes(t,k)&&(k==="fsp"?t.fsp.includes(v):k==="ber"?t.ber===v:k==="set"?t.set.includes(v):srcOf(t).includes(v))).length;cnt.textContent=n;c.disabled=n===0&&!on}
+  });
+  document.querySelectorAll(".qchip").forEach(c=>c.setAttribute("aria-pressed",st.quick===c.dataset.quick));
+  document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.view===st.view));
+  $("#vorh").checked=st.vorh;$("#sort").value=st.sort;
+  $("#qclear").hidden=!st.q;
+  $("#kl-hint").hidden=st.kl===null;
+  $("#merk-show").textContent=st.onlyMerk?"Alle zeigen":"Nur Gemerkte zeigen";
+  const nf=st.fsp.size+st.ber.size+st.set.size+st.src.size+st.status.size+(st.kl!==null?1:0)+(st.quick?1:0);
+  $("#fcount").hidden=!nf;$("#fcount").textContent=nf;
+}
+
+function renderStats(){
+  const own=T.filter(t=>t.vorh);
+  const tiles=[["","Im Bestand",own.length,"var(--accent)"]].concat(STATUS.map(([k,l])=>[k,l,own.filter(t=>t.status===k).length,`var(--${{aktuell:"ok",brauchbar:"info",veraltet:"bad",unklar:"warn-ink",informell:"grey"}[k]})`]));
+  $("#stats").innerHTML=tiles.map(([k,l,n,c])=>`<button type="button" class="stat" data-stat="${k}" aria-pressed="${k?st.status.has(k):(st.status.size===0&&st.vorh)}"><b>${n}</b><span><i class="dot" style="background:${c}"></i>${l}</span></button>`).join("");
+  $("#stats").style.gridTemplateColumns="";
+}
+
+function renderActive(){
+  const p=[];
+  if(st.quick)p.push(["quick",null,"Thema: "+QUICK.find(x=>x.k===st.quick).l]);
+  if(st.q)p.push(["q",null,"Suche: „"+st.q+"“"]);
+  ["fsp","ber","set","src"].forEach(k=>st[k].forEach(v=>p.push([k,v,v])));
+  st.status.forEach(v=>p.push(["status",v,"Stand: "+statusLabel(v)]));
+  if(st.kl!==null)p.push(["kl",null,"Klasse "+st.kl]);
+  if(st.onlyMerk)p.push(["merk",null,"Nur Gemerkte"]);
+  if(!st.vorh)p.push(["vorh",null,"inkl. Vorschläge"]);
+  $("#active").innerHTML=p.map(([k,v,l])=>`<button type="button" class="pill" data-rm="${k}" data-v="${v===null?"":esc(v)}" aria-label="Filter ${esc(l)} entfernen">${esc(l)} <span aria-hidden="true">×</span></button>`).join("");
+}
+
+function band(t){
+  const cells=[5,6,7,8,9,10].map(j=>`<span class="cell ${t.jg?(covers(t,j)?"on":""):"unk"}">${j}</span>`).join("");
+  return `<div class="band"><div class="lab"><span>Klassen bei uns</span><span>${t.jg?"Kl. "+esc(klLabel(t)):"keine Angabe"}</span></div><div class="cells" aria-hidden="true">${cells}</div></div>`;
+}
+function tagRow(t){
+  return `<div class="tags"><span class="tag st st-${t.status}">${statusLabel(t.status)}</span><span class="tag ${t.vorh?"have":"nohave"}">${t.vorh?"Im Bestand":"Vorschlag"}</span>${t.fsp.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}<span class="tag">${esc(t.ber)}</span></div>`;
+}
+function card(t){
+  const on=merk.has(t.id);
+  return `<article>
+    <div class="ahead"><div class="anames"><h3>${esc(t.short)}</h3><span class="full">${esc(t.name)}</span></div>
+      <button type="button" class="star" data-merk="${t.id}" aria-pressed="${on}" aria-label="${esc(t.short)} ${on?"von der Merkliste nehmen":"merken"}">${on?ICON.starOn:ICON.star}</button></div>
+    ${tagRow(t)}
+    <p class="desc">${esc(t.desc)}</p>
+    ${band(t)}
+    ${locLine(t)}
+    <div class="afoot"><span class="facts">${[t.set.join(" / "),t.dauer!=="–"?"<b>"+esc(t.dauer)+"</b>":"",String(t.year).split(" (")[0]].filter(x=>x&&x!=="–").map(x=>x.startsWith("<b>")?x:esc(x)).join(" · ")||"&nbsp;"}</span>
+      <button type="button" class="open" data-open="${t.id}">Steckbrief <span aria-hidden="true">→</span></button></div>
+  </article>`;
+}
+function listView(res){
+  const mini=t=>`<span class="miniband" aria-label="Klassen ${esc(klLabel(t))}">${[5,6,7,8,9,10].map(j=>`<i class="${covers(t,j)?"on":""}"></i>`).join("")}</span>`;
+  return `<div class="tablewrap"><table><thead><tr><th scope="col">Verfahren</th><th scope="col">Bereich</th><th scope="col">Stand</th><th scope="col">Kl. 5–10</th><th scope="col">Form</th><th scope="col">Jahr</th><th scope="col"><span class="hint" style="font-size:inherit">Merken</span></th></tr></thead><tbody>${
+    res.map(t=>`<tr data-open="${t.id}" tabindex="0"><td class="mono">${esc(t.short)}${t.vorh?"":' <span class="tag nohave" style="font-family:var(--f-word)">Vorschlag</span>'}</td><td>${esc(t.ber)}</td><td><span class="tag st st-${t.status}">${statusLabel(t.status)}</span></td><td>${mini(t)}</td><td>${esc(t.set.join(" / ")||"–")}</td><td class="num">${esc(String(t.year).split(" (")[0])}</td><td><button type="button" class="star" data-merk="${t.id}" aria-pressed="${merk.has(t.id)}" aria-label="${esc(t.short)} merken">${merk.has(t.id)?ICON.starOn:ICON.star}</button></td></tr>`).join("")}</tbody></table></div>`;
+}
+function matrixView(){
+  const base=T.filter(t=>passes(t,"kl"));
+  const use=t=>st.countAll||t.status==="aktuell"||t.status==="brauchbar";
+  const rows=BER.filter(b=>base.some(t=>t.ber===b));
+  const gaps=[];
+  const body=rows.map(b=>{
+    const cells=[5,6,7,8,9,10].map(j=>{
+      const hit=base.filter(t=>t.ber===b&&covers(t,j)&&use(t));
+      const n=hit.length;if(!n)gaps.push([b,j]);
+      return `<td class="cellm l${Math.min(n,3)}" data-cell="${esc(b)}|${j}" tabindex="0" title="${esc(hit.map(t=>t.short).join(", ")||"keine")}" aria-label="${esc(b)}, Klasse ${j}: ${n} Verfahren">${n}</td>`}).join("");
+    return `<tr><th scope="row" style="text-align:left;background:none;text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)">${esc(b)}</th>${cells}</tr>`}).join("");
+  const byB={};gaps.forEach(([b,j])=>(byB[b]=byB[b]||[]).push(j));
+  const rng=a=>{const r=[];let s=a[0],p=a[0];for(const x of a.slice(1).concat([null])){if(x!==p+1){r.push(s===p?""+s:s+"–"+p);s=x}p=x}return r.join(", ")};
+  const gapList=Object.entries(byB).map(([b,js])=>`<li><strong>${esc(b)}</strong>: Kl. ${rng(js)}</li>`).join("");
+  return `<div class="callout"><strong>${gaps.length?"Hier fehlt uns ein nutzbares Verfahren":"Keine Lücken bei diesen Filtern"}</strong>${gaps.length?`<ul>${gapList}</ul>`:""}<span class="hint">Gezählt werden ${st.countAll?"alle Verfahren":"nur Verfahren mit Stand „aktuell“ oder „brauchbar“"}${st.vorh?" aus unserem Bestand":" inklusive Vorschläge"}. Eine Zahl antippen zeigt die Verfahren dazu.</span>
+    <label class="check" style="min-height:36px"><input type="checkbox" id="countall" ${st.countAll?"checked":""}><span>Auch veraltete und unklare Verfahren zählen</span></label></div>
+  <div class="matrixwrap"><table class="matrix"><thead><tr><th scope="col">Bereich</th>${[5,6,7,8,9,10].map(j=>`<th scope="col">Kl. ${j}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div>
+  <div class="legendrow"><span><i style="background:var(--gap-bg);border:1px solid var(--bad)"></i>keins</span><span><i style="background:var(--cover1)"></i>1</span><span><i style="background:var(--cover2)"></i>2</span><span><i style="background:var(--cover3)"></i>3 und mehr</span></div>`;
+}
+
+function render(){
+  syncControls();renderStats();renderActive();
+  const res=sorted(T.filter(t=>passes(t)));
+  const hidden=st.kl!==null?T.filter(t=>passes(t,"kl")&&!t.jg).length:0;
+  $("#count").textContent=st.view==="matrix"?"Abdeckung nach Bereich und Klasse":(res.length===1?"1 Instrument":res.length+" Instrumente")+(hidden?` · ${hidden} ohne Klassenangabe ausgeblendet`:"");
+  const empty=`<div class="empty"><strong>Kein Instrument passt zu allen Filtern.</strong><span class="hint">Entferne einen Filter oder suche allgemeiner.</span><button type="button" class="btn primary" data-reset>Alle Filter zurücksetzen</button></div>`;
+  $("#view").innerHTML=st.view==="matrix"?matrixView():!res.length?empty:st.view==="list"?listView(res):`<div class="cards">${res.map(card).join("")}</div>`;
+  const m=T.filter(t=>merk.has(t.id));
+  $("#merk-list").innerHTML=m.length?m.map(t=>`<li>${esc(t.short)}</li>`).join(""):`<li class="hint" style="list-style:none;margin-left:-20px">Mit dem Lesezeichen sammelst du Verfahren, z. B. für eine Bestellung oder eine Konferenz.</li>`;
+}
+
+/* Steckbrief */
+let lastFocus=null;
+function openDrawer(id){
+  const t=T.find(x=>x.id===id);if(!t)return;
+  lastFocus=document.activeElement;
+  const on=merk.has(t.id);
+  const warn=(t.status==="veraltet"||t.status==="unklar")?`<div class="warnbox">${ICON.warn}<span><strong>${t.status==="veraltet"?"Veraltet.":"Noch zu klären."}</strong> ${esc(t.note)}</span></div>`:"";
+  const regLabel={ja:"verzeichnet",nein:"nicht verzeichnet",teilweise:"teilweise verzeichnet",Nachfolger:"Nachfolger verzeichnet"}[t.reg];
+  $("#drawer-root").innerHTML=`<div class="scrim" data-close></div>
+  <div class="drawer" data-id="${t.id}" role="dialog" aria-modal="true" aria-labelledby="d-title">
+    <div class="dhead"><div class="dtop"><div><span class="eyebrow">Steckbrief</span><h2 id="d-title">${esc(t.short)}</h2></div><button type="button" class="x" data-close aria-label="Steckbrief schließen">×</button></div><p>${esc(t.name)}</p></div>
+    <div class="dbody">
+      ${tagRow(t)}
+      <p style="margin:0">${esc(t.desc)}</p>
+      ${band(t)}
+      ${warn}
+      ${loanSec(t)}
+      <div class="dsec"><h3>Eckdaten</h3><dl class="dl">
+        <dt>Erscheinungsjahr</dt><dd>${esc(t.year)}</dd>
+        <dt>Normierung</dt><dd>${esc(t.norm)}</dd>
+        <dt>Alter</dt><dd>${esc(t.alter)}</dd>
+        <dt>Durchführung</dt><dd>${esc(t.set.join(" / ")||"–")}</dd>
+        <dt>Dauer</dt><dd>${esc(t.dauer)}</dd>
+      </dl></div>
+      <div class="dsec"><h3>Quellen</h3><dl class="dl">
+        <dt>Diagnostik-Suchmaschine</dt><dd>${regLabel}${t.regName?": "+esc(t.regName):""}</dd>
+        <dt>Hogrefe</dt><dd>${esc(t.hog)}</dd>
+      </dl></div>
+      <div class="dsec"><h3>Einschätzung für uns</h3><p style="margin:0">${esc(t.note)}</p></div>
+      <div class="dactions">
+        ${t.link?`<a class="btn primary" href="${t.link}" target="_blank" rel="noopener">Diagnostik-Suchmaschine ↗</a>`:""}
+        ${t.hlink?`<a class="btn" href="${t.hlink}" target="_blank" rel="noopener">Bei Hogrefe ↗</a>`:""}
+        ${t.flink?`<a class="btn${t.link?"":" primary"}" href="${t.flink}" target="_blank" rel="noopener">Kostenlos beziehen ↗</a>`:""}
+        <button type="button" class="btn" data-copy="${t.id}">Notiz kopieren</button>
+        <button type="button" class="btn" data-report="${t.id}">Fehler melden</button>
+        <button type="button" class="btn" data-merk="${t.id}" aria-pressed="${on}">${on?"Gemerkt":"Merken"}</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.style.overflow="hidden";
+  $(".drawer .x").focus();
+}
+function closeDrawer(){$("#drawer-root").innerHTML="";document.body.style.overflow="";if(lastFocus&&document.contains(lastFocus))lastFocus.focus()}
+
+/* Ereignisse */
+document.addEventListener("click",e=>{
+  const el=e.target;
+  const c=el.closest(".chip");if(c){const k=c.dataset.k,v=c.dataset.v;if(k==="kl")st.kl=v==="alle"||st.kl===+v?null:+v;else st[k].has(v)?st[k].delete(v):st[k].add(v);render();return}
+  const q=el.closest("[data-quick]");if(q){st.quick=st.quick===q.dataset.quick?null:q.dataset.quick;render();return}
+  const s=el.closest("[data-stat]");if(s){const k=s.dataset.stat;if(!k){st.status.clear();st.vorh=true}else st.status.has(k)?st.status.delete(k):st.status.add(k);render();return}
+  const m=el.closest("[data-merk]");if(m){e.stopPropagation();const id=m.dataset.merk;merk.has(id)?merk.delete(id):merk.add(id);store.set("merk",[...merk]);const inDrawer=!!m.closest(".drawer");render();if(inDrawer)openDrawer(id);return}
+  const o=el.closest("[data-open]");if(o){openDrawer(o.dataset.open);return}
+  if(el.closest("[data-close]")){closeDrawer();return}
+  const ln=el.closest("[data-loan]");if(ln){loanAction(ln.dataset.loan,ln.dataset.id);return}
+  const rp=el.closest("[data-report]");if(rp){report(T.find(x=>x.id===rp.dataset.report));return}
+  const cp=el.closest("[data-copy]");if(cp){copy(noteLine(T.find(x=>x.id===cp.dataset.copy)),"Notiz kopiert");return}
+  const v=el.closest("[data-view]");if(v){st.view=v.dataset.view;store.set("view",st.view);render();return}
+  const rm=el.closest("[data-rm]");if(rm){const k=rm.dataset.rm,val=rm.dataset.v;if(k==="quick")st.quick=null;else if(k==="q"){st.q="";$("#q").value=""}else if(k==="kl")st.kl=null;else if(k==="merk")st.onlyMerk=false;else if(k==="vorh")st.vorh=true;else st[k].delete(val);render();return}
+  const cell=el.closest("[data-cell]");if(cell){openCell(cell.dataset.cell);return}
+  if(el.closest("[data-reset]"))resetAll();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&$(".drawer")){closeDrawer();return}
+  if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr[data-open],td[data-cell]")){e.preventDefault();e.target.click()}
+  if(e.key==="Tab"&&$(".drawer")){const f=[...$(".drawer").querySelectorAll("button,a[href],input")];if(!f.length)return;const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+});
+document.addEventListener("change",e=>{if(e.target.id==="countall"){st.countAll=e.target.checked;render()}});
+function openCell(key){const [b,j]=key.split("|");st.ber=new Set([b]);st.kl=+j;if(!st.countAll){st.status=new Set(["aktuell","brauchbar"])}st.view="cards";render();$("#count").scrollIntoView({block:"start"})}
+$("#q").addEventListener("input",e=>{st.q=e.target.value.trim().toLowerCase();render()});
+$("#qclear").addEventListener("click",()=>{st.q="";$("#q").value="";render();$("#q").focus()});
+$("#vorh").addEventListener("change",e=>{st.vorh=e.target.checked;render()});
+$("#sort").addEventListener("change",e=>{st.sort=e.target.value;render()});
+$("#reset").addEventListener("click",resetAll);
+$("#merk-copy").addEventListener("click",()=>{const l=T.filter(t=>merk.has(t.id)).map(t=>"• "+t.short+": "+noteLine(t)).join("\n");copy(l||"(Merkliste ist leer)","Merkliste kopiert")});
+$("#merk-show").addEventListener("click",()=>{st.onlyMerk=!st.onlyMerk;if(st.onlyMerk)st.vorh=false;render()});
+function resetAll(){st.q="";$("#q").value="";st.quick=null;["fsp","ber","set","src","status"].forEach(k=>st[k].clear());st.kl=null;st.vorh=true;st.onlyMerk=false;render()}
+function noteLine(t){return `Register: ${t.reg}${t.regName?" ("+t.regName+")":""}. Hogrefe: ${t.hog}. Klasse ${klLabel(t)}. Jahr: ${t.year}. ${t.note}${t.hlink?" "+t.hlink:t.link?" "+t.link:""}`}
+function copy(text,msg){const done=()=>toast(msg);try{navigator.clipboard.writeText(text).then(done,()=>fallback(text,done))}catch(e){fallback(text,done)}}
+function fallback(text,done){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("Bitte Text markieren und kopieren")}ta.remove()}
+let tt;function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("on"),1800)}
+document.documentElement.dataset.variant="b";
+if(window.matchMedia&&matchMedia("(max-width:899px)").matches)$("#filters").open=false;
+render();
+
+</script>
+
+</body>
+</html>
