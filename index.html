@@ -218,6 +218,8 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 .loc b{color:var(--ink)}
 .loc .linkbtn{min-height:28px;font-size:14px;font-weight:700}
 .loc.free{background:var(--ok-bg);color:var(--ok);font-weight:700}
+.loc.free a{color:var(--ok)}
+.freetag{font-size:13px;font-weight:700;background:var(--ok-bg);color:var(--ok)}
 .lform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (max-width:440px){.lform{grid-template-columns:minmax(0,1fr)}}
 .lform label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
@@ -241,7 +243,7 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
         <span class="eyebrow">Sonderpädagogik-Team · intern</span>
         <h1>Unser Testschrank</h1>
       </div>
-      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 25.10.2026</span>
+      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 26.10.2026</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
@@ -264,7 +266,7 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
           <summary><span>Filter<span class="badge" id="fcount" hidden></span></span><span class="sum-r"><span class="sum-t">einblenden</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></summary>
           <div class="fbody">
           <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
-          <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was wir an der Schule haben</span></label>
+          <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was uns zur Verfügung steht (Schrank und kostenlos online)</span></label>
           <fieldset><legend>Förderschwerpunkt</legend><div class="chips" id="f-fsp"></div></fieldset>
           <fieldset><legend>Bereich</legend><div class="chips" id="f-ber"></div></fieldset>
           <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
@@ -357,7 +359,7 @@ const T=[
 {id:"sdq",vorh:false,frei:true,flink:"https://www.sdqinfo.org/",short:"SDQ",name:"Strengths and Difficulties Questionnaire",ber:"Sozial-emotional",fsp:["ESE"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"SDQ (Goodman), Lehrkraft-, Eltern- und Selbstversion",hog:"nicht bei Hogrefe (kostenfrei auf sdqinfo.org)",year:"2005",norm:"–",alter:"4–17 J.",dauer:"5–10 Min.",desc:"Kurzes Screening zu Stärken und Schwierigkeiten, in drei Perspektiven.",note:"Papierversion kostenfrei.",link:R+"/test/2",hlink:""},
 {id:"afs",vorh:false,short:"AFS",name:"Angstfragebogen für Schüler",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[4,12],set:["Fragebogen"],reg:"ja",regName:"AFS (Wieczerkowski et al.)",hog:"7. überarb. und neu normierte Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"2015 neu normiert, N > 2.300, Kl. 4–12, u. a. NRW",alter:"9–18 J.",dauer:"10–25 Min.",desc:"Prüfungsangst, manifeste Angst, Schulunlust und soziale Erwünschtheit.",note:"Ergänzt den KAT-III um schulbezogene Angst.",link:R+"/test/41",hlink:H+"angstfragebogen-fuer-schueler.html"},
 {id:"ssl",vorh:false,short:"SSL",name:"Schülereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"aktuell",jg:[4,13],set:["Fragebogen"],reg:"ja",regName:"SSL (Petermann & Petermann)",hog:"Petermann & Petermann, 1. Aufl. 2014, lieferbar",year:"2014",norm:"N = 3.403 aus 4 Bundesländern",alter:"ab Kl. 4",dauer:"ca. 10 Min.",desc:"Selbsturteil der Lernenden, passend zur LSL.",note:"Ergänzt eure LSL um die Sicht der Lernenden.",link:R+"/test/16",hlink:H+"schuelereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
-{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ESE","SQ"],status:"aktuell",jg:null,set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
+{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ESE","SQ"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
 {id:"stolle",vorh:false,frei:true,flink:"https://www.uni-potsdam.de/de/gsp-deutsch/forschung/stolle",short:"STOLLE",name:"Stolperwörter-Lesetest",ber:"Lesen",fsp:["Lernen","SQ"],status:"brauchbar",jg:[1,4],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei, Uni Potsdam)",year:"laufend (Uni Potsdam)",norm:"Vergleichstabellen nur Kl. 1–4",alter:"–",dauer:"ca. 5 Min.",desc:"Gruppen-Lesetest auf Satzebene: In jedem Satz steht ein falsches Wort, das gestrichen wird. Misst Tempo und Genauigkeit.",note:"Kostenlos als PDF nach Anforderung. In Sek I nur ohne Normen nutzbar, gut zur schnellen Einordnung zieldifferent Lernender.",link:"",hlink:""},
 {id:"vera8",vorh:false,frei:true,flink:"https://www.schulministerium.nrw/06102025-durchfuehrung-der-vergleichsarbeiten-8-vera-8-im-jahr-2026",short:"VERA-8",name:"Vergleichsarbeiten 8 (Lernstand 8 NRW)",ber:"Mathematik",fsp:["Lernen"],status:"aktuell",jg:[8,8],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (QUA-LiS NRW)",year:"jährlich",norm:"Landesvergleich nach Kompetenzstufen",alter:"–",dauer:"1 Schulstunde je Fach",desc:"Landesweite Lernstandserhebung in Deutsch, Mathematik und Englisch, mit Aufgaben und Hinweisen früherer Jahre.",note:"Habt ihr ohnehin. Die Kompetenzstufen und alten Aufgaben lassen sich für Förderpläne in Kl. 7–9 nutzen.",link:"",hlink:""},
 {id:"ndaz",vorh:false,frei:true,flink:"https://www.nibis.de/uploads/2med-eckert/ibus/Niveaubeschreibungen_DaZ_sekI.pdf",short:"Niveaubeschr. DaZ",name:"Niveaubeschreibungen Deutsch als Zweitsprache, Sek I (IQSH)",ber:"Sprache",fsp:["SQ"],status:"informell",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (IQSH Schleswig-Holstein, frei als PDF)",year:"2014",norm:"keine; vier Niveaustufen an den KMK-Bildungsstandards",alter:"–",dauer:"Beobachtung im Unterricht",desc:"Beobachtungsbogen zu Sprechen, Wortschatz, Aussprache, Lesen, Schreiben und Grammatik.",note:"Kein Test, aber strukturiert. Schließt bei uns die Lücke Sprache in Sek I.",link:"",hlink:""},
@@ -384,11 +386,12 @@ const QUICK=[
 const st={q:"",quick:null,fsp:new Set(),ber:new Set(),set:new Set(),src:new Set(),status:new Set(),kl:null,vorh:true,onlyMerk:false,view:"cards",sort:"name",countAll:false};
 const store={get(k,d){try{const v=localStorage.getItem("testschrank-"+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("testschrank-"+k,JSON.stringify(v))}catch(e){}}};
 let merk=new Set(store.get("merk",[]));
+const avail=t=>t.vorh||!!t.frei; // online frei Zugängliches gilt als an der Schule verfügbar (Nick, 26.10.2026)
 const DEF_LOC="C134";
 const locOf=t=>t.standort||(t.vorh?DEF_LOC:"");
 let myKz=store.get("kuerzel","");
 function locLine(t){
-  if(!t.vorh)return t.frei?`<div class="loc free"><span>Kostenlos verfügbar</span></div>`:"";
+  if(!t.vorh)return t.frei?`<div class="loc free"><span>Online frei verfügbar</span>${t.flink?`<a href="${esc(t.flink)}" target="_blank" rel="noopener">Öffnen ↗</a>`:""}</div>`:"";
   return `<div class="loc"><span>Standort <b>${esc(locOf(t))}</b></span>${FORM_AUSLEIHE?`<button type="button" class="linkbtn" data-open="${t.id}">Ausleihen</button>`:""}</div>`;
 }
 function loanSec(t){
@@ -437,7 +440,7 @@ const yearOf=t=>{const m=String(t.year).match(/(19|20)\d\d/g);return m?Math.max(
 
 /* Filter */
 function passes(t,skip){
-  if(st.vorh&&!t.vorh&&skip!=="vorh"&&st.quick!=="frei")return false;
+  if(st.vorh&&!avail(t)&&skip!=="vorh")return false;
   if(st.onlyMerk&&!merk.has(t.id))return false;
   if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
   if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||""].join(" ").toLowerCase().includes(st.q))return false;
@@ -478,8 +481,8 @@ function syncControls(){
 }
 
 function renderStats(){
-  const own=T.filter(t=>t.vorh);
-  const tiles=[["","Im Bestand",own.length,"var(--accent)"]].concat(STATUS.map(([k,l])=>[k,l,own.filter(t=>t.status===k).length,`var(--${{aktuell:"ok",brauchbar:"info",veraltet:"bad",unklar:"warn-ink",informell:"grey"}[k]})`]));
+  const own=T.filter(avail);
+  const tiles=[["","Verfügbar",own.length,"var(--accent)"]].concat(STATUS.map(([k,l])=>[k,l,own.filter(t=>t.status===k).length,`var(--${{aktuell:"ok",brauchbar:"info",veraltet:"bad",unklar:"warn-ink",informell:"grey"}[k]})`]));
   $("#stats").innerHTML=tiles.map(([k,l,n,c])=>`<button type="button" class="stat" data-stat="${k}" aria-pressed="${k?st.status.has(k):(st.status.size===0&&st.vorh)}"><b>${n}</b><span><i class="dot" style="background:${c}"></i>${l}</span></button>`).join("");
   $("#stats").style.gridTemplateColumns="";
 }
@@ -501,7 +504,7 @@ function band(t){
   return `<div class="band"><div class="lab"><span>Klassen bei uns</span><span>${t.jg?"Kl. "+esc(klLabel(t)):"keine Angabe"}</span></div><div class="cells" aria-hidden="true">${cells}</div></div>`;
 }
 function tagRow(t){
-  return `<div class="tags"><span class="tag st st-${t.status}">${statusLabel(t.status)}</span><span class="tag ${t.vorh?"have":"nohave"}">${t.vorh?"Im Bestand":"Vorschlag"}</span>${t.fsp.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}<span class="tag">${esc(t.ber)}</span></div>`;
+  return `<div class="tags"><span class="tag st st-${t.status}">${statusLabel(t.status)}</span><span class="tag ${t.vorh?"have":t.frei?"freetag":"nohave"}">${t.vorh?"Im Bestand":t.frei?"Online frei":"Vorschlag"}</span>${t.fsp.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}<span class="tag">${esc(t.ber)}</span></div>`;
 }
 function card(t){
   const on=merk.has(t.id);
@@ -519,7 +522,7 @@ function card(t){
 function listView(res){
   const mini=t=>`<span class="miniband" aria-label="Klassen ${esc(klLabel(t))}">${[5,6,7,8,9,10].map(j=>`<i class="${covers(t,j)?"on":""}"></i>`).join("")}</span>`;
   return `<div class="tablewrap"><table><thead><tr><th scope="col">Verfahren</th><th scope="col">Bereich</th><th scope="col">Stand</th><th scope="col">Kl. 5–10</th><th scope="col">Form</th><th scope="col">Jahr</th><th scope="col"><span class="hint" style="font-size:inherit">Merken</span></th></tr></thead><tbody>${
-    res.map(t=>`<tr data-open="${t.id}" tabindex="0"><td class="mono">${esc(t.short)}${t.vorh?"":' <span class="tag nohave" style="font-family:var(--f-word)">Vorschlag</span>'}</td><td>${esc(t.ber)}</td><td><span class="tag st st-${t.status}">${statusLabel(t.status)}</span></td><td>${mini(t)}</td><td>${esc(t.set.join(" / ")||"–")}</td><td class="num">${esc(String(t.year).split(" (")[0])}</td><td><button type="button" class="star" data-merk="${t.id}" aria-pressed="${merk.has(t.id)}" aria-label="${esc(t.short)} merken">${merk.has(t.id)?ICON.starOn:ICON.star}</button></td></tr>`).join("")}</tbody></table></div>`;
+    res.map(t=>`<tr data-open="${t.id}" tabindex="0"><td class="mono">${esc(t.short)}${t.vorh?"":t.frei?' <span class="tag freetag" style="font-family:var(--f-word)">Online frei</span>':' <span class="tag nohave" style="font-family:var(--f-word)">Vorschlag</span>'}</td><td>${esc(t.ber)}</td><td><span class="tag st st-${t.status}">${statusLabel(t.status)}</span></td><td>${mini(t)}</td><td>${esc(t.set.join(" / ")||"–")}</td><td class="num">${esc(String(t.year).split(" (")[0])}</td><td><button type="button" class="star" data-merk="${t.id}" aria-pressed="${merk.has(t.id)}" aria-label="${esc(t.short)} merken">${merk.has(t.id)?ICON.starOn:ICON.star}</button></td></tr>`).join("")}</tbody></table></div>`;
 }
 function matrixView(){
   const base=T.filter(t=>passes(t,"kl"));
@@ -535,7 +538,7 @@ function matrixView(){
   const byB={};gaps.forEach(([b,j])=>(byB[b]=byB[b]||[]).push(j));
   const rng=a=>{const r=[];let s=a[0],p=a[0];for(const x of a.slice(1).concat([null])){if(x!==p+1){r.push(s===p?""+s:s+"–"+p);s=x}p=x}return r.join(", ")};
   const gapList=Object.entries(byB).map(([b,js])=>`<li><strong>${esc(b)}</strong>: Kl. ${rng(js)}</li>`).join("");
-  return `<div class="callout"><strong>${gaps.length?"Hier fehlt uns ein nutzbares Verfahren":"Keine Lücken bei diesen Filtern"}</strong>${gaps.length?`<ul>${gapList}</ul>`:""}<span class="hint">Gezählt werden ${st.countAll?"alle Verfahren":"nur Verfahren mit Stand „aktuell“ oder „brauchbar“"}${st.vorh?" aus unserem Bestand":" inklusive Vorschläge"}. Eine Zahl antippen zeigt die Verfahren dazu.</span>
+  return `<div class="callout"><strong>${gaps.length?"Hier fehlt uns ein nutzbares Verfahren":"Keine Lücken bei diesen Filtern"}</strong>${gaps.length?`<ul>${gapList}</ul>`:""}<span class="hint">Gezählt werden ${st.countAll?"alle Verfahren":"nur Verfahren mit Stand „aktuell“ oder „brauchbar“"}${st.vorh?" aus dem, was uns zur Verfügung steht (Schrank und kostenlos online)":" inklusive Vorschläge"}. Eine Zahl antippen zeigt die Verfahren dazu.</span>
     <label class="check" style="min-height:36px"><input type="checkbox" id="countall" ${st.countAll?"checked":""}><span>Auch veraltete und unklare Verfahren zählen</span></label></div>
   <div class="matrixwrap"><table class="matrix"><thead><tr><th scope="col">Bereich</th>${[5,6,7,8,9,10].map(j=>`<th scope="col">Kl. ${j}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div>
   <div class="legendrow"><span><i style="background:var(--gap-bg);border:1px solid var(--bad)"></i>keins</span><span><i style="background:var(--cover1)"></i>1</span><span><i style="background:var(--cover2)"></i>2</span><span><i style="background:var(--cover3)"></i>3 und mehr</span></div>`;
