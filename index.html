@@ -250,26 +250,21 @@ h3{font-weight:800;letter-spacing:.01em}
 td.mono{font-weight:800}
 :focus-visible{outline-color:var(--sig)}
 
-/* Kompakte Filter */
+/* Kompakte Filter: gleich breite Leisten und Raster */
 aside{gap:16px}
-.panel{padding:16px;gap:18px}
-.fbody{gap:18px}
-legend{font-size:14px;margin-bottom:8px;color:var(--muted);text-transform:none}
-.chips{gap:6px}
-.chip{min-height:40px;padding:0 12px;font-size:14px;gap:4px;border-radius:999px}
+.panel{padding:16px;gap:16px}
+.fbody{gap:16px}
+legend{font-size:13px;margin-bottom:6px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .chip .c{font-size:11px}
-.chips.grid{display:flex;gap:0;border:1.5px solid var(--chip-line);border-radius:999px;overflow:hidden;background:var(--card)}
-.chips.grid .chip{flex:1 1 0;min-width:0;border:0;border-left:1.5px solid var(--line-soft);border-radius:0;padding:0}
-.chips.grid .chip:first-child{border-left:0;flex:1.4 1 0}
-.check{font-size:14px;gap:10px}
-.check input{width:20px;height:20px}
-details.more{border-top:1px solid var(--line-soft);padding-top:6px}
-details.more>summary{list-style:none;cursor:pointer;min-height:40px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--accent)}
-details.more>summary::-webkit-details-marker{display:none}
-details.more>summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:-4px 0 0 auto;transition:transform .15s}
-details.more[open]>summary::after{transform:rotate(225deg);margin-top:4px}
-details.more>summary .hint{font-weight:400}
-.morebody{display:flex;flex-direction:column;gap:18px;padding-top:10px}
+.chips.bar{display:flex;gap:0;border:1.5px solid var(--chip-line);border-radius:14px;overflow:hidden;background:var(--card)}
+.chips.bar .chip{flex:1 1 0;min-width:0;min-height:44px;border:0;border-left:1.5px solid var(--line-soft);border-radius:0;padding:2px 2px;font-size:14px;flex-direction:column;justify-content:center;gap:0;line-height:1.1}
+.chips.bar .chip:first-child{border-left:0}
+.chips.two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chips.two .chip{min-height:40px;border-radius:12px;padding:0 10px;font-size:14px;justify-content:space-between}
+.chip:disabled .c{opacity:.8}
+.check{font-size:15px;gap:10px;align-items:flex-start}
+.check input{width:20px;height:20px;margin-top:2px}
+.check .hint{font-size:13px}
 h1{display:flex;align-items:center;gap:14px}
 h1 .logo{flex:none}
 @media (max-width:480px){h1 .logo{width:40px;height:40px}}
@@ -304,15 +299,12 @@ h1 .logo{flex:none}
           <summary><span>Filter<span class="badge" id="fcount" hidden></span></span><span class="sum-r"><span class="sum-t">einblenden</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></summary>
           <div class="fbody">
           <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
-          <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was uns zur Verfügung steht (Schrank und kostenlos online)</span></label>
-          <fieldset><legend>Förderschwerpunkt</legend><div class="chips" id="f-fsp"></div></fieldset>
-          <fieldset><legend>Bereich</legend><div class="chips" id="f-ber"></div></fieldset>
-          <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
-          <details class="more" id="more"><summary>Durchführung und Quelle</summary>
-          <div class="morebody">
-          <fieldset><legend>Durchführung</legend><div class="chips" id="f-set"></div></fieldset>
-          <fieldset><legend>Wo verzeichnet?</legend><div class="chips" id="f-src"></div></fieldset>
-          </div></details>
+          <label class="check"><input type="checkbox" id="vorh" checked><span><b>Nur verfügbar</b><br><span class="hint">Schrank C134 und kostenlos online</span></span></label>
+          <fieldset><legend>Förderschwerpunkt</legend><div class="chips bar" id="f-fsp"></div></fieldset>
+          <fieldset><legend>Bereich</legend><div class="chips two" id="f-ber"></div></fieldset>
+          <fieldset><legend>Klasse</legend><div class="chips bar" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
+          <fieldset><legend>Durchführung</legend><div class="chips bar" id="f-set"></div></fieldset>
+          <fieldset><legend>Verzeichnet in</legend><div class="chips bar" id="f-src"></div><span class="hint" style="margin-top:6px">DSM = Diagnostik-Suchmaschine</span></fieldset>
           <button type="button" class="btn primary fclose" id="fclose">Treffer anzeigen</button>
           </div>
         </details>
@@ -497,9 +489,9 @@ function sorted(list){
 
 /* Bedienelemente aufbauen */
 function chipRow(el,key,vals){
-  el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false">${esc(lab)} <span class="c"></span></button>`}).join("");
+  el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false"${lab!==val?` aria-label="${esc(val)}" title="${esc(val)}"`:""}><span class="l" aria-hidden="${lab!==val}">${esc(lab)}</span> <span class="c"></span></button>`}).join("");
 }
-chipRow($("#f-fsp"),"fsp",FSP);chipRow($("#f-ber"),"ber",BER);chipRow($("#f-set"),"set",SET);chipRow($("#f-src"),"src",[["Suchmaschine","Diagnostik-Suchmaschine"],["Hogrefe","Hogrefe"],["nirgends","nirgends"]]);
+chipRow($("#f-fsp"),"fsp",[["Lernen","LE"],"ESE","SQ","KM","HK"]);chipRow($("#f-ber"),"ber",[["Mathematik","Mathe"],"Lesen",["Rechtschreibung","Rechtschr."],"Deutsch","Sprache","Kognition",["Sozial-emotional","Sozial-emot."],["Verlaufsdiagnostik","Verlauf"]]);chipRow($("#f-set"),"set",["Einzel","Gruppe",["Fragebogen","Bogen"]]);chipRow($("#f-src"),"src",[["Suchmaschine","DSM"],["Hogrefe","Hogrefe"],["nirgends","keins"]]);
 $("#f-kl").innerHTML=KL.map(v=>`<button type="button" class="chip" data-k="kl" data-v="${v}" aria-pressed="false">${v}</button>`).join("");
 
 function syncControls(){
