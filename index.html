@@ -6,6 +6,7 @@
 </head>
 <body style="margin:0">
 <title>Unser Testschrank</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%23FBE6DC%22/%3E%3Crect%20x%3D%2214%22%20y%3D%2210%22%20width%3D%2236%22%20height%3D%2244%22%20rx%3D%225%22%20fill%3D%22none%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22/%3E%3Cline%20x1%3D%2214%22%20y1%3D%2232%22%20x2%3D%2250%22%20y2%3D%2232%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22/%3E%3Crect%20x%3D%2220%22%20y%3D%2216%22%20width%3D%225%22%20height%3D%2212%22%20rx%3D%221.5%22%20fill%3D%22%23B4532C%22/%3E%3Crect%20x%3D%2228%22%20y%3D%2216%22%20width%3D%225%22%20height%3D%2212%22%20rx%3D%221.5%22%20fill%3D%22%238A640C%22/%3E%3Crect%20x%3D%2236%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%2210%22%20rx%3D%221.5%22%20fill%3D%22%23B4532C%22%20transform%3D%22rotate%2814%2038.5%2023%29%22/%3E%3Cline%20x1%3D%2228%22%20y1%3D%2242%22%20x2%3D%2236%22%20y2%3D%2242%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3Cline%20x1%3D%2220%22%20y1%3D%2254%22%20x2%3D%2220%22%20y2%3D%2258%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3Cline%20x1%3D%2244%22%20y1%3D%2254%22%20x2%3D%2244%22%20y2%3D%2258%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <style>
 /* Layout: Kopf mit Suche und Schnellwahl, Kennzahlenleiste, links Filter, rechts Treffer in drei Ansichten (Karten, Liste, Abdeckung), Steckbrief als Seitenleiste.
    Design: Sopäd-Team-Design (Pfad-Farben, Systemschrift, keine externen Schriften). Bewusst nur hell. */
@@ -47,11 +48,6 @@ h1{margin:4px 0 0;font-size:40px;line-height:1.1;text-wrap:balance}
 .searchbox input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-size:18px;color:var(--ink);background:transparent;padding:14px 0}
 .searchbox .clear{border:0;background:none;color:var(--muted);min-width:44px;min-height:44px;border-radius:8px;cursor:pointer;font-size:20px}
 .searchlab{font-size:15px;font-weight:700}
-.quick{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.quick span{font-size:14px;color:var(--head-sub);margin-right:4px}
-.qchip{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--head-chip-line);background:var(--head-chip);color:var(--head-ink);cursor:pointer;font-size:15px;display:inline-flex;align-items:center;gap:8px}
-.qchip[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;border-color:var(--accent);font-weight:700}
-.qchip svg{flex:none}
 
 /* Kennzahlen */
 .stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding-block:20px 0}
@@ -85,8 +81,8 @@ h2{margin:0;font-size:20px}
   details.filters .panelhead h2{display:none}
   details.filters .panelhead{justify-content:flex-end;margin-bottom:-12px}
 }
-.fclose{display:none}
-@media (max-width:899px){.fclose{display:inline-flex;align-self:stretch;justify-content:center}}
+.btn.fclose{display:none}
+@media (max-width:899px){.btn.fclose{display:inline-flex;align-self:stretch;justify-content:center}}
 details.filters{display:block}
 details.filters>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:44px;font-weight:700;font-size:18px}
 details.filters>summary::-webkit-details-marker{display:none}
@@ -234,7 +230,7 @@ h1{font-weight:800;color:var(--accent);letter-spacing:-.01em}
 .searchbox:focus-within{outline-color:var(--sig)}
 .panel,article,.stat,.tablewrap,.matrixwrap,.callout,.empty{border-width:1.5px}
 .stat b{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
-.chip,.qchip{border-width:1.5px;font-weight:600}
+.chip{border-width:1.5px;font-weight:600}
 .chips.grid .chip{border-radius:12px}
 .btn{border-radius:999px;border-width:1.5px}
 .btn.primary{border-color:var(--accent)}
@@ -253,6 +249,30 @@ h3{font-weight:800;letter-spacing:.01em}
 .num,td.mono,.matrix td.cellm{font-variant-numeric:tabular-nums}
 td.mono{font-weight:800}
 :focus-visible{outline-color:var(--sig)}
+
+/* Kompakte Filter */
+aside{gap:16px}
+.panel{padding:16px;gap:18px}
+.fbody{gap:18px}
+legend{font-size:14px;margin-bottom:8px;color:var(--muted);text-transform:none}
+.chips{gap:6px}
+.chip{min-height:40px;padding:0 12px;font-size:14px;gap:4px;border-radius:999px}
+.chip .c{font-size:11px}
+.chips.grid{display:flex;gap:0;border:1.5px solid var(--chip-line);border-radius:999px;overflow:hidden;background:var(--card)}
+.chips.grid .chip{flex:1 1 0;min-width:0;border:0;border-left:1.5px solid var(--line-soft);border-radius:0;padding:0}
+.chips.grid .chip:first-child{border-left:0;flex:1.4 1 0}
+.check{font-size:14px;gap:10px}
+.check input{width:20px;height:20px}
+details.more{border-top:1px solid var(--line-soft);padding-top:6px}
+details.more>summary{list-style:none;cursor:pointer;min-height:40px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--accent)}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:-4px 0 0 auto;transition:transform .15s}
+details.more[open]>summary::after{transform:rotate(225deg);margin-top:4px}
+details.more>summary .hint{font-weight:400}
+.morebody{display:flex;flex-direction:column;gap:18px;padding-top:10px}
+h1{display:flex;align-items:center;gap:14px}
+h1 .logo{flex:none}
+@media (max-width:480px){h1 .logo{width:40px;height:40px}}
 </style>
 
 <header class="gutter">
@@ -260,7 +280,7 @@ td.mono{font-weight:800}
     <div class="titlerow">
       <div>
         <span class="eyebrow"><b>HBG Köln</b> · Gemeinsames Lernen / Sonderpädagogik</span>
-        <h1>Unser Testschrank</h1>
+        <h1><svg class="logo" aria-hidden="true" width="52" height="52" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#FBE6DC"/><rect x="14" y="10" width="36" height="44" rx="5" fill="none" stroke="#B4532C" stroke-width="4"/><line x1="14" y1="32" x2="50" y2="32" stroke="#B4532C" stroke-width="4"/><rect x="20" y="16" width="5" height="12" rx="1.5" fill="#B4532C"/><rect x="28" y="16" width="5" height="12" rx="1.5" fill="#8A640C"/><rect x="36" y="18" width="5" height="10" rx="1.5" fill="#B4532C" transform="rotate(14 38.5 23)"/><line x1="28" y1="42" x2="36" y2="42" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="20" y1="54" x2="20" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="44" y1="54" x2="44" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/></svg>Unser Testschrank</h1>
       </div>
       <span class="headnote">Instrumente für die Klassen 5–10 · Stand 26.10.2026</span>
     </div>
@@ -268,11 +288,10 @@ td.mono{font-weight:800}
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
       <div class="searchbox">
         <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-        <input id="q" type="search" placeholder="Testname, Thema oder Stichwort, z. B. Lesen, Angst, LSL" autocomplete="off">
+        <input id="q" type="search" placeholder="Test, Thema oder Stichwort, z. B. Angst, LSL" autocomplete="off">
         <button type="button" class="clear" id="qclear" aria-label="Suche leeren" hidden>×</button>
       </div>
     </div>
-    <div class="quick" id="quick" role="group" aria-label="Schnellwahl"><span>Schnellwahl:</span></div>
   </div>
 </header>
 
@@ -289,8 +308,11 @@ td.mono{font-weight:800}
           <fieldset><legend>Förderschwerpunkt</legend><div class="chips" id="f-fsp"></div></fieldset>
           <fieldset><legend>Bereich</legend><div class="chips" id="f-ber"></div></fieldset>
           <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
+          <details class="more" id="more"><summary>Durchführung und Quelle</summary>
+          <div class="morebody">
           <fieldset><legend>Durchführung</legend><div class="chips" id="f-set"></div></fieldset>
           <fieldset><legend>Wo verzeichnet?</legend><div class="chips" id="f-src"></div></fieldset>
+          </div></details>
           <button type="button" class="btn primary fclose" id="fclose">Treffer anzeigen</button>
           </div>
         </details>
@@ -462,7 +484,7 @@ function passes(t,skip){
   if(st.vorh&&!avail(t)&&skip!=="vorh")return false;
   if(st.onlyMerk&&!merk.has(t.id))return false;
   if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
-  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||""].join(" ").toLowerCase().includes(st.q))return false;
+  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||"",t.frei?"kostenlos online frei":""].join(" ").toLowerCase().includes(st.q))return false;
   const any=(k,arr)=>skip===k||st[k].size===0||arr.some(x=>st[k].has(x));
   if(!any("fsp",t.fsp)||!any("ber",[t.ber])||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
   if(skip!=="kl"&&st.kl!==null&&!covers(t,st.kl))return false;
@@ -479,7 +501,6 @@ function chipRow(el,key,vals){
 }
 chipRow($("#f-fsp"),"fsp",FSP);chipRow($("#f-ber"),"ber",BER);chipRow($("#f-set"),"set",SET);chipRow($("#f-src"),"src",[["Suchmaschine","Diagnostik-Suchmaschine"],["Hogrefe","Hogrefe"],["nirgends","nirgends"]]);
 $("#f-kl").innerHTML=KL.map(v=>`<button type="button" class="chip" data-k="kl" data-v="${v}" aria-pressed="false">${v}</button>`).join("");
-$("#quick").insertAdjacentHTML("beforeend",QUICK.map(x=>`<button type="button" class="qchip" data-quick="${x.k}" aria-pressed="false">${x.l}</button>`).join(""));
 
 function syncControls(){
   document.querySelectorAll(".chip").forEach(c=>{
