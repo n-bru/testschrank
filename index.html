@@ -6,29 +6,23 @@
 </head>
 <body style="margin:0">
 <title>Unser Testschrank</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%23FBE6DC%22/%3E%3Crect%20x%3D%2214%22%20y%3D%2210%22%20width%3D%2236%22%20height%3D%2244%22%20rx%3D%225%22%20fill%3D%22none%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22/%3E%3Cline%20x1%3D%2214%22%20y1%3D%2232%22%20x2%3D%2250%22%20y2%3D%2232%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22/%3E%3Crect%20x%3D%2220%22%20y%3D%2216%22%20width%3D%225%22%20height%3D%2212%22%20rx%3D%221.5%22%20fill%3D%22%23B4532C%22/%3E%3Crect%20x%3D%2228%22%20y%3D%2216%22%20width%3D%225%22%20height%3D%2212%22%20rx%3D%221.5%22%20fill%3D%22%238A640C%22/%3E%3Crect%20x%3D%2236%22%20y%3D%2218%22%20width%3D%225%22%20height%3D%2210%22%20rx%3D%221.5%22%20fill%3D%22%23B4532C%22%20transform%3D%22rotate%2814%2038.5%2023%29%22/%3E%3Cline%20x1%3D%2228%22%20y1%3D%2242%22%20x2%3D%2236%22%20y2%3D%2242%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3Cline%20x1%3D%2220%22%20y1%3D%2254%22%20x2%3D%2220%22%20y2%3D%2258%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3Cline%20x1%3D%2244%22%20y1%3D%2254%22%20x2%3D%2244%22%20y2%3D%2258%22%20stroke%3D%22%23B4532C%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <style>
 /* Layout: Kopf mit Suche und Schnellwahl, Kennzahlenleiste, links Filter, rechts Treffer in drei Ansichten (Karten, Liste, Abdeckung), Steckbrief als Seitenleiste.
-   Zwei Designvarianten: A „Finder“ (dunkler Kopf), B „Hell“ (heller Kopf, petrolgrün). Beide bewusst nur hell. */
+   Design: Sopäd-Team-Design (Pfad-Farben, Systemschrift, keine externen Schriften). Bewusst nur hell. */
 :root{
   color-scheme:light;
-  --ground:#F2F4F3; --ink:#16202B; --card:#FFFFFF; --line:#D5DADF; --line-soft:#E6E9EC; --chip-line:#AAB3BC; --muted:#4A5563;
-  --head:#16202B; --head-ink:#FFFFFF; --head-sub:#B9C6D3; --head-chip:#24313F; --head-chip-line:#3A4A5C;
-  --accent:#1D5C8A; --accent-dark:#123E5E; --accent-soft:#E3EDF5; --tag:#EEF0F2;
-  --warn-bg:#FFF4E5; --warn-line:#E8C48A; --warn-ink:#7A4A00;
-  --ok:#1F6B3F; --ok-bg:#E2F1E7; --info:#1D5C8A; --info-bg:#E3EDF5; --bad:#9B2C24; --bad-bg:#F8E3E0; --grey:#5B6672; --grey-bg:#EEF0F2;
-  --gap-bg:#FBEDEA; --cover1:#CFE0EE; --cover2:#8DB6D6; --cover3:#1D5C8A;
-  --radius:12px;
-  --f-word:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-}
-:root[data-variant="b"]{
-  --ground:#F5F7F6; --ink:#14231F; --line:#D3DDD9; --line-soft:#E4EBE8; --chip-line:#A6B5AF; --muted:#4B5B55;
-  --head:#FFFFFF; --head-ink:#14231F; --head-sub:#4B5B55; --head-chip:#EEF4F2; --head-chip-line:#C9D7D2;
-  --accent:#0E6B5C; --accent-dark:#094A40; --accent-soft:#DDF0EB; --tag:#EDF2F0;
-  --info:#0E6B5C; --info-bg:#DDF0EB; --cover1:#CDE8E1; --cover2:#7DC2B2; --cover3:#0E6B5C;
-  --radius:8px;
+  /* Team-Design Sopäd HBG: Farben aus Pfad (Design B, Terrakotta/Creme), für Text abgedunkelt */
+  --ground:#FBF6EF; --ink:#2B2420; --card:#FFFDF9; --line:#E6D8C6; --line-soft:#F1E7DA; --chip-line:#C8B9A8; --muted:#6E6259;
+  --head:#FFFDF9; --head-ink:#2B2420; --head-sub:#6E6259; --head-chip:#F5ECE0; --head-chip-line:#E2D3C0;
+  --accent:#B4532C; --accent-dark:#8F3F1F; --accent-soft:#FBE6DC; --tag:#F5ECE0;
+  --sig:#E3A008;
+  --warn-bg:#F8EDCF; --warn-line:#E3C277; --warn-ink:#8A640C;
+  --ok:#3B6E47; --ok-bg:#E4F1E3; --info:#2F5D8A; --info-bg:#E3ECF5; --bad:#A63A2E; --bad-bg:#F9E1DC; --grey:#6E6259; --grey-bg:#F1EBE3;
+  --gap-bg:#F9E1DC; --cover1:#F6E3C6; --cover2:#E7A988; --cover3:#B4532C;
+  --radius:18px;
+  --f-word:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:var(--f-word);
 }
 *{box-sizing:border-box}
 body{background:var(--ground);color:var(--ink);font-family:var(--f-word);font-size:16px;line-height:1.45}
@@ -43,25 +37,17 @@ button{font:inherit;color:inherit}
 
 /* Kopf */
 header{background:var(--head);color:var(--head-ink);padding-block:32px 28px}
-:root[data-variant="b"] header{border-bottom:1px solid var(--line)}
 header .inner{display:flex;flex-direction:column;gap:20px}
 .titlerow{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
 .eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--head-sub)}
 h1{margin:4px 0 0;font-size:40px;line-height:1.1;text-wrap:balance}
 @media (max-width:480px){h1{font-size:30px}}
 .headnote{font-size:15px;color:var(--head-sub)}
-.searchbox{display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:10px;padding:0 8px 0 16px;min-height:58px;border:1px solid transparent}
-:root[data-variant="b"] .searchbox{border-color:var(--chip-line)}
+.searchbox{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:10px;padding:0 8px 0 16px;min-height:58px;border:1px solid transparent}
 .searchbox:focus-within{outline:3px solid var(--cover2);outline-offset:2px}
 .searchbox input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-size:18px;color:var(--ink);background:transparent;padding:14px 0}
 .searchbox .clear{border:0;background:none;color:var(--muted);min-width:44px;min-height:44px;border-radius:8px;cursor:pointer;font-size:20px}
 .searchlab{font-size:15px;font-weight:700}
-.quick{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.quick span{font-size:14px;color:var(--head-sub);margin-right:4px}
-.qchip{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--head-chip-line);background:var(--head-chip);color:var(--head-ink);cursor:pointer;font-size:15px;display:inline-flex;align-items:center;gap:8px}
-.qchip[aria-pressed="true"]{background:#FFFFFF;color:#16202B;border-color:#FFFFFF;font-weight:700}
-:root[data-variant="b"] .qchip[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;border-color:var(--accent)}
-.qchip svg{flex:none}
 
 /* Kennzahlen */
 .stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding-block:20px 0}
@@ -95,8 +81,8 @@ h2{margin:0;font-size:20px}
   details.filters .panelhead h2{display:none}
   details.filters .panelhead{justify-content:flex-end;margin-bottom:-12px}
 }
-.fclose{display:none}
-@media (max-width:899px){.fclose{display:inline-flex;align-self:stretch;justify-content:center}}
+.btn.fclose{display:none}
+@media (max-width:899px){.btn.fclose{display:inline-flex;align-self:stretch;justify-content:center}}
 details.filters{display:block}
 details.filters>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:44px;font-weight:700;font-size:18px}
 details.filters>summary::-webkit-details-marker{display:none}
@@ -106,11 +92,11 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column}
 legend{font-weight:700;font-size:15px;padding:0;margin-bottom:10px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
-.chip{font-size:15px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--chip-line);background:#FFFFFF;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip{font-size:15px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--chip-line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .chips.grid .chip{border-radius:8px;padding:0 6px;justify-content:center}
 .chip .c{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .chip[aria-pressed="true"]{background:var(--accent);color:#FFFFFF;border-color:var(--accent)}
-.chip[aria-pressed="true"] .c{color:#DCE8F2}
+.chip[aria-pressed="true"] .c{color:#FBE6DC}
 .chip:disabled{opacity:.45;cursor:default}
 .check{display:flex;align-items:center;gap:12px;min-height:44px;font-size:15px;cursor:pointer}
 .check input{width:22px;height:22px;accent-color:var(--accent);margin:0;flex:none}
@@ -137,7 +123,7 @@ article{background:var(--card);border:1px solid var(--line);border-radius:var(--
 .anames{display:flex;flex-direction:column;gap:2px;min-width:0}
 h3{margin:0;font-family:var(--f-mono);font-size:20px;font-weight:600;letter-spacing:-.01em;overflow-wrap:anywhere}
 .full{font-size:15px;color:var(--muted)}
-.star{flex:none;border:1px solid var(--line);background:#FFFFFF;color:var(--muted);min-width:44px;min-height:44px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.star{flex:none;border:1px solid var(--line);background:var(--card);color:var(--muted);min-width:44px;min-height:44px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .star[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-size:13px;font-weight:700;color:var(--ink);background:var(--tag);border-radius:4px;padding:3px 8px;white-space:nowrap}
@@ -149,14 +135,14 @@ h3{margin:0;font-family:var(--f-mono);font-size:20px;font-weight:600;letter-spac
 .st-unklar{background:var(--warn-bg);color:var(--warn-ink)}
 .st-informell{background:var(--grey-bg);color:var(--grey)}
 .have{font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft)}
-.nohave{font-size:13px;color:var(--muted);background:#FFFFFF;border:1px solid var(--line)}
+.nohave{font-size:13px;color:var(--muted);background:var(--card);border:1px solid var(--line)}
 .desc{margin:0;font-size:15px}
 .band{display:flex;flex-direction:column;gap:4px}
 .band .lab{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
 .band .cells{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
 .band .cell{height:22px;border-radius:4px;background:var(--line-soft);font-family:var(--f-mono);font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .band .cell.on{background:var(--accent);color:#FFFFFF}
-.band .cell.unk{background:repeating-linear-gradient(135deg,var(--line-soft) 0 5px,#FFFFFF 5px 10px)}
+.band .cell.unk{background:repeating-linear-gradient(135deg,var(--line-soft) 0 5px,var(--card) 5px 10px)}
 .afoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line-soft);padding-top:10px;margin-top:auto}
 .facts{font-size:14px;color:var(--muted)}
 .facts b{color:var(--ink)}
@@ -181,7 +167,7 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 .matrix th,.matrix td{border-bottom:1px solid var(--line-soft);text-align:center;padding:8px}
 .matrix th:first-child,.matrix td:first-child{text-align:left}
 .matrix td.cellm{font-family:var(--f-mono);font-size:15px;font-weight:600;cursor:pointer;border-left:3px solid var(--card)}
-.matrix td.cellm.l0{background:var(--gap-bg);color:var(--bad)}
+.matrix td.cellm.l0{background:repeating-linear-gradient(135deg,var(--gap-bg) 0 6px,var(--card) 6px 12px);color:var(--bad);font-weight:800}
 .matrix td.cellm.l1{background:var(--cover1)}
 .matrix td.cellm.l2{background:var(--cover2)}
 .matrix td.cellm.l3{background:var(--cover3);color:#FFFFFF}
@@ -192,15 +178,14 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 
 .empty{background:var(--card);border:1px dashed var(--chip-line);border-radius:var(--radius);padding:36px 24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .empty strong{font-size:18px}
-.btn{font-weight:700;font-size:15px;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--accent);background:#FFFFFF;color:var(--accent);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn{font-weight:700;font-size:15px;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .btn.primary{background:var(--accent);color:#FFFFFF}
 .btn.primary:hover{background:var(--accent-dark);color:#FFFFFF}
 
 /* Steckbrief-Seitenleiste */
-.scrim{position:fixed;inset:0;background:rgba(10,20,30,.45);z-index:40}
+.scrim{position:fixed;inset:0;background:rgba(43,36,32,.45);z-index:40}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--card);z-index:41;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.18);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
 .dhead{background:var(--head);color:var(--head-ink);padding:20px 24px;display:flex;flex-direction:column;gap:10px}
-:root[data-variant="b"] .dhead{border-bottom:1px solid var(--line)}
 .dtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .dhead h2{font-family:var(--f-mono);font-size:26px}
 .dhead p{margin:0;color:var(--head-sub)}
@@ -223,7 +208,7 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 .lform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (max-width:440px){.lform{grid-template-columns:minmax(0,1fr)}}
 .lform label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
-.lform input{font:inherit;font-size:16px;min-height:44px;padding:0 10px;border:1px solid var(--chip-line);border-radius:8px;color:var(--ink);background:#FFFFFF;min-width:0}
+.lform input{font:inherit;font-size:16px;min-height:44px;padding:0 10px;border:1px solid var(--chip-line);border-radius:8px;color:var(--ink);background:var(--card);min-width:0}
 
 .dsec h3{font-family:var(--f-word);font-size:16px}
 
@@ -234,26 +219,74 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#FFFFFF;padding:12px 18px;border-radius:8px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* Team-Design: weiche Formen wie Pfad Design B */
+header{border-bottom:1.5px solid var(--line)}
+.dhead{border-bottom:1.5px solid var(--line)}
+.eyebrow{font-size:13px;letter-spacing:.06em;font-weight:700}
+.eyebrow b{color:var(--ink)}
+h1{font-weight:800;color:var(--accent);letter-spacing:-.01em}
+.searchbox{border:1.5px solid var(--chip-line);border-radius:999px;padding-left:20px}
+.searchbox:focus-within{outline-color:var(--sig)}
+.panel,article,.stat,.tablewrap,.matrixwrap,.callout,.empty{border-width:1.5px}
+.stat b{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.chip{border-width:1.5px;font-weight:600}
+.chips.grid .chip{border-radius:12px}
+.btn{border-radius:999px;border-width:1.5px}
+.btn.primary{border-color:var(--accent)}
+.seg{border-radius:999px;border-width:1.5px}
+.seg button{border-radius:999px}
+select{border-radius:999px;border-width:1.5px;padding:0 14px}
+.star{border-radius:14px}
+h3{font-weight:800;letter-spacing:.01em}
+.dhead h2{font-weight:800;color:var(--accent)}
+.x{border-radius:50%}
+.tag{border-radius:8px}
+.loc{border-radius:10px}
+.warnbox{border-radius:14px}
+.lform input{border-radius:12px;border-width:1.5px}
+.star[aria-pressed="true"]{color:var(--sigt,#8A6200);border-color:var(--sig);background:#FBF0D2}
+.num,td.mono,.matrix td.cellm{font-variant-numeric:tabular-nums}
+td.mono{font-weight:800}
+:focus-visible{outline-color:var(--sig)}
+
+/* Kompakte Filter: gleich breite Leisten und Raster */
+aside{gap:16px}
+.panel{padding:16px;gap:16px}
+.fbody{gap:16px}
+legend{font-size:13px;margin-bottom:6px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.chip .c{font-size:11px}
+.chips.bar{display:flex;gap:0;border:1.5px solid var(--chip-line);border-radius:14px;overflow:hidden;background:var(--card)}
+.chips.bar .chip{flex:1 1 0;min-width:0;min-height:44px;border:0;border-left:1.5px solid var(--line-soft);border-radius:0;padding:2px 2px;font-size:14px;flex-direction:column;justify-content:center;gap:0;line-height:1.1}
+.chips.bar .chip:first-child{border-left:0}
+.chips.two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chips.two .chip{min-height:40px;border-radius:12px;padding:0 10px;font-size:14px;justify-content:space-between}
+.chip:disabled .c{opacity:.8}
+.check{font-size:15px;gap:10px;align-items:flex-start}
+.check input{width:20px;height:20px;margin-top:2px}
+.check .hint{font-size:13px}
+h1{display:flex;align-items:center;gap:14px}
+h1 .logo{flex:none}
+@media (max-width:480px){h1 .logo{width:40px;height:40px}}
 </style>
 
 <header class="gutter">
   <div class="inner">
     <div class="titlerow">
       <div>
-        <span class="eyebrow">Sonderpädagogik-Team · intern</span>
-        <h1>Unser Testschrank</h1>
+        <span class="eyebrow"><b>HBG Köln</b> · Gemeinsames Lernen / Sonderpädagogik</span>
+        <h1><svg class="logo" aria-hidden="true" width="52" height="52" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#FBE6DC"/><rect x="14" y="10" width="36" height="44" rx="5" fill="none" stroke="#B4532C" stroke-width="4"/><line x1="14" y1="32" x2="50" y2="32" stroke="#B4532C" stroke-width="4"/><rect x="20" y="16" width="5" height="12" rx="1.5" fill="#B4532C"/><rect x="28" y="16" width="5" height="12" rx="1.5" fill="#8A640C"/><rect x="36" y="18" width="5" height="10" rx="1.5" fill="#B4532C" transform="rotate(14 38.5 23)"/><line x1="28" y1="42" x2="36" y2="42" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="20" y1="54" x2="20" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="44" y1="54" x2="44" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/></svg>Unser Testschrank</h1>
       </div>
       <span class="headnote">Instrumente für die Klassen 5–10 · Stand 26.10.2026</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
       <div class="searchbox">
-        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-        <input id="q" type="search" placeholder="Testname, Thema oder Stichwort, z. B. Lesen, Angst, LSL" autocomplete="off">
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+        <input id="q" type="search" placeholder="Test, Thema oder Stichwort, z. B. Angst, LSL" autocomplete="off">
         <button type="button" class="clear" id="qclear" aria-label="Suche leeren" hidden>×</button>
       </div>
     </div>
-    <div class="quick" id="quick" role="group" aria-label="Schnellwahl"><span>Schnellwahl:</span></div>
   </div>
 </header>
 
@@ -266,12 +299,12 @@ footer .inner{display:flex;flex-direction:column;gap:10px}
           <summary><span>Filter<span class="badge" id="fcount" hidden></span></span><span class="sum-r"><span class="sum-t">einblenden</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></summary>
           <div class="fbody">
           <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
-          <label class="check"><input type="checkbox" id="vorh" checked><span>Nur was uns zur Verfügung steht (Schrank und kostenlos online)</span></label>
-          <fieldset><legend>Förderschwerpunkt</legend><div class="chips" id="f-fsp"></div></fieldset>
-          <fieldset><legend>Bereich</legend><div class="chips" id="f-ber"></div></fieldset>
-          <fieldset><legend>Klasse</legend><div class="chips grid" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
-          <fieldset><legend>Durchführung</legend><div class="chips" id="f-set"></div></fieldset>
-          <fieldset><legend>Wo verzeichnet?</legend><div class="chips" id="f-src"></div></fieldset>
+          <label class="check"><input type="checkbox" id="vorh" checked><span><b>Nur verfügbar</b><br><span class="hint">Schrank C134 und kostenlos online</span></span></label>
+          <fieldset><legend>Förderschwerpunkt</legend><div class="chips bar" id="f-fsp"></div></fieldset>
+          <fieldset><legend>Bereich</legend><div class="chips two" id="f-ber"></div></fieldset>
+          <fieldset><legend>Klasse</legend><div class="chips bar" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
+          <fieldset><legend>Durchführung</legend><div class="chips bar" id="f-set"></div></fieldset>
+          <fieldset><legend>Verzeichnet in</legend><div class="chips bar" id="f-src"></div><span class="hint" style="margin-top:6px">DSM = Diagnostik-Suchmaschine</span></fieldset>
           <button type="button" class="btn primary fclose" id="fclose">Treffer anzeigen</button>
           </div>
         </details>
@@ -336,36 +369,36 @@ const T=[
 {id:"zlt",vorh:true,short:"ZLT",name:"Zürcher Lesetest, Förderdiagnostik bei gestörtem Schriftspracherwerb",ber:"Lesen",fsp:["Lernen","SQ"],status:"veraltet",jg:[1,4],set:["Einzel"],reg:"nein",hog:"Nachfolger ZLT-II: Petermann & Daseking, 4. Aufl. 2019, Kl. 1–8",year:"alte Fassung; ZLT-II 2019",norm:"ZLT-II: N = 1.367, Normen Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"ZLT-II: 15–35 Min.",desc:"Lesefertigkeit mit Blick auf Fehlerarten, als Grundlage für Förderung.",note:"Eure Fassung ist der alte ZLT. Der ZLT-II reicht bis Kl. 8 und wäre für uns der bessere Kauf.",link:R+"/bereich/lesen",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
 {id:"sdd",vorh:true,short:"Schnell-Diagnose Deutsch",name:"Schnell-Diagnosetests Deutsch",ber:"Deutsch",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand im Fach Deutsch.",note:"Nur als informelle Lernstandserhebung nutzbar, nicht für Gutachten.",link:"",hlink:""},
 {id:"elfe",vorh:true,short:"ELFE II",name:"Ein Leseverständnistest für Erst- bis Siebtklässler",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,7],set:["Einzel","Gruppe"],reg:"ja",regName:"ELFE II (Lenhard et al.)",hog:"Lenhard, Lenhard & Schneider, 6. korr. Aufl. 2026, lieferbar",year:"2020 (aktuell 6. Aufl. 2026)",norm:"5.073 Datensätze aus 9 Bundesländern; Normstichprobe N = 1.520 Papier, N = 1.287 PC",alter:"–",dauer:"20–30 Min.",desc:"Leseverständnis auf Wort-, Satz- und Textebene, als Papier- und Computerversion.",note:"Aktuell. Gut für Jg. 5/6 und zieldifferent Lernende.",link:R+"/test/1027",hlink:H+"ein-leseverstaendnistest-fuer-erst-bis-siebtklaessler-version-ii.html"},
-{id:"lsl",vorh:true,short:"LSL",name:"Lehrereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"brauchbar",jg:[1,13],set:["Fragebogen"],reg:"ja",regName:"LSL (Petermann & Petermann)",hog:"Petermann & Petermann, 2. Aufl. 2013, lieferbar, auch digital",year:"2013 (2. Aufl.)",norm:"N = 1.480 aus BW, HE und NRW, auch Gesamtschulen",alter:"6–19 J.",dauer:"5 Min.",desc:"Lehrkräfte schätzen Sozial- und Lernverhalten ein, z. B. Kooperation, Selbstkontrolle, Konzentration.",note:"Noch brauchbar. Das Selbsturteil SSL ergänzt die Sicht der Lernenden.",link:R+"/test/15",hlink:H+"lehrereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
+{id:"lsl",vorh:true,short:"LSL",name:"Lehrereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"brauchbar",jg:[1,13],set:["Fragebogen"],reg:"ja",regName:"LSL (Petermann & Petermann)",hog:"Petermann & Petermann, 2. Aufl. 2013, lieferbar, auch digital",year:"2013 (2. Aufl.)",norm:"N = 1.480 aus BW, HE und NRW, auch Gesamtschulen",alter:"6–19 J.",dauer:"5 Min.",desc:"Lehrkräfte schätzen Sozial- und Lernverhalten ein, z. B. Kooperation, Selbstkontrolle, Konzentration.",note:"Noch brauchbar. Das Selbsturteil SSL ergänzt die Sicht der Lernenden.",link:R+"/test/15",hlink:H+"lehrereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
 {id:"set",vorh:true,short:"SET",name:"vermutlich SET 5–10, Sprachstandserhebungstest",ber:"Sprache",fsp:["SQ"],status:"unklar",jg:[0,5],set:["Einzel"],reg:"nein",hog:"SET 5–10: Petermann, 3. Aufl. 2018, teilweise neu normiert, lieferbar",year:"SET 5–10: 2018 (3. Aufl.)",norm:"SET 5–10: N = 1.052, bundesweit",alter:"5–10 J.",dauer:"ca. 45 Min.",desc:"Falls SET 5–10: Sprachstand in Wortschatz, Grammatik, Sprachverständnis und Gedächtnis.",note:"Bitte prüfen, ob es der SET 5–10 ist. Dann nur für Jg. 5 bis 10 Jahre nutzbar.",link:R+"/bereich/sprache",hlink:H+"sprachstandserhebungstest-fuer-kinder-im-alter-zwischen-5-und-10-jahren.html"},
-{id:"eldib",vorh:true,short:"ELDiB",name:"Entwicklungspädagogischer Lernziel-Diagnose-Bogen",ber:"Sozial-emotional",fsp:["ESE"],status:"informell",jg:null,set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Beobachtungsbogen zu Verhalten, Kommunikation, Sozialisation und Lernen.",note:"Förderplannahes Beobachtungsinstrument. Weiter sinnvoll.",link:"",hlink:""},
-{id:"kat",vorh:true,short:"KAT-III",name:"Kinder-Angst-Test III",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[1,12],set:["Fragebogen"],reg:"nein",hog:"Tewes & Naumann, 1. Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"Trait-Skala 2016 neu geeicht, N = 2.825 (6–18 J.)",alter:"6–18 J.",dauer:"5–15 Min.",desc:"Ängstlichkeit (Trait) und Zustandsangst vor und nach Belastungssituationen.",note:"Aktuell. Nicht im Register, aber gut nutzbar.",link:"",hlink:H+"kinder-angst-test-iii.html"},
-{id:"lavi",vorh:true,short:"LAVI",name:"Lern- und Arbeitsverhaltensinventar",ber:"Sozial-emotional",fsp:["Lernen","ESE"],status:"veraltet",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"Keller & Thiel, 1. Aufl. 1998, noch lieferbar, auch digital",year:"1998",norm:"N = 927, Kl. 5–10",alter:"–",dauer:"ca. 30 Min.",desc:"Selbsteinschätzung zu Arbeitsverhalten, Lernstrategien und Motivation, Kl. 5–10.",note:"Passt inhaltlich genau zu uns, die Normen sind aber über 25 Jahre alt. Ergänzend: SSL oder SELLMO.",link:R+"/test/44",hlink:H+"lern-und-arbeitsverhaltensinventar.html"},
-{id:"d2",vorh:true,short:"d2(-R)",name:"Aufmerksamkeits-Belastungstest",ber:"Kognition",fsp:["Lernen","ESE"],status:"aktuell",jg:[4,13],set:["Einzel","Gruppe"],reg:"ja",regName:"d2-R (Schmidt-Atzert & Brickenkamp)",hog:"d2-R: Brickenkamp et al., 2010, lieferbar, auch digital",year:"d2-R: 2010",norm:"d2-R: rund 4.000 Personen, 9–60 J.",alter:"9–60 J.",dauer:"ca. 15 Min.",desc:"Konzentration und Aufmerksamkeit unter Zeitdruck.",note:"Aktuell nur als d2-R. Prüft, ob ihr die R-Fassung habt.",link:R+"/test/1008",hlink:H+"test-d2-revision.html"},
-{id:"mesk",vorh:true,short:"MESK",name:"Titel noch offen",ber:"Sozial-emotional",fsp:["ESE"],status:"unklar",jg:null,set:["Fragebogen"],reg:"nein",hog:"bei Hogrefe nicht gefunden",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Verfahren aus dem Bereich ESE, laut alten MPT-Folien in Gebrauch.",note:"Vollständigen Titel prüfen.",link:R+"/bereich/emotionales-und-soziales-verhalten",hlink:""},
+{id:"eldib",vorh:true,short:"ELDiB",name:"Entwicklungspädagogischer Lernziel-Diagnose-Bogen",ber:"Sozial-emotional",fsp:["ES"],status:"informell",jg:null,set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Beobachtungsbogen zu Verhalten, Kommunikation, Sozialisation und Lernen.",note:"Förderplannahes Beobachtungsinstrument. Weiter sinnvoll.",link:"",hlink:""},
+{id:"kat",vorh:true,short:"KAT-III",name:"Kinder-Angst-Test III",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[1,12],set:["Fragebogen"],reg:"nein",hog:"Tewes & Naumann, 1. Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"Trait-Skala 2016 neu geeicht, N = 2.825 (6–18 J.)",alter:"6–18 J.",dauer:"5–15 Min.",desc:"Ängstlichkeit (Trait) und Zustandsangst vor und nach Belastungssituationen.",note:"Aktuell. Nicht im Register, aber gut nutzbar.",link:"",hlink:H+"kinder-angst-test-iii.html"},
+{id:"lavi",vorh:true,short:"LAVI",name:"Lern- und Arbeitsverhaltensinventar",ber:"Sozial-emotional",fsp:["Lernen","ES"],status:"veraltet",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"Keller & Thiel, 1. Aufl. 1998, noch lieferbar, auch digital",year:"1998",norm:"N = 927, Kl. 5–10",alter:"–",dauer:"ca. 30 Min.",desc:"Selbsteinschätzung zu Arbeitsverhalten, Lernstrategien und Motivation, Kl. 5–10.",note:"Passt inhaltlich genau zu uns, die Normen sind aber über 25 Jahre alt. Ergänzend: SSL oder SELLMO.",link:R+"/test/44",hlink:H+"lern-und-arbeitsverhaltensinventar.html"},
+{id:"d2",vorh:true,short:"d2(-R)",name:"Aufmerksamkeits-Belastungstest",ber:"Kognition",fsp:["Lernen","ES"],status:"aktuell",jg:[4,13],set:["Einzel","Gruppe"],reg:"ja",regName:"d2-R (Schmidt-Atzert & Brickenkamp)",hog:"d2-R: Brickenkamp et al., 2010, lieferbar, auch digital",year:"d2-R: 2010",norm:"d2-R: rund 4.000 Personen, 9–60 J.",alter:"9–60 J.",dauer:"ca. 15 Min.",desc:"Konzentration und Aufmerksamkeit unter Zeitdruck.",note:"Aktuell nur als d2-R. Prüft, ob ihr die R-Fassung habt.",link:R+"/test/1008",hlink:H+"test-d2-revision.html"},
+{id:"mesk",vorh:true,short:"MESK",name:"Titel noch offen",ber:"Sozial-emotional",fsp:["ES"],status:"unklar",jg:null,set:["Fragebogen"],reg:"nein",hog:"bei Hogrefe nicht gefunden",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Verfahren aus dem Bereich ES, laut alten MPT-Folien in Gebrauch.",note:"Vollständigen Titel prüfen.",link:R+"/bereich/emotionales-und-soziales-verhalten",hlink:""},
 {id:"mzt",vorh:true,short:"Mann-Zeichen-Test",name:"Der Mann-Zeichen-Test",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,8],set:["Einzel"],reg:"nein",hog:"nach Ziler (1950), bearb. Brosat & Tötemeyer, 13. unveränd. Aufl. 2019, lieferbar",year:"Original 1950, 13. Aufl. 2019",norm:"N = 1.125, 3–14 J.; Erhebungsjahr nicht genannt",alter:"3–14 J.",dauer:"–",desc:"Kinder zeichnen einen Menschen, daraus wird der Entwicklungsstand grob geschätzt.",note:"Noch im Handel, aber als Intelligenzmaß nicht mehr vertretbar.",link:"",hlink:H+"der-mann-zeichen-test.html"},
 {id:"cft",vorh:true,short:"CFT 20-R",name:"Grundintelligenztest Skala 2, Revision, mit WS/ZF-R",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[3,13],set:["Gruppe"],reg:"ja",regName:"CFT 20-R (Weiß)",hog:"2. Auflage, Normerhebung 2011–2015, lieferbar, auch digital",year:"2019 (2. Aufl.)",norm:"Erhebungen 2011–2015",alter:"ab 8;5 J.",dauer:"ca. 60 Min.",desc:"Sprachfreier Test zum schlussfolgernden Denken, mit Wortschatz- und Zahlenfolgentest kombinierbar.",note:"Aktuell. Standardverfahren für Sek I.",link:R+"/test/1002",hlink:H+"grundintelligenztest-skala-2-revision-cft-20-r-mit-wortschatztest-ws-und-zahlenfolgentest-zf-revision-ws-zf-r-94342.html"},
 {id:"sonr",vorh:true,short:"SON-R 6-40",name:"Snijders-Oomen Nonverbaler Intelligenztest",ber:"Kognition",fsp:["Lernen","SQ","HK"],status:"aktuell",jg:[1,13],set:["Einzel"],reg:"nein",hog:"Tellegen, Laros & Petermann, 1. Aufl. 2012, lieferbar",year:"2012",norm:"Erhebung 2009–2011 in DE und NL, N = 1.933",alter:"6–40 J.",dauer:"ca. 50 Min.",desc:"Nonverbaler Intelligenztest, ohne sprachliche Anforderungen durchführbar.",note:"Wichtig bei DaZ, Sprache und HK. Behalten.",link:"",hlink:"https://www.hogrefe.com/de/shop/non-verbaler-intelligenztest-49020.html"},
 {id:"kabc",vorh:true,short:"KABC-II",name:"Kaufman Assessment Battery for Children",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[0,12],set:["Einzel"],reg:"nein",hog:"dt. Bearbeitung Melchers & Melchers, 1. Aufl. 2015, lieferbar",year:"2015",norm:"repräsentative Normen DE/AT/CH für 16 Altersgruppen",alter:"3–18 J.",dauer:"30–75 Min.",desc:"Intelligenz- und Entwicklungstest mit Skalen zu Gedächtnis, Lernen und Planen.",note:"Nicht im Register, aber aktuell und anerkannt.",link:"",hlink:H+"kaufman-assessment-battery-for-children-second-edition.html"},
 {id:"ids",vorh:true,short:"IDS 5–10",name:"Intelligence and Development Scales",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,4],set:["Einzel"],reg:"Nachfolger",regName:"IDS-2 (Grob & Hagmann-von Arx)",hog:"IDS: 2009. Nachfolger IDS-2: 2018, 5–20 J., lieferbar",year:"2009",norm:"IDS: 2007–2008, N = 1.330. IDS-2: 2015–2017, N = 1.672",alter:"5;0–10;11 J.",dauer:"–",desc:"Intelligenz und Entwicklung in mehreren Funktionsbereichen.",note:"Eure Fassung endet bei 10;11 J. Nur die IDS-2 deckt Sek I ab.",link:R+"/test/1004",hlink:H+"intelligence-and-development-scales-2-86715.html"},
 {id:"svs",vorh:true,short:"SVS",name:"Titel noch offen",ber:"unklar",fsp:[],status:"unklar",jg:null,set:[],reg:"nein",hog:"bei Hogrefe nicht gefunden",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Kürzel noch nicht eindeutig zugeordnet.",note:"Vollständigen Titel prüfen.",link:"",hlink:""},
-{id:"itrf",vorh:true,short:"ITRF-G",name:"Integrated Teacher Report Form, deutsche Fassung",ber:"Sozial-emotional",fsp:["ESE"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"ITRF Kurzversion (Volpe & Fabiano)",hog:"nicht bei Hogrefe (frei verfügbar über die Forschung)",year:"2013",norm:"deutsche Fassung im Register nicht beschrieben",alter:"–",dauer:"–",desc:"Lehrkräfte schätzen lernförderliches und störendes Verhalten im Unterricht ein.",note:"Passt zur Verlaufsdiagnostik mit DBR bzw. der Lens-App.",link:R+"/test/12",hlink:""},
+{id:"itrf",vorh:true,short:"ITRF-G",name:"Integrated Teacher Report Form, deutsche Fassung",ber:"Sozial-emotional",fsp:["ES"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"ITRF Kurzversion (Volpe & Fabiano)",hog:"nicht bei Hogrefe (frei verfügbar über die Forschung)",year:"2013",norm:"deutsche Fassung im Register nicht beschrieben",alter:"–",dauer:"–",desc:"Lehrkräfte schätzen lernförderliches und störendes Verhalten im Unterricht ein.",note:"Passt zur Verlaufsdiagnostik mit DBR bzw. der Lens-App.",link:R+"/test/12",hlink:""},
 {id:"sdm",vorh:true,short:"Schnelldiagnostik Mathe",name:"Schnelldiagnostik Mathematik",ber:"Mathematik",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand in Mathematik.",note:"Nur informell nutzbar.",link:"",hlink:""},
 // Aus dem Register, bei uns nicht vorhanden
 {id:"hsp",vorh:false,short:"HSP 1–10",name:"Hamburger Schreib-Probe",ber:"Rechtschreibung",fsp:["Lernen"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"HSP 1-10 (May et al.)",hog:"May, Malitzky & Vieluf, Ausgabe 2018, lieferbar",year:"2018",norm:"bundesweit; Kl. 1–6 normiert 2012, Kl. 7–10 2015",alter:"–",dauer:"unter 30 Min.",desc:"Rechtschreibstrategien über alle Klassenstufen bis Ende Klasse 10.",note:"Ein Rechtschreibtest fehlt bei uns bisher.",link:R+"/test/1043",hlink:H+"hamburger-schreib-probe-1-10-90204.html"},
 {id:"zlt2",vorh:false,short:"ZLT-II",name:"Zürcher Lesetest II",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,8],set:["Einzel"],reg:"nein",hog:"Petermann & Daseking, 4. Aufl. 2019, lieferbar",year:"2019 (4. Aufl.)",norm:"N = 1.367, Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"15–35 Min.",desc:"Lautes Lesen von Wörtern, Pseudowörtern und Text mit Fehleranalyse.",note:"Nachfolger eures ZLT, reicht bis Kl. 8.",link:"",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
 {id:"sls",vorh:false,short:"SLS 2-9",name:"Salzburger Lese-Screening",ber:"Lesen",fsp:["Lernen"],status:"aktuell",jg:[2,9],set:["Einzel","Gruppe"],reg:"ja",regName:"SLS 2-9 (Wimmer & Mayringer)",hog:"Wimmer & Mayringer, 2014, lieferbar",year:"2014",norm:"N = 11.900",alter:"–",dauer:"ca. 15 Min.",desc:"Schnelles Screening der Lesegeschwindigkeit für ganze Klassen.",note:"Guter Ersatz für den ZLVT.",link:R+"/test/1033",hlink:H+"test-komplett-bestehend-aus-manual-je-5-testheften-form-a1-a2-b1-und-b2-schablonensatz-und-box.html"},
-{id:"feess",vorh:false,short:"FEESS 5-6",name:"Fragebogen zur Erfassung emotionaler und sozialer Schulerfahrungen",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[5,6],set:["Fragebogen","Gruppe"],reg:"ja",regName:"FEESS 5-6 (Rauer & Schuck)",hog:"Rauer & Schuck, 1. Aufl. 2021, lieferbar",year:"2021",norm:"Kl. 5 N = 886, Kl. 6 N = 856, auch Förderschulen",alter:"–",dauer:"2 × ca. 20 Min.",desc:"Sicht der Lernenden auf Klasse, Lehrkräfte und Schule.",note:"Frisch normiert, mit Zusatzzeit für inklusive Klassen.",link:R+"/test/33",hlink:H+"fragebogen-zur-erfassung-emotionaler-und-sozialer-schulerfahrungen-in-der-5-und-6-klassenstufe.html"},
-{id:"sdq",vorh:false,frei:true,flink:"https://www.sdqinfo.org/",short:"SDQ",name:"Strengths and Difficulties Questionnaire",ber:"Sozial-emotional",fsp:["ESE"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"SDQ (Goodman), Lehrkraft-, Eltern- und Selbstversion",hog:"nicht bei Hogrefe (kostenfrei auf sdqinfo.org)",year:"2005",norm:"–",alter:"4–17 J.",dauer:"5–10 Min.",desc:"Kurzes Screening zu Stärken und Schwierigkeiten, in drei Perspektiven.",note:"Papierversion kostenfrei.",link:R+"/test/2",hlink:""},
-{id:"afs",vorh:false,short:"AFS",name:"Angstfragebogen für Schüler",ber:"Sozial-emotional",fsp:["ESE"],status:"aktuell",jg:[4,12],set:["Fragebogen"],reg:"ja",regName:"AFS (Wieczerkowski et al.)",hog:"7. überarb. und neu normierte Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"2015 neu normiert, N > 2.300, Kl. 4–12, u. a. NRW",alter:"9–18 J.",dauer:"10–25 Min.",desc:"Prüfungsangst, manifeste Angst, Schulunlust und soziale Erwünschtheit.",note:"Ergänzt den KAT-III um schulbezogene Angst.",link:R+"/test/41",hlink:H+"angstfragebogen-fuer-schueler.html"},
-{id:"ssl",vorh:false,short:"SSL",name:"Schülereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"aktuell",jg:[4,13],set:["Fragebogen"],reg:"ja",regName:"SSL (Petermann & Petermann)",hog:"Petermann & Petermann, 1. Aufl. 2014, lieferbar",year:"2014",norm:"N = 3.403 aus 4 Bundesländern",alter:"ab Kl. 4",dauer:"ca. 10 Min.",desc:"Selbsturteil der Lernenden, passend zur LSL.",note:"Ergänzt eure LSL um die Sicht der Lernenden.",link:R+"/test/16",hlink:H+"schuelereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
-{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ESE","SQ"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
+{id:"feess",vorh:false,short:"FEESS 5-6",name:"Fragebogen zur Erfassung emotionaler und sozialer Schulerfahrungen",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[5,6],set:["Fragebogen","Gruppe"],reg:"ja",regName:"FEESS 5-6 (Rauer & Schuck)",hog:"Rauer & Schuck, 1. Aufl. 2021, lieferbar",year:"2021",norm:"Kl. 5 N = 886, Kl. 6 N = 856, auch Förderschulen",alter:"–",dauer:"2 × ca. 20 Min.",desc:"Sicht der Lernenden auf Klasse, Lehrkräfte und Schule.",note:"Frisch normiert, mit Zusatzzeit für inklusive Klassen.",link:R+"/test/33",hlink:H+"fragebogen-zur-erfassung-emotionaler-und-sozialer-schulerfahrungen-in-der-5-und-6-klassenstufe.html"},
+{id:"sdq",vorh:false,frei:true,flink:"https://www.sdqinfo.org/",short:"SDQ",name:"Strengths and Difficulties Questionnaire",ber:"Sozial-emotional",fsp:["ES"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"SDQ (Goodman), Lehrkraft-, Eltern- und Selbstversion",hog:"nicht bei Hogrefe (kostenfrei auf sdqinfo.org)",year:"2005",norm:"–",alter:"4–17 J.",dauer:"5–10 Min.",desc:"Kurzes Screening zu Stärken und Schwierigkeiten, in drei Perspektiven.",note:"Papierversion kostenfrei.",link:R+"/test/2",hlink:""},
+{id:"afs",vorh:false,short:"AFS",name:"Angstfragebogen für Schüler",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[4,12],set:["Fragebogen"],reg:"ja",regName:"AFS (Wieczerkowski et al.)",hog:"7. überarb. und neu normierte Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"2015 neu normiert, N > 2.300, Kl. 4–12, u. a. NRW",alter:"9–18 J.",dauer:"10–25 Min.",desc:"Prüfungsangst, manifeste Angst, Schulunlust und soziale Erwünschtheit.",note:"Ergänzt den KAT-III um schulbezogene Angst.",link:R+"/test/41",hlink:H+"angstfragebogen-fuer-schueler.html"},
+{id:"ssl",vorh:false,short:"SSL",name:"Schülereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"aktuell",jg:[4,13],set:["Fragebogen"],reg:"ja",regName:"SSL (Petermann & Petermann)",hog:"Petermann & Petermann, 1. Aufl. 2014, lieferbar",year:"2014",norm:"N = 3.403 aus 4 Bundesländern",alter:"ab Kl. 4",dauer:"ca. 10 Min.",desc:"Selbsturteil der Lernenden, passend zur LSL.",note:"Ergänzt eure LSL um die Sicht der Lernenden.",link:R+"/test/16",hlink:H+"schuelereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
+{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ES","SQ"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
 {id:"stolle",vorh:false,frei:true,flink:"https://www.uni-potsdam.de/de/gsp-deutsch/forschung/stolle",short:"STOLLE",name:"Stolperwörter-Lesetest",ber:"Lesen",fsp:["Lernen","SQ"],status:"brauchbar",jg:[1,4],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei, Uni Potsdam)",year:"laufend (Uni Potsdam)",norm:"Vergleichstabellen nur Kl. 1–4",alter:"–",dauer:"ca. 5 Min.",desc:"Gruppen-Lesetest auf Satzebene: In jedem Satz steht ein falsches Wort, das gestrichen wird. Misst Tempo und Genauigkeit.",note:"Kostenlos als PDF nach Anforderung. In Sek I nur ohne Normen nutzbar, gut zur schnellen Einordnung zieldifferent Lernender.",link:"",hlink:""},
 {id:"vera8",vorh:false,frei:true,flink:"https://www.schulministerium.nrw/06102025-durchfuehrung-der-vergleichsarbeiten-8-vera-8-im-jahr-2026",short:"VERA-8",name:"Vergleichsarbeiten 8 (Lernstand 8 NRW)",ber:"Mathematik",fsp:["Lernen"],status:"aktuell",jg:[8,8],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (QUA-LiS NRW)",year:"jährlich",norm:"Landesvergleich nach Kompetenzstufen",alter:"–",dauer:"1 Schulstunde je Fach",desc:"Landesweite Lernstandserhebung in Deutsch, Mathematik und Englisch, mit Aufgaben und Hinweisen früherer Jahre.",note:"Habt ihr ohnehin. Die Kompetenzstufen und alten Aufgaben lassen sich für Förderpläne in Kl. 7–9 nutzen.",link:"",hlink:""},
 {id:"ndaz",vorh:false,frei:true,flink:"https://www.nibis.de/uploads/2med-eckert/ibus/Niveaubeschreibungen_DaZ_sekI.pdf",short:"Niveaubeschr. DaZ",name:"Niveaubeschreibungen Deutsch als Zweitsprache, Sek I (IQSH)",ber:"Sprache",fsp:["SQ"],status:"informell",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (IQSH Schleswig-Holstein, frei als PDF)",year:"2014",norm:"keine; vier Niveaustufen an den KMK-Bildungsstandards",alter:"–",dauer:"Beobachtung im Unterricht",desc:"Beobachtungsbogen zu Sprechen, Wortschatz, Aussprache, Lesen, Schreiben und Grammatik.",note:"Kein Test, aber strukturiert. Schließt bei uns die Lücke Sprache in Sek I.",link:"",hlink:""},
-{id:"piq",vorh:false,frei:true,flink:"https://www.piqinfo.ch",short:"PIQ",name:"Perceptions of Inclusion Questionnaire",ber:"Sozial-emotional",fsp:["ESE","Lernen"],status:"brauchbar",jg:[3,9],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei auf piqinfo.ch)",year:"2015",norm:"keine Normen; validiert u. a. in Kl. 8",alter:"empfohlen Kl. 3–9",dauer:"ca. 5 Min.",desc:"12 Fragen zu emotionalem Wohlbefinden, sozialer Einbindung und schulischem Selbstkonzept, als Schüler-, Eltern- und Lehrkraftversion.",note:"Kostenlos, sehr kurz. Gut, um die Sicht der Lernenden auf ihre Inklusion zu erfassen.",link:"",hlink:""}
+{id:"piq",vorh:false,frei:true,flink:"https://www.piqinfo.ch",short:"PIQ",name:"Perceptions of Inclusion Questionnaire",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"brauchbar",jg:[3,9],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei auf piqinfo.ch)",year:"2015",norm:"keine Normen; validiert u. a. in Kl. 8",alter:"empfohlen Kl. 3–9",dauer:"ca. 5 Min.",desc:"12 Fragen zu emotionalem Wohlbefinden, sozialer Einbindung und schulischem Selbstkonzept, als Schüler-, Eltern- und Lehrkraftversion.",note:"Kostenlos, sehr kurz. Gut, um die Sicht der Lernenden auf ihre Inklusion zu erfassen.",link:"",hlink:""}
 ];
-const FSP=["Lernen","ESE","SQ","KM","HK"];
+const FSP=["Lernen","ES","SQ","KM","HK"];
 const BER=["Mathematik","Lesen","Rechtschreibung","Deutsch","Sprache","Kognition","Sozial-emotional","Verlaufsdiagnostik"];
 const KL=["alle","5","6","7","8","9","10"];
 const SET=["Einzel","Gruppe","Fragebogen"];
@@ -430,7 +463,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const ICON={
   star:'<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
   starOn:'<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
-  warn:'<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7A4A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16.5" x2="12" y2="16.5"></line></svg>'
+  warn:'<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:var(--warn-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="13"></line><line x1="12" y1="16.5" x2="12" y2="16.5"></line></svg>'
 };
 const statusLabel=s=>(STATUS.find(x=>x[0]===s)||[s,s])[1];
 const srcOf=t=>{const a=[];if(t.reg!=="nein")a.push("Suchmaschine");if(t.hlink)a.push("Hogrefe");if(!a.length)a.push("nirgends");return a};
@@ -443,7 +476,7 @@ function passes(t,skip){
   if(st.vorh&&!avail(t)&&skip!=="vorh")return false;
   if(st.onlyMerk&&!merk.has(t.id))return false;
   if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
-  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||""].join(" ").toLowerCase().includes(st.q))return false;
+  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||"",t.frei?"kostenlos online frei":""].join(" ").toLowerCase().includes(st.q))return false;
   const any=(k,arr)=>skip===k||st[k].size===0||arr.some(x=>st[k].has(x));
   if(!any("fsp",t.fsp)||!any("ber",[t.ber])||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
   if(skip!=="kl"&&st.kl!==null&&!covers(t,st.kl))return false;
@@ -456,11 +489,10 @@ function sorted(list){
 
 /* Bedienelemente aufbauen */
 function chipRow(el,key,vals){
-  el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false">${esc(lab)} <span class="c"></span></button>`}).join("");
+  el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false"${lab!==val?` aria-label="${esc(val)}" title="${esc(val)}"`:""}><span class="l" aria-hidden="${lab!==val}">${esc(lab)}</span> <span class="c"></span></button>`}).join("");
 }
-chipRow($("#f-fsp"),"fsp",FSP);chipRow($("#f-ber"),"ber",BER);chipRow($("#f-set"),"set",SET);chipRow($("#f-src"),"src",[["Suchmaschine","Diagnostik-Suchmaschine"],["Hogrefe","Hogrefe"],["nirgends","nirgends"]]);
+chipRow($("#f-fsp"),"fsp",[["Lernen","LE"],"ES","SQ","KM","HK"]);chipRow($("#f-ber"),"ber",[["Mathematik","Mathe"],"Lesen",["Rechtschreibung","Rechtschr."],"Deutsch","Sprache","Kognition",["Sozial-emotional","Sozial-emot."],["Verlaufsdiagnostik","Verlauf"]]);chipRow($("#f-set"),"set",["Einzel","Gruppe",["Fragebogen","Bogen"]]);chipRow($("#f-src"),"src",[["Suchmaschine","DSM"],["Hogrefe","Hogrefe"],["nirgends","keins"]]);
 $("#f-kl").innerHTML=KL.map(v=>`<button type="button" class="chip" data-k="kl" data-v="${v}" aria-pressed="false">${v}</button>`).join("");
-$("#quick").insertAdjacentHTML("beforeend",QUICK.map(x=>`<button type="button" class="qchip" data-quick="${x.k}" aria-pressed="false">${x.l}</button>`).join(""));
 
 function syncControls(){
   document.querySelectorAll(".chip").forEach(c=>{
@@ -541,7 +573,7 @@ function matrixView(){
   return `<div class="callout"><strong>${gaps.length?"Hier fehlt uns ein nutzbares Verfahren":"Keine Lücken bei diesen Filtern"}</strong>${gaps.length?`<ul>${gapList}</ul>`:""}<span class="hint">Gezählt werden ${st.countAll?"alle Verfahren":"nur Verfahren mit Stand „aktuell“ oder „brauchbar“"}${st.vorh?" aus dem, was uns zur Verfügung steht (Schrank und kostenlos online)":" inklusive Vorschläge"}. Eine Zahl antippen zeigt die Verfahren dazu.</span>
     <label class="check" style="min-height:36px"><input type="checkbox" id="countall" ${st.countAll?"checked":""}><span>Auch veraltete und unklare Verfahren zählen</span></label></div>
   <div class="matrixwrap"><table class="matrix"><thead><tr><th scope="col">Bereich</th>${[5,6,7,8,9,10].map(j=>`<th scope="col">Kl. ${j}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div>
-  <div class="legendrow"><span><i style="background:var(--gap-bg);border:1px solid var(--bad)"></i>keins</span><span><i style="background:var(--cover1)"></i>1</span><span><i style="background:var(--cover2)"></i>2</span><span><i style="background:var(--cover3)"></i>3 und mehr</span></div>`;
+  <div class="legendrow"><span><i style="background:repeating-linear-gradient(135deg,var(--gap-bg) 0 4px,var(--card) 4px 8px);border:1px solid var(--bad)"></i>keins</span><span><i style="background:var(--cover1)"></i>1</span><span><i style="background:var(--cover2)"></i>2</span><span><i style="background:var(--cover3)"></i>3 und mehr</span></div>`;
 }
 
 function render(){
@@ -638,7 +670,6 @@ function noteLine(t){return `Register: ${t.reg}${t.regName?" ("+t.regName+")":""
 function copy(text,msg){const done=()=>toast(msg);try{navigator.clipboard.writeText(text).then(done,()=>fallback(text,done))}catch(e){fallback(text,done)}}
 function fallback(text,done){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("Bitte Text markieren und kopieren")}ta.remove()}
 let tt;function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("on"),1800)}
-document.documentElement.dataset.variant="b";
 if(window.matchMedia&&matchMedia("(max-width:899px)").matches)$("#filters").open=false;
 sumT();
 render();
