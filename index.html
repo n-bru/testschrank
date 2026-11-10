@@ -46,6 +46,7 @@ h1{margin:4px 0 0;font-size:40px;line-height:1.1;text-wrap:balance}
 .searchbox{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:10px;padding:0 8px 0 16px;min-height:58px;border:1px solid transparent}
 .searchbox:focus-within{outline:3px solid var(--cover2);outline-offset:2px}
 .searchbox input{flex:1;min-width:0;border:0;outline:none;font:inherit;font-size:18px;color:var(--ink);background:transparent;padding:14px 0}
+.searchbox input::-webkit-search-cancel-button{display:none}
 .searchbox .clear{border:0;background:none;color:var(--muted);min-width:44px;min-height:44px;border-radius:8px;cursor:pointer;font-size:20px}
 .searchlab{font-size:15px;font-weight:700}
 
@@ -283,7 +284,7 @@ h1 .logo{flex:none}
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
       <div class="searchbox">
         <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="color:var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-        <input id="q" type="search" placeholder="Test, Thema oder Stichwort, z. B. Angst, LSL" autocomplete="off">
+        <input id="q" type="search" placeholder="Test, Thema oder Stichwort, z. B. Lesen 7, Angst, LSL" autocomplete="off">
         <button type="button" class="clear" id="qclear" aria-label="Suche leeren" hidden>×</button>
       </div>
     </div>
@@ -471,12 +472,95 @@ const klLabel=t=>!t.jg?"–":t.jg[0]<1?"bis "+(t.jg[1]>10?"10+":t.jg[1]):t.jg[0]
 const covers=(t,j)=>t.jg&&j>=t.jg[0]&&j<=t.jg[1];
 const yearOf=t=>{const m=String(t.year).match(/(19|20)\d\d/g);return m?Math.max(...m.map(Number)):0};
 
+/* Suche: findet auch bei Teilwörtern, Umlauten (ä, ae, a), ß, Tippfehlern, Kürzeln und verwandten Begriffen.
+   Mehrere Wörter müssen alle passen. Eine Zahl von 1 bis 13 gilt als Klasse, z. B. „Lesen 7“.
+   Neue Suchwörter: einfach in eine passende Zeile von SYN eintragen (oder eine neue Zeile anlegen). */
+const SYN=[
+  ["Lernen","LE","Lernbehinderung","Lernstand","Leistung","Schulleistung","Lernschwäche"],
+  ["ES","ESE","emotional","sozial","Verhalten","Sozialverhalten","Verhaltensauffälligkeit","Gefühle","Emotionen","Störverhalten","Unterrichtsstörung"],
+  ["SQ","Sprache","sprachlich","Sprechen","Sprachstand","Sprachentwicklung","Kommunikation","Wortschatz","Grammatik","Sprachverständnis","Aussprache","DaZ","Zweitsprache","Seiteneinsteiger"],
+  ["KM","körperlich","motorisch","Motorik","Feinmotorik","Grobmotorik","Körperbehinderung"],
+  ["HK","Hören","hörgeschädigt","Hörschädigung","schwerhörig","gehörlos","Gebärdensprache"],
+  ["Mathematik","Mathe","Rechnen","Rechen","Rechenschwäche","Rechenstörung","Dyskalkulie","Zahlen","Zahlverarbeitung","Arithmetik","Rechentest","Mathetest"],
+  ["Lesen","Lese","Leseverständnis","Leseflüssigkeit","Lesegeschwindigkeit","Lesetest","Lesekompetenz","Textverständnis","LRS","Legasthenie"],
+  ["Rechtschreibung","Rechtschreiben","Rechtschreib","Schreiben","Schreib","Orthografie","Orthographie","Diktat","LRS","Legasthenie"],
+  ["Kognition","Intelligenz","IQ","kognitiv","Denken","Begabung","Hochbegabung","Intelligenztest","Grundintelligenz","Entwicklungsstand"],
+  ["Konzentration","konzentriert","Aufmerksamkeit","aufmerksam","ADHS","ADS","Ablenkbarkeit","Unaufmerksamkeit"],
+  ["Angst","Ängstlichkeit","ängstlich","Ängste","Prüfungsangst","Schulangst","Schulunlust"],
+  ["Arbeitsverhalten","Lernverhalten","Motivation","Lernmotivation","Lernstrategien","Arbeitshaltung","Selbstkonzept"],
+  ["Verlaufsdiagnostik","Verlauf","Lernverlauf","Lernverlaufsdiagnostik","Monitoring","CBM","Evaluation","evaluieren","DBR","wiederholt","Fortschritt"],
+  ["Fragebogen","Bogen","Einschätzung","Einschätzliste","Beobachtung","Beobachtungsbogen","Screening","Rating"],
+  ["Lehrkraft","Lehrer","Lehrerin","Lehrereinschätzung","Fremdeinschätzung","Teacher"],
+  ["Selbsteinschätzung","Selbsturteil","Selbstbericht","Schülersicht","Lernenden"],
+  ["Inklusion","inklusiv","Wohlbefinden","Zugehörigkeit","Klassenklima","Schulerfahrungen","Integration"],
+  ["nonverbal","sprachfrei"],
+  ["kostenlos","kostenfrei","frei","gratis","umsonst","online"],
+  ["Gruppe","Gruppentest","Klassentest"],
+  ["Einzel","Einzeltest","Einzeltestung"]
+];
+const QSTOP=new Set("und oder fur der die das den dem des ein eine einen einer mit im in bei von zu zum zur auf nach fuer kl klasse klassen jg jahrgang jahrgangsstufe stufe test tests testverfahren verfahren instrument ich suche".split(" "));
+const fold=s=>String(s).toLowerCase().replace(/ß/g,"ss").replace(/ä|ae/g,"a").replace(/ö|oe/g,"o").replace(/ü|ue/g,"u").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+const SYNF=SYN.map(g=>[...new Set(g.map(fold))]);
+function dist(a,b,max){ // Tippfehler-Abstand (Buchstabe falsch, fehlt, zu viel oder vertauscht)
+  if(Math.abs(a.length-b.length)>max)return max+1;
+  let p2=null,p=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){const c=[i];let lo=i;
+    for(let j=1;j<=b.length;j++){let v=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));
+      if(p2&&i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])v=Math.min(v,p2[j-2]+1);c[j]=v;if(v<lo)lo=v}
+    if(lo>max)return max+1;p2=p;p=c}
+  return p[b.length];
+}
+const tol=w=>w.length>=10?2:w.length>=5?1:0;
+const near=(w,word)=>{const m=tol(w);if(!m)return false;if(dist(w,word,m)<=m)return true;return word.length>w.length&&dist(w,word.slice(0,w.length),m)<=m};
+function wordHits(w,word,alt){ // passt das Suchwort w zum Wort word? Verwandte Begriffe (alt) nur am Wortanfang
+  if(w.length<=2)return word===w;
+  if(w.length===3||alt)return word.startsWith(w);
+  return word.includes(w);
+}
+const HAY={};
+function hayOf(t){
+  if(HAY[t.id])return HAY[t.id];
+  const free=s=>fold(s).split(" ").filter(x=>x&&x!=="es");
+  const f=[
+    [5,fold(t.short).split(" ").concat(fold(t.short).replace(/ /g,""))],
+    [3,fold([t.name,t.ber,t.fsp.join(" "),t.regName||""].join(" ")).split(" ")],
+    [2,fold([t.set.join(" "),statusLabel(t.status),t.vorh?"im Bestand":t.frei?"kostenlos online frei":"Vorschlag"].join(" ")).split(" ")],
+    [1,free([t.desc,t.note,t.hog||"",t.alter||""].join(" "))]
+  ].map(([w,ws])=>[w,[...new Set(ws.filter(Boolean))]]);
+  return HAY[t.id]=f;
+}
+function parseQuery(q){
+  let ws=fold(q).split(" ").filter(Boolean);
+  const kept=ws.filter(w=>!QSTOP.has(w));if(kept.length)ws=kept;
+  return ws.map(w=>{
+    const kl=/^\d{1,2}$/.test(w)&&+w>=1&&+w<=13?+w:null;
+    const alt=new Set();
+    SYNF.forEach(g=>{if(g.some(x=>x===w||(w.length>=3&&x.startsWith(w))||(x.length>=4&&w.startsWith(x))||(w.length>=5&&dist(w,x,tol(w))<=tol(w))))g.forEach(x=>{if(x!==w)alt.add(x)})});
+    return {w,kl,alt:[...alt]};
+  });
+}
+function scoreQ(t){ // 0 = kein Treffer, sonst Trefferstärke für die Sortierung
+  if(!st.qp||!st.qp.length)return 1;
+  const hay=hayOf(t);let sum=0;
+  for(const {w,kl,alt} of st.qp){
+    let best=0;
+    for(const [wt,words] of hay){
+      if(words.some(x=>wordHits(w,x)))best=Math.max(best,wt);
+      else if(best<wt*.8&&alt.some(a=>words.some(x=>wordHits(a,x,true))))best=Math.max(best,wt*.8);
+      else if(best<wt*.6&&words.some(x=>near(w,x)))best=Math.max(best,wt*.6);
+    }
+    if(!best&&kl!==null&&covers(t,kl))best=2;
+    if(!best)return 0;sum+=best;
+  }
+  return sum;
+}
+
 /* Filter */
 function passes(t,skip){
   if(st.vorh&&!avail(t)&&skip!=="vorh")return false;
   if(st.onlyMerk&&!merk.has(t.id))return false;
   if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
-  if(st.q&&![t.short,t.name,t.desc,t.ber,t.note,t.fsp.join(" "),t.regName||"",t.hog||"",t.frei?"kostenlos online frei":""].join(" ").toLowerCase().includes(st.q))return false;
+  if(st.q&&!scoreQ(t))return false;
   const any=(k,arr)=>skip===k||st[k].size===0||arr.some(x=>st[k].has(x));
   if(!any("fsp",t.fsp)||!any("ber",[t.ber])||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
   if(skip!=="kl"&&st.kl!==null&&!covers(t,st.kl))return false;
@@ -484,6 +568,7 @@ function passes(t,skip){
 }
 function sorted(list){
   const by={name:(a,b)=>a.short.localeCompare(b.short,"de"),status:(a,b)=>NEED[a.status]-NEED[b.status]||a.short.localeCompare(b.short,"de"),ber:(a,b)=>a.ber.localeCompare(b.ber,"de")||a.short.localeCompare(b.short,"de"),year:(a,b)=>yearOf(b)-yearOf(a)};
+  if(st.q&&st.sort==="name"){const sc=new Map(list.map(t=>[t.id,scoreQ(t)]));return list.slice().sort((a,b)=>sc.get(b.id)-sc.get(a.id)||by.name(a,b))}
   return list.slice().sort(by[st.sort]);
 }
 
@@ -580,8 +665,10 @@ function render(){
   syncControls();renderStats();renderActive();
   const res=sorted(T.filter(t=>passes(t)));
   const hidden=st.kl!==null?T.filter(t=>passes(t,"kl")&&!t.jg).length:0;
-  $("#count").textContent=st.view==="matrix"?"Abdeckung nach Bereich und Klasse":(res.length===1?"1 Instrument":res.length+" Instrumente")+(hidden?` · ${hidden} ohne Klassenangabe ausgeblendet`:"");
-  const empty=`<div class="empty"><strong>Kein Instrument passt zu allen Filtern.</strong><span class="hint">Entferne einen Filter oder suche allgemeiner.</span><button type="button" class="btn primary" data-reset>Alle Filter zurücksetzen</button></div>`;
+  const extra=st.q&&st.vorh&&res.length?T.filter(t=>passes(t,"vorh")).length-res.length:0;
+  $("#count").innerHTML=st.view==="matrix"?"Abdeckung nach Bereich und Klasse":esc((res.length===1?"1 Instrument":res.length+" Instrumente")+(hidden?` · ${hidden} ohne Klassenangabe ausgeblendet`:""))+(extra?` · <button type="button" class="linkbtn" data-showall>${extra===1?"1 passender Vorschlag":extra+" passende Vorschläge"} außerhalb des Bestands</button>`:"");
+  const more=!res.length&&st.vorh?T.filter(t=>passes(t,"vorh")).length:0;
+  const empty=`<div class="empty"><strong>${st.q?"Nichts gefunden zu „"+esc(st.q)+"“.":"Kein Instrument passt zu allen Filtern."}</strong><span class="hint">${more?(more===1?"1 Vorschlag":more+" Vorschläge")+" außerhalb des Bestands passt dazu.":st.q?"Versuch ein anderes Wort, z. B. Lesen, Rechnen, Angst oder Konzentration.":"Entferne einen Filter oder suche allgemeiner."}</span>${more?`<button type="button" class="btn primary" data-showall>Vorschläge zeigen</button>`:""}<button type="button" class="btn${more?"":" primary"}" data-reset>Alle Filter zurücksetzen</button></div>`;
   $("#view").innerHTML=st.view==="matrix"?matrixView():!res.length?empty:st.view==="list"?listView(res):`<div class="cards">${res.map(card).join("")}</div>`;
   const m=T.filter(t=>merk.has(t.id));
   $("#merk-list").innerHTML=m.length?m.map(t=>`<li>${esc(t.short)}</li>`).join(""):`<li class="hint" style="list-style:none;margin-left:-20px">Mit dem Lesezeichen sammelst du Verfahren, z. B. für eine Bestellung oder eine Konferenz.</li>`;
@@ -644,8 +731,9 @@ document.addEventListener("click",e=>{
   const rp=el.closest("[data-report]");if(rp){report(T.find(x=>x.id===rp.dataset.report));return}
   const cp=el.closest("[data-copy]");if(cp){copy(noteLine(T.find(x=>x.id===cp.dataset.copy)),"Notiz kopiert");return}
   const v=el.closest("[data-view]");if(v){st.view=v.dataset.view;store.set("view",st.view);render();return}
-  const rm=el.closest("[data-rm]");if(rm){const k=rm.dataset.rm,val=rm.dataset.v;if(k==="quick")st.quick=null;else if(k==="q"){st.q="";$("#q").value=""}else if(k==="kl")st.kl=null;else if(k==="merk")st.onlyMerk=false;else if(k==="vorh")st.vorh=true;else st[k].delete(val);render();return}
+  const rm=el.closest("[data-rm]");if(rm){const k=rm.dataset.rm,val=rm.dataset.v;if(k==="quick")st.quick=null;else if(k==="q"){st.q="";st.qp=null;$("#q").value=""}else if(k==="kl")st.kl=null;else if(k==="merk")st.onlyMerk=false;else if(k==="vorh")st.vorh=true;else st[k].delete(val);render();return}
   const cell=el.closest("[data-cell]");if(cell){openCell(cell.dataset.cell);return}
+  if(el.closest("[data-showall]")){st.vorh=false;render();return}
   if(el.closest("[data-reset]"))resetAll();
 });
 document.addEventListener("keydown",e=>{
@@ -655,8 +743,8 @@ document.addEventListener("keydown",e=>{
 });
 document.addEventListener("change",e=>{if(e.target.id==="countall"){st.countAll=e.target.checked;render()}});
 function openCell(key){const [b,j]=key.split("|");st.ber=new Set([b]);st.kl=+j;if(!st.countAll){st.status=new Set(["aktuell","brauchbar"])}st.view="cards";render();$("#count").scrollIntoView({block:"start"})}
-$("#q").addEventListener("input",e=>{st.q=e.target.value.trim().toLowerCase();render()});
-$("#qclear").addEventListener("click",()=>{st.q="";$("#q").value="";render();$("#q").focus()});
+$("#q").addEventListener("input",e=>{st.q=e.target.value.trim();st.qp=parseQuery(st.q);render()});
+$("#qclear").addEventListener("click",()=>{st.q="";st.qp=null;$("#q").value="";render();$("#q").focus()});
 $("#vorh").addEventListener("change",e=>{st.vorh=e.target.checked;render()});
 $("#sort").addEventListener("change",e=>{st.sort=e.target.value;render()});
 $("#reset").addEventListener("click",resetAll);
@@ -665,7 +753,7 @@ $("#filters").addEventListener("toggle",sumT);
 $("#fclose").addEventListener("click",()=>{$("#filters").open=false;$("#count").scrollIntoView({block:"start"})});
 $("#merk-copy").addEventListener("click",()=>{const l=T.filter(t=>merk.has(t.id)).map(t=>"• "+t.short+": "+noteLine(t)).join("\n");copy(l||"(Merkliste ist leer)","Merkliste kopiert")});
 $("#merk-show").addEventListener("click",()=>{st.onlyMerk=!st.onlyMerk;if(st.onlyMerk)st.vorh=false;render()});
-function resetAll(){st.q="";$("#q").value="";st.quick=null;["fsp","ber","set","src","status"].forEach(k=>st[k].clear());st.kl=null;st.vorh=true;st.onlyMerk=false;render()}
+function resetAll(){st.q="";st.qp=null;$("#q").value="";st.quick=null;["fsp","ber","set","src","status"].forEach(k=>st[k].clear());st.kl=null;st.vorh=true;st.onlyMerk=false;render()}
 function noteLine(t){return `Register: ${t.reg}${t.regName?" ("+t.regName+")":""}. Hogrefe: ${t.hog}. Klasse ${klLabel(t)}. Jahr: ${t.year}. ${t.note}${t.hlink?" "+t.hlink:t.link?" "+t.link:""}`}
 function copy(text,msg){const done=()=>toast(msg);try{navigator.clipboard.writeText(text).then(done,()=>fallback(text,done))}catch(e){fallback(text,done)}}
 function fallback(text,done){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("Bitte Text markieren und kopieren")}ta.remove()}
