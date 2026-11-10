@@ -45,6 +45,12 @@ GitHub Pages ist öffentlich. Das ist in Ordnung, weil die Seite nur Testinforma
 
 Einen Test öffnen, Kürzel eintragen, **Ausleihen** klicken, absenden, und in der Excel-Datei nachsehen, ob die Zeile ankommt. Danach mit **Zurückgeben** dasselbe.
 
+## Suche
+
+Die Suche verzeiht Tippfehler, Groß- und Kleinschreibung, Umlaute (ä, ae, a) und ß. Sie findet auch Teilwörter, Kürzel (LE, ES, SQ, KM, HK, IQ, LRS, ADHS, DaZ) und verwandte Begriffe, z. B. „Rechnen“ → Mathematik, „Dyskalkulie“ → Mathematik. Eine Zahl gilt als Klasse: „Lesen 7“ zeigt Lesetests für Klasse 7.
+
+Fehlt ein Suchwort, in `index.html` die Liste `SYN` suchen und das Wort in die passende Zeile eintragen.
+
 ## Datenschutz
 
 - In Kürzel, Formulare und Fehlermeldungen kommen keine Namen oder Daten von Schüler:innen.
