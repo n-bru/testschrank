@@ -206,13 +206,10 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 .loc.free{background:var(--ok-bg);color:var(--ok);font-weight:700}
 .loc.free a{color:var(--ok)}
 .freetag{font-size:13px;font-weight:700;background:var(--ok-bg);color:var(--ok)}
-.lform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (max-width:440px){.lform{grid-template-columns:minmax(0,1fr)}}
-.lform label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
-.lform input{font:inherit;font-size:16px;min-height:44px;padding:0 10px;border:1px solid var(--chip-line);border-radius:8px;color:var(--ink);background:var(--card);min-width:0}
 
 .dsec h3{font-family:var(--f-word);font-size:16px}
 
+.wish p{margin:0 0 10px}
 .merk ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 footer{border-top:1px solid var(--line);padding-block:20px 32px;font-size:14px;color:var(--muted)}
 footer .inner{display:flex;flex-direction:column;gap:10px}
@@ -245,7 +242,6 @@ h3{font-weight:800;letter-spacing:.01em}
 .tag{border-radius:8px}
 .loc{border-radius:10px}
 .warnbox{border-radius:14px}
-.lform input{border-radius:12px;border-width:1.5px}
 .star[aria-pressed="true"]{color:var(--sigt,#8A6200);border-color:var(--sig);background:#FBF0D2}
 .num,td.mono,.matrix td.cellm{font-variant-numeric:tabular-nums}
 td.mono{font-weight:800}
@@ -278,7 +274,7 @@ h1 .logo{flex:none}
         <span class="eyebrow"><b>HBG Köln</b> · Gemeinsames Lernen / Sonderpädagogik</span>
         <h1><svg class="logo" aria-hidden="true" width="52" height="52" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#FBE6DC"/><rect x="14" y="10" width="36" height="44" rx="5" fill="none" stroke="#B4532C" stroke-width="4"/><line x1="14" y1="32" x2="50" y2="32" stroke="#B4532C" stroke-width="4"/><rect x="20" y="16" width="5" height="12" rx="1.5" fill="#B4532C"/><rect x="28" y="16" width="5" height="12" rx="1.5" fill="#8A640C"/><rect x="36" y="18" width="5" height="10" rx="1.5" fill="#B4532C" transform="rotate(14 38.5 23)"/><line x1="28" y1="42" x2="36" y2="42" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="20" y1="54" x2="20" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="44" y1="54" x2="44" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/></svg>Unser Testschrank</h1>
       </div>
-      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 26.10.2026</span>
+      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 11.11.2026</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
@@ -302,13 +298,18 @@ h1 .logo{flex:none}
           <div class="panelhead"><h2>Filter</h2><button type="button" class="linkbtn" id="reset">Zurücksetzen</button></div>
           <label class="check"><input type="checkbox" id="vorh" checked><span><b>Nur verfügbar</b><br><span class="hint">Schrank C134 und kostenlos online</span></span></label>
           <fieldset><legend>Förderschwerpunkt</legend><div class="chips bar" id="f-fsp"></div></fieldset>
-          <fieldset><legend>Bereich</legend><div class="chips two" id="f-ber"></div></fieldset>
+          <fieldset><legend>Bereich</legend><div class="chips two" id="f-ber"></div><span class="hint" style="margin-top:6px">Die ersten vier sind die Bereiche aus Deutsch. Schreiben schließt Rechtschreibung ein, Grammatik steht für Sprachreflexion.</span></fieldset>
           <fieldset><legend>Klasse</legend><div class="chips bar" id="f-kl"></div><span class="hint" id="kl-hint" hidden style="margin-top:8px">Verfahren ohne Klassenangabe sind dann ausgeblendet.</span></fieldset>
           <fieldset><legend>Durchführung</legend><div class="chips bar" id="f-set"></div></fieldset>
           <fieldset><legend>Verzeichnet in</legend><div class="chips bar" id="f-src"></div><span class="hint" style="margin-top:6px">DSM = Diagnostik-Suchmaschine</span></fieldset>
           <button type="button" class="btn primary fclose" id="fclose">Treffer anzeigen</button>
           </div>
         </details>
+        <div class="panel small wish">
+          <h2>Etwas gefunden?</h2>
+          <p class="hint">Ein gutes Verfahren fehlt hier, zum Beispiel kostenlos online? Oder du wünschst dir eins für die nächste Bestellung? Trag es ein.</p>
+          <button type="button" class="btn" data-wish="">Vorschlag eintragen</button>
+        </div>
         <div class="panel small merk">
           <h2>Merkliste</h2>
           <ul id="merk-list"></ul>
@@ -354,9 +355,8 @@ h1 .logo{flex:none}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-/* ===== Einstellungen: hier anpassen (Anleitung: testschrank_einrichten.md) ===== */
-const FORM_AUSLEIHE="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ye1PFot4eEOo6cGv5tvgp0oRQ6w_gRFDuVHEQhbVjrtUMUMzTko5MFVJUUlNWEk4MDUwRUNJQzI4WiQlQCN0PWcu&r24b75db3cd064f03816150afdf14ad6c=TESTNAME&re6c716e7e03041a8b0dd864657d43eb0=KUERZEL&rc33f896df9144249b6563b72c6b80c3d=%22Ausleihe%22"; // vorausgefüllter Forms-Link mit TESTNAME, KUERZEL und Ausleihe
-const AUSLEIHE_URL="https://hbgschulekoeln.sharepoint.com/:x:/s/2020_21_Sonderpdagogen/IQBw-olAhB4oSrWfLefNv5xiAbCOBZV5BnafH4KJK45vPZc?e=LiCO8O";  // Link zur Excel-Datei mit den Antworten, zum Nachsehen
+/* ===== Einstellungen: hier anpassen (Anleitung: README.md) ===== */
+const VORSCHLAG_FORM=""; // Forms-Link „Vorschlag für den Testschrank“ (kostenlos gefunden oder Kaufwunsch); optional mit Platzhalter TESTNAME
 const MELDEN_FORM="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ye1PFot4eEOo6cGv5tvgp0oRQ6w_gRFDuVHEQhbVjrtUNzRNRUcwNVRaQlkwSzY0WEMyWVVOQUVESyQlQCN0PWcu&rce8d212bb23941008c9df5aacd4f7a08=TESTNAME"; // vorausgefüllter Forms-Link für Fehlermeldungen mit TESTNAME
 const MELDEN_MAIL="";   // falls kein Formular: Mailadresse für Fehlermeldungen
 /* ============================================================================ */
@@ -368,10 +368,10 @@ const T=[
 {id:"zrt",vorh:true,short:"Züricher Rechentest",name:"vermutlich ZAREKI-R, Testbatterie für Zahlenverarbeitung und Rechnen",ber:"Mathematik",fsp:["Lernen"],status:"unklar",jg:[1,4],set:["Einzel"],reg:"nein",hog:"ZAREKI-R: von Aster et al., 4. Aufl. 2013, lieferbar",year:"ZAREKI-R: 2013 (4. Aufl.)",norm:"ZAREKI-R: N = 764 (421 DE, 343 CH), nur Kl. 1–4",alter:"Kl. 1–4",dauer:"15–30 Min.",desc:"Falls ZAREKI-R: Einzeltest zu Zahlverarbeitung und Rechnen bei Verdacht auf Dyskalkulie.",note:"Bitte prüfen, ob es der ZAREKI-R ist. Er ist nur bis Kl. 4 normiert, für Sek I passt eher BASIS-MATH.",link:R+"/bereich/mathematik",hlink:H+"testverfahren-zur-dyskalkulie-bei-kindern-revidierte-fassung.html"},
 {id:"zlvt",vorh:true,short:"ZLVT 4–6",name:"Zürcher Leseverständnistest für das 4. bis 6. Schuljahr",ber:"Lesen",fsp:["Lernen","SQ"],status:"veraltet",jg:[4,6],set:["Einzel"],reg:"nein",hog:"Grissemann & Baumberger, 2. Aufl. 2000, noch lieferbar",year:"2000 (2. Aufl.)",norm:"Prozentränge und T-Werte; Jahr und Stichprobe nicht genannt",alter:"–",dauer:"max. 50 Min.",desc:"Leseverständnis für das 4. bis 6. Schuljahr, Einzeltest.",note:"Alt. Ersatz: ELFE II oder SLS 2-9.",link:R+"/bereich/lesen",hlink:H+"zuercher-leseverstaendnistest-fuer-das-4-bis-6-schuljahr.html"},
 {id:"zlt",vorh:true,short:"ZLT",name:"Zürcher Lesetest, Förderdiagnostik bei gestörtem Schriftspracherwerb",ber:"Lesen",fsp:["Lernen","SQ"],status:"veraltet",jg:[1,4],set:["Einzel"],reg:"nein",hog:"Nachfolger ZLT-II: Petermann & Daseking, 4. Aufl. 2019, Kl. 1–8",year:"alte Fassung; ZLT-II 2019",norm:"ZLT-II: N = 1.367, Normen Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"ZLT-II: 15–35 Min.",desc:"Lesefertigkeit mit Blick auf Fehlerarten, als Grundlage für Förderung.",note:"Eure Fassung ist der alte ZLT. Der ZLT-II reicht bis Kl. 8 und wäre für uns der bessere Kauf.",link:R+"/bereich/lesen",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
-{id:"sdd",vorh:true,short:"Schnell-Diagnose Deutsch",name:"Schnell-Diagnosetests Deutsch",ber:"Deutsch",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand im Fach Deutsch.",note:"Nur als informelle Lernstandserhebung nutzbar, nicht für Gutachten.",link:"",hlink:""},
+{id:"sdd",vorh:true,short:"Schnell-Diagnose Deutsch",name:"Schnell-Diagnosetests Deutsch",ber:"unklar",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand im Fach Deutsch.",note:"Nur als informelle Lernstandserhebung nutzbar, nicht für Gutachten.",link:"",hlink:""},
 {id:"elfe",vorh:true,short:"ELFE II",name:"Ein Leseverständnistest für Erst- bis Siebtklässler",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,7],set:["Einzel","Gruppe"],reg:"ja",regName:"ELFE II (Lenhard et al.)",hog:"Lenhard, Lenhard & Schneider, 6. korr. Aufl. 2026, lieferbar",year:"2020 (aktuell 6. Aufl. 2026)",norm:"5.073 Datensätze aus 9 Bundesländern; Normstichprobe N = 1.520 Papier, N = 1.287 PC",alter:"–",dauer:"20–30 Min.",desc:"Leseverständnis auf Wort-, Satz- und Textebene, als Papier- und Computerversion.",note:"Aktuell. Gut für Jg. 5/6 und zieldifferent Lernende.",link:R+"/test/1027",hlink:H+"ein-leseverstaendnistest-fuer-erst-bis-siebtklaessler-version-ii.html"},
 {id:"lsl",vorh:true,short:"LSL",name:"Lehrereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"brauchbar",jg:[1,13],set:["Fragebogen"],reg:"ja",regName:"LSL (Petermann & Petermann)",hog:"Petermann & Petermann, 2. Aufl. 2013, lieferbar, auch digital",year:"2013 (2. Aufl.)",norm:"N = 1.480 aus BW, HE und NRW, auch Gesamtschulen",alter:"6–19 J.",dauer:"5 Min.",desc:"Lehrkräfte schätzen Sozial- und Lernverhalten ein, z. B. Kooperation, Selbstkontrolle, Konzentration.",note:"Noch brauchbar. Das Selbsturteil SSL ergänzt die Sicht der Lernenden.",link:R+"/test/15",hlink:H+"lehrereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
-{id:"set",vorh:true,short:"SET",name:"vermutlich SET 5–10, Sprachstandserhebungstest",ber:"Sprache",fsp:["SQ"],status:"unklar",jg:[0,5],set:["Einzel"],reg:"nein",hog:"SET 5–10: Petermann, 3. Aufl. 2018, teilweise neu normiert, lieferbar",year:"SET 5–10: 2018 (3. Aufl.)",norm:"SET 5–10: N = 1.052, bundesweit",alter:"5–10 J.",dauer:"ca. 45 Min.",desc:"Falls SET 5–10: Sprachstand in Wortschatz, Grammatik, Sprachverständnis und Gedächtnis.",note:"Bitte prüfen, ob es der SET 5–10 ist. Dann nur für Jg. 5 bis 10 Jahre nutzbar.",link:R+"/bereich/sprache",hlink:H+"sprachstandserhebungstest-fuer-kinder-im-alter-zwischen-5-und-10-jahren.html"},
+{id:"set",vorh:true,short:"SET",name:"vermutlich SET 5–10, Sprachstandserhebungstest",ber:["Sprechen und Zuhören","Grammatik"],fsp:["SQ"],status:"unklar",jg:[0,5],set:["Einzel"],reg:"nein",hog:"SET 5–10: Petermann, 3. Aufl. 2018, teilweise neu normiert, lieferbar",year:"SET 5–10: 2018 (3. Aufl.)",norm:"SET 5–10: N = 1.052, bundesweit",alter:"5–10 J.",dauer:"ca. 45 Min.",desc:"Falls SET 5–10: Sprachstand in Wortschatz, Grammatik, Sprachverständnis und Gedächtnis.",note:"Bitte prüfen, ob es der SET 5–10 ist. Dann nur für Jg. 5 bis 10 Jahre nutzbar.",link:R+"/bereich/sprache",hlink:H+"sprachstandserhebungstest-fuer-kinder-im-alter-zwischen-5-und-10-jahren.html"},
 {id:"eldib",vorh:true,short:"ELDiB",name:"Entwicklungspädagogischer Lernziel-Diagnose-Bogen",ber:"Sozial-emotional",fsp:["ES"],status:"informell",jg:null,set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Beobachtungsbogen zu Verhalten, Kommunikation, Sozialisation und Lernen.",note:"Förderplannahes Beobachtungsinstrument. Weiter sinnvoll.",link:"",hlink:""},
 {id:"kat",vorh:true,short:"KAT-III",name:"Kinder-Angst-Test III",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[1,12],set:["Fragebogen"],reg:"nein",hog:"Tewes & Naumann, 1. Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"Trait-Skala 2016 neu geeicht, N = 2.825 (6–18 J.)",alter:"6–18 J.",dauer:"5–15 Min.",desc:"Ängstlichkeit (Trait) und Zustandsangst vor und nach Belastungssituationen.",note:"Aktuell. Nicht im Register, aber gut nutzbar.",link:"",hlink:H+"kinder-angst-test-iii.html"},
 {id:"lavi",vorh:true,short:"LAVI",name:"Lern- und Arbeitsverhaltensinventar",ber:"Sozial-emotional",fsp:["Lernen","ES"],status:"veraltet",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"Keller & Thiel, 1. Aufl. 1998, noch lieferbar, auch digital",year:"1998",norm:"N = 927, Kl. 5–10",alter:"–",dauer:"ca. 30 Min.",desc:"Selbsteinschätzung zu Arbeitsverhalten, Lernstrategien und Motivation, Kl. 5–10.",note:"Passt inhaltlich genau zu uns, die Normen sind aber über 25 Jahre alt. Ergänzend: SSL oder SELLMO.",link:R+"/test/44",hlink:H+"lern-und-arbeitsverhaltensinventar.html"},
@@ -386,35 +386,38 @@ const T=[
 {id:"itrf",vorh:true,short:"ITRF-G",name:"Integrated Teacher Report Form, deutsche Fassung",ber:"Sozial-emotional",fsp:["ES"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"ITRF Kurzversion (Volpe & Fabiano)",hog:"nicht bei Hogrefe (frei verfügbar über die Forschung)",year:"2013",norm:"deutsche Fassung im Register nicht beschrieben",alter:"–",dauer:"–",desc:"Lehrkräfte schätzen lernförderliches und störendes Verhalten im Unterricht ein.",note:"Passt zur Verlaufsdiagnostik mit DBR bzw. der Lens-App.",link:R+"/test/12",hlink:""},
 {id:"sdm",vorh:true,short:"Schnelldiagnostik Mathe",name:"Schnelldiagnostik Mathematik",ber:"Mathematik",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand in Mathematik.",note:"Nur informell nutzbar.",link:"",hlink:""},
 // Aus dem Register, bei uns nicht vorhanden
-{id:"hsp",vorh:false,short:"HSP 1–10",name:"Hamburger Schreib-Probe",ber:"Rechtschreibung",fsp:["Lernen"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"HSP 1-10 (May et al.)",hog:"May, Malitzky & Vieluf, Ausgabe 2018, lieferbar",year:"2018",norm:"bundesweit; Kl. 1–6 normiert 2012, Kl. 7–10 2015",alter:"–",dauer:"unter 30 Min.",desc:"Rechtschreibstrategien über alle Klassenstufen bis Ende Klasse 10.",note:"Ein Rechtschreibtest fehlt bei uns bisher.",link:R+"/test/1043",hlink:H+"hamburger-schreib-probe-1-10-90204.html"},
+{id:"hsp",vorh:false,short:"HSP 1–10",name:"Hamburger Schreib-Probe",ber:"Schreiben",fsp:["Lernen"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"HSP 1-10 (May et al.)",hog:"May, Malitzky & Vieluf, Ausgabe 2018, lieferbar",year:"2018",norm:"bundesweit; Kl. 1–6 normiert 2012, Kl. 7–10 2015",alter:"–",dauer:"unter 30 Min.",desc:"Rechtschreibstrategien über alle Klassenstufen bis Ende Klasse 10.",note:"Ein Rechtschreibtest fehlt bei uns bisher.",link:R+"/test/1043",hlink:H+"hamburger-schreib-probe-1-10-90204.html"},
 {id:"zlt2",vorh:false,short:"ZLT-II",name:"Zürcher Lesetest II",ber:"Lesen",fsp:["Lernen","SQ"],status:"aktuell",jg:[1,8],set:["Einzel"],reg:"nein",hog:"Petermann & Daseking, 4. Aufl. 2019, lieferbar",year:"2019 (4. Aufl.)",norm:"N = 1.367, Ende Kl. 1 bis Kl. 8",alter:"–",dauer:"15–35 Min.",desc:"Lautes Lesen von Wörtern, Pseudowörtern und Text mit Fehleranalyse.",note:"Nachfolger eures ZLT, reicht bis Kl. 8.",link:"",hlink:"https://www.hogrefe.com/de/shop/zuercher-lesetest-ii.html"},
 {id:"sls",vorh:false,short:"SLS 2-9",name:"Salzburger Lese-Screening",ber:"Lesen",fsp:["Lernen"],status:"aktuell",jg:[2,9],set:["Einzel","Gruppe"],reg:"ja",regName:"SLS 2-9 (Wimmer & Mayringer)",hog:"Wimmer & Mayringer, 2014, lieferbar",year:"2014",norm:"N = 11.900",alter:"–",dauer:"ca. 15 Min.",desc:"Schnelles Screening der Lesegeschwindigkeit für ganze Klassen.",note:"Guter Ersatz für den ZLVT.",link:R+"/test/1033",hlink:H+"test-komplett-bestehend-aus-manual-je-5-testheften-form-a1-a2-b1-und-b2-schablonensatz-und-box.html"},
 {id:"feess",vorh:false,short:"FEESS 5-6",name:"Fragebogen zur Erfassung emotionaler und sozialer Schulerfahrungen",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[5,6],set:["Fragebogen","Gruppe"],reg:"ja",regName:"FEESS 5-6 (Rauer & Schuck)",hog:"Rauer & Schuck, 1. Aufl. 2021, lieferbar",year:"2021",norm:"Kl. 5 N = 886, Kl. 6 N = 856, auch Förderschulen",alter:"–",dauer:"2 × ca. 20 Min.",desc:"Sicht der Lernenden auf Klasse, Lehrkräfte und Schule.",note:"Frisch normiert, mit Zusatzzeit für inklusive Klassen.",link:R+"/test/33",hlink:H+"fragebogen-zur-erfassung-emotionaler-und-sozialer-schulerfahrungen-in-der-5-und-6-klassenstufe.html"},
 {id:"sdq",vorh:false,frei:true,flink:"https://www.sdqinfo.org/",short:"SDQ",name:"Strengths and Difficulties Questionnaire",ber:"Sozial-emotional",fsp:["ES"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"SDQ (Goodman), Lehrkraft-, Eltern- und Selbstversion",hog:"nicht bei Hogrefe (kostenfrei auf sdqinfo.org)",year:"2005",norm:"–",alter:"4–17 J.",dauer:"5–10 Min.",desc:"Kurzes Screening zu Stärken und Schwierigkeiten, in drei Perspektiven.",note:"Papierversion kostenfrei.",link:R+"/test/2",hlink:""},
 {id:"afs",vorh:false,short:"AFS",name:"Angstfragebogen für Schüler",ber:"Sozial-emotional",fsp:["ES"],status:"aktuell",jg:[4,12],set:["Fragebogen"],reg:"ja",regName:"AFS (Wieczerkowski et al.)",hog:"7. überarb. und neu normierte Aufl. 2016, lieferbar, auch digital",year:"2016",norm:"2015 neu normiert, N > 2.300, Kl. 4–12, u. a. NRW",alter:"9–18 J.",dauer:"10–25 Min.",desc:"Prüfungsangst, manifeste Angst, Schulunlust und soziale Erwünschtheit.",note:"Ergänzt den KAT-III um schulbezogene Angst.",link:R+"/test/41",hlink:H+"angstfragebogen-fuer-schueler.html"},
 {id:"ssl",vorh:false,short:"SSL",name:"Schülereinschätzliste für Sozial- und Lernverhalten",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"aktuell",jg:[4,13],set:["Fragebogen"],reg:"ja",regName:"SSL (Petermann & Petermann)",hog:"Petermann & Petermann, 1. Aufl. 2014, lieferbar",year:"2014",norm:"N = 3.403 aus 4 Bundesländern",alter:"ab Kl. 4",dauer:"ca. 10 Min.",desc:"Selbsturteil der Lernenden, passend zur LSL.",note:"Ergänzt eure LSL um die Sicht der Lernenden.",link:R+"/test/16",hlink:H+"schuelereinschaetzliste-fuer-sozial-und-lernverhalten.html"},
-{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:"Verlaufsdiagnostik",fsp:["Lernen","ES","SQ"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
+{id:"levumi",vorh:false,frei:true,flink:"https://www.levumi.de",short:"Levumi",name:"Lernverlaufsmonitoring (Uni Kiel u. a.)",ber:["Verlaufsdiagnostik","Lesen","Schreiben","Mathematik"],fsp:["Lernen","ES","SQ"],status:"aktuell",jg:[1,10],set:["Einzel","Gruppe"],reg:"ja",regName:"mehrere Einträge (Verlaufsdiagnostik)",hog:"nicht bei Hogrefe (kostenfreie Online-Plattform)",year:"laufend",norm:"Testbeschreibungen der Unis veröffentlicht; keine Klassennormen",alter:"Niveaustufen statt Klassen, auch zieldifferent in Sek I",dauer:"wenige Min., wiederholt",desc:"Kurze, wiederholte Online-Tests zu Leseflüssigkeit, Leseverständnis, Rechtschreibung, Wortschatz, Mathe-Basiskompetenzen und Verhalten.",note:"Kostenlos. Füllt bei uns die Lücke Verlaufsdiagnostik und passt zur Evaluation im Förderplan. Läuft auf einem Uni-Server; Lernende nur pseudonymisiert anlegen.",link:"",hlink:""},
 {id:"stolle",vorh:false,frei:true,flink:"https://www.uni-potsdam.de/de/gsp-deutsch/forschung/stolle",short:"STOLLE",name:"Stolperwörter-Lesetest",ber:"Lesen",fsp:["Lernen","SQ"],status:"brauchbar",jg:[1,4],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei, Uni Potsdam)",year:"laufend (Uni Potsdam)",norm:"Vergleichstabellen nur Kl. 1–4",alter:"–",dauer:"ca. 5 Min.",desc:"Gruppen-Lesetest auf Satzebene: In jedem Satz steht ein falsches Wort, das gestrichen wird. Misst Tempo und Genauigkeit.",note:"Kostenlos als PDF nach Anforderung. In Sek I nur ohne Normen nutzbar, gut zur schnellen Einordnung zieldifferent Lernender.",link:"",hlink:""},
 {id:"vera8",vorh:false,frei:true,flink:"https://www.schulministerium.nrw/06102025-durchfuehrung-der-vergleichsarbeiten-8-vera-8-im-jahr-2026",short:"VERA-8",name:"Vergleichsarbeiten 8 (Lernstand 8 NRW)",ber:"Mathematik",fsp:["Lernen"],status:"aktuell",jg:[8,8],set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (QUA-LiS NRW)",year:"jährlich",norm:"Landesvergleich nach Kompetenzstufen",alter:"–",dauer:"1 Schulstunde je Fach",desc:"Landesweite Lernstandserhebung in Deutsch, Mathematik und Englisch, mit Aufgaben und Hinweisen früherer Jahre.",note:"Habt ihr ohnehin. Die Kompetenzstufen und alten Aufgaben lassen sich für Förderpläne in Kl. 7–9 nutzen.",link:"",hlink:""},
-{id:"ndaz",vorh:false,frei:true,flink:"https://www.nibis.de/uploads/2med-eckert/ibus/Niveaubeschreibungen_DaZ_sekI.pdf",short:"Niveaubeschr. DaZ",name:"Niveaubeschreibungen Deutsch als Zweitsprache, Sek I (IQSH)",ber:"Sprache",fsp:["SQ"],status:"informell",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (IQSH Schleswig-Holstein, frei als PDF)",year:"2014",norm:"keine; vier Niveaustufen an den KMK-Bildungsstandards",alter:"–",dauer:"Beobachtung im Unterricht",desc:"Beobachtungsbogen zu Sprechen, Wortschatz, Aussprache, Lesen, Schreiben und Grammatik.",note:"Kein Test, aber strukturiert. Schließt bei uns die Lücke Sprache in Sek I.",link:"",hlink:""},
+{id:"ndaz",vorh:false,frei:true,flink:"https://www.nibis.de/uploads/2med-eckert/ibus/Niveaubeschreibungen_DaZ_sekI.pdf",short:"Niveaubeschr. DaZ",name:"Niveaubeschreibungen Deutsch als Zweitsprache, Sek I (IQSH)",ber:["Sprechen und Zuhören","Lesen","Schreiben","Grammatik"],fsp:["SQ"],status:"informell",jg:[5,10],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (IQSH Schleswig-Holstein, frei als PDF)",year:"2014",norm:"keine; vier Niveaustufen an den KMK-Bildungsstandards",alter:"–",dauer:"Beobachtung im Unterricht",desc:"Beobachtungsbogen zu Sprechen, Wortschatz, Aussprache, Lesen, Schreiben und Grammatik.",note:"Kein Test, aber strukturiert. Deckt Sprechen und Zuhören, Lesen, Schreiben und Grammatik in Sek I ab.",link:"",hlink:""},
 {id:"piq",vorh:false,frei:true,flink:"https://www.piqinfo.ch",short:"PIQ",name:"Perceptions of Inclusion Questionnaire",ber:"Sozial-emotional",fsp:["ES","Lernen"],status:"brauchbar",jg:[3,9],set:["Fragebogen"],reg:"nein",hog:"nicht bei Hogrefe (kostenfrei auf piqinfo.ch)",year:"2015",norm:"keine Normen; validiert u. a. in Kl. 8",alter:"empfohlen Kl. 3–9",dauer:"ca. 5 Min.",desc:"12 Fragen zu emotionalem Wohlbefinden, sozialer Einbindung und schulischem Selbstkonzept, als Schüler-, Eltern- und Lehrkraftversion.",note:"Kostenlos, sehr kurz. Gut, um die Sicht der Lernenden auf ihre Inklusion zu erfassen.",link:"",hlink:""}
 ];
 const FSP=["Lernen","ES","SQ","KM","HK"];
-const BER=["Mathematik","Lesen","Rechtschreibung","Deutsch","Sprache","Kognition","Sozial-emotional","Verlaufsdiagnostik"];
+const DEU=["Sprechen und Zuhören","Lesen","Schreiben","Grammatik"]; // Deutsch nach Kompetenzbereichen (Kollegin, 11.11.2026)
+const BER=DEU.concat(["Mathematik","Kognition","Sozial-emotional","Verlaufsdiagnostik"]);
+T.forEach(t=>{t.bers=Array.isArray(t.ber)?t.ber:[t.ber];t.ber=t.bers.join(", ")}); // ein Verfahren kann mehrere Bereiche abdecken
+const berLabel=b=>b==="unklar"?"Bereich offen":b;
 const KL=["alle","5","6","7","8","9","10"];
 const SET=["Einzel","Gruppe","Fragebogen"];
 const SRC=["Suchmaschine","Hogrefe","nirgends"];
 const STATUS=[["aktuell","aktuell"],["brauchbar","brauchbar"],["veraltet","veraltet"],["unklar","zu klären"],["informell","informell"]];
 const NEED={veraltet:0,unklar:1,informell:2,brauchbar:3,aktuell:4};
 const QUICK=[
-  {k:"lesen",l:"Lesen",f:t=>t.ber==="Lesen"},
-  {k:"rechnen",l:"Rechnen",f:t=>t.ber==="Mathematik"},
-  {k:"schreiben",l:"Rechtschreibung",f:t=>t.ber==="Rechtschreibung"||t.ber==="Deutsch"},
-  {k:"verhalten",l:"Verhalten",f:t=>t.ber==="Sozial-emotional"&&!/angst/i.test(t.name)},
+  {k:"lesen",l:"Lesen",f:t=>t.bers.includes("Lesen")},
+  {k:"rechnen",l:"Rechnen",f:t=>t.bers.includes("Mathematik")},
+  {k:"schreiben",l:"Schreiben",f:t=>t.bers.includes("Schreiben")},
+  {k:"verhalten",l:"Verhalten",f:t=>t.bers.includes("Sozial-emotional")&&!/angst/i.test(t.name)},
   {k:"angst",l:"Angst",f:t=>/angst/i.test(t.name+t.desc)},
   {k:"konz",l:"Konzentration",f:t=>/konzentration|aufmerksam/i.test(t.name+t.desc)},
-  {k:"iq",l:"Intelligenz",f:t=>t.ber==="Kognition"&&!/aufmerksam/i.test(t.name)},
-  {k:"sprache",l:"Sprache",f:t=>t.ber==="Sprache"||t.fsp.includes("SQ")&&t.ber==="Kognition"&&/nonverbal/i.test(t.name)},
+  {k:"iq",l:"Intelligenz",f:t=>t.bers.includes("Kognition")&&!/aufmerksam/i.test(t.name)},
+  {k:"sprache",l:"Sprache",f:t=>t.bers.includes("Sprechen und Zuhören")||t.fsp.includes("SQ")&&t.bers.includes("Kognition")&&/nonverbal/i.test(t.name)},
   {k:"frei",l:"Kostenlos",f:t=>!!t.frei}
 ];
 const st={q:"",quick:null,fsp:new Set(),ber:new Set(),set:new Set(),src:new Set(),status:new Set(),kl:null,vorh:true,onlyMerk:false,view:"cards",sort:"name",countAll:false};
@@ -423,32 +426,21 @@ let merk=new Set(store.get("merk",[]));
 const avail=t=>t.vorh||!!t.frei; // online frei Zugängliches gilt als an der Schule verfügbar (Nick, 26.10.2026)
 const DEF_LOC="C134";
 const locOf=t=>t.standort||(t.vorh?DEF_LOC:"");
-let myKz=store.get("kuerzel","");
 function locLine(t){
   if(!t.vorh)return t.frei?`<div class="loc free"><span>Online frei verfügbar</span>${t.flink?`<a href="${esc(t.flink)}" target="_blank" rel="noopener">Öffnen ↗</a>`:""}</div>`:"";
-  return `<div class="loc"><span>Standort <b>${esc(locOf(t))}</b></span>${FORM_AUSLEIHE?`<button type="button" class="linkbtn" data-open="${t.id}">Ausleihen</button>`:""}</div>`;
+  return `<div class="loc"><span>Standort <b>${esc(locOf(t))}</b></span></div>`;
 }
-function loanSec(t){
+function locSec(t){ // Ausleihe bewusst ohne Formular: rausnehmen, nutzen, zurückstellen (Kollegin, 11.11.2026)
   if(!t.vorh)return "";
-  const list=AUSLEIHE_URL?`<a href="${esc(AUSLEIHE_URL)}" target="_blank" rel="noopener">Ausleihliste ansehen ↗</a>`:"";
-  if(!FORM_AUSLEIHE)return `<div class="dsec"><h3>Standort und Ausleihe</h3><p style="margin:0">Standort <b>${esc(locOf(t))}</b>. ${list}</p></div>`;
-  return `<div class="dsec"><h3>Standort und Ausleihe</h3><p style="margin:0">Standort <b>${esc(locOf(t))}</b>. ${list}</p>
-    <div class="lform"><label>Dein Kürzel<input id="f-kz" maxlength="8" value="${esc(myKz)}" placeholder="z. B. MUE" autocomplete="off"></label></div>
-    <div class="dactions">
-      <button type="button" class="btn primary" data-loan="Ausleihe" data-id="${t.id}">Ausleihen</button>
-      <button type="button" class="btn" data-loan="Rückgabe" data-id="${t.id}">Zurückgeben</button>
-    </div>
-    <p class="hint" style="margin:0">Es öffnet sich ein vorausgefülltes Formular. Dort nur noch auf „Absenden“ klicken. Nur dein Kürzel eintragen, keine Namen von Schüler:innen.</p></div>`;
+  return `<div class="dsec"><h3>Standort</h3><p style="margin:0">Steht im Schrank in <b>${esc(locOf(t))}</b>. Einfach rausnehmen und nach der Nutzung zurückstellen.</p></div>`;
 }
 const fillForm=(url,map)=>{let u=url;for(const [k,v] of Object.entries(map))u=u.split(k).join(encodeURIComponent(v));return u};
-function loanAction(kind,id){
-  const t=T.find(x=>x.id===id);const kz=($("#f-kz").value||"").trim();
-  if(!kz){toast("Bitte dein Kürzel eintragen");$("#f-kz").focus();return}
-  if(/\s/.test(kz)){toast("Bitte nur ein Kürzel, keinen Namen");$("#f-kz").focus();return}
-  myKz=kz;store.set("kuerzel",kz);
-  let url=fillForm(FORM_AUSLEIHE,{TESTNAME:t.short,KUERZEL:kz});
-  if(kind==="Rückgabe")url=url.split("Ausleihe").join(encodeURIComponent("Rückgabe"));
-  window.open(url,"_blank","noopener");
+function wishText(t){return `Vorschlag für den Testschrank${t?": "+t.short+" ("+t.name+")":""}\n\nName des Verfahrens:\n\nLink (z. B. Diagnostik-Suchmaschine oder Verlag):\n\nKostenlos online oder Kaufwunsch?\n\nWofür (Bereich, Förderschwerpunkt, Klassen)?\n\nPreis, falls bekannt:\n\nBitte keine Namen oder Daten von Schüler:innen eintragen.`}
+function wish(t){
+  const name=t?t.short:"";
+  if(VORSCHLAG_FORM){window.open(fillForm(VORSCHLAG_FORM,{TESTNAME:name}),"_blank","noopener");return}
+  if(MELDEN_MAIL){location.href="mailto:"+MELDEN_MAIL+"?subject="+encodeURIComponent("Testschrank: Vorschlag"+(t?" "+name:""))+"&body="+encodeURIComponent(wishText(t));return}
+  copy(wishText(t),"Vorlage kopiert, bitte an die Fachleitung schicken");
 }
 function reportText(t){return `Test: ${t.short} (${t.name})\n\nWas stimmt nicht?\n\n\nWas wäre richtig?\n\n\nQuelle (optional):\n\n\nBitte keine Namen oder Daten von Schüler:innen eintragen.`}
 function report(t){
@@ -483,7 +475,9 @@ const SYN=[
   ["HK","Hören","hörgeschädigt","Hörschädigung","schwerhörig","gehörlos","Gebärdensprache"],
   ["Mathematik","Mathe","Rechnen","Rechen","Rechenschwäche","Rechenstörung","Dyskalkulie","Zahlen","Zahlverarbeitung","Arithmetik","Rechentest","Mathetest"],
   ["Lesen","Lese","Leseverständnis","Leseflüssigkeit","Lesegeschwindigkeit","Lesetest","Lesekompetenz","Textverständnis","LRS","Legasthenie"],
-  ["Rechtschreibung","Rechtschreiben","Rechtschreib","Schreiben","Schreib","Orthografie","Orthographie","Diktat","LRS","Legasthenie"],
+  ["Schreiben","Schreib","Rechtschreibung","Rechtschreiben","Rechtschreib","Orthografie","Orthographie","Diktat","Textproduktion","Aufsatz","LRS","Legasthenie"],
+  ["Sprechen","Zuhören","Hörverstehen","mündlich","Gesprächsführung","Wortschatz","Sprachverständnis","Aussprache"],
+  ["Grammatik","Sprachreflexion","Reflexion","Sprachgebrauch","Satzbau","Wortarten","Syntax"],
   ["Kognition","Intelligenz","IQ","kognitiv","Denken","Begabung","Hochbegabung","Intelligenztest","Grundintelligenz","Entwicklungsstand"],
   ["Konzentration","konzentriert","Aufmerksamkeit","aufmerksam","ADHS","ADS","Ablenkbarkeit","Unaufmerksamkeit"],
   ["Angst","Ängstlichkeit","ängstlich","Ängste","Prüfungsangst","Schulangst","Schulunlust"],
@@ -523,7 +517,7 @@ function hayOf(t){
   const free=s=>fold(s).split(" ").filter(x=>x&&x!=="es");
   const f=[
     [5,fold(t.short).split(" ").concat(fold(t.short).replace(/ /g,""))],
-    [3,fold([t.name,t.ber,t.fsp.join(" "),t.regName||""].join(" ")).split(" ")],
+    [3,fold([t.name,t.ber,t.bers.some(b=>DEU.includes(b))||/\bDeutsch\b/.test(t.name)?"Deutsch":"",t.fsp.join(" "),t.regName||""].join(" ")).split(" ")],
     [2,fold([t.set.join(" "),statusLabel(t.status),t.vorh?"im Bestand":t.frei?"kostenlos online frei":"Vorschlag"].join(" ")).split(" ")],
     [1,free([t.desc,t.note,t.hog||"",t.alter||""].join(" "))]
   ].map(([w,ws])=>[w,[...new Set(ws.filter(Boolean))]]);
@@ -562,7 +556,7 @@ function passes(t,skip){
   if(st.quick&&skip!=="quick"&&!QUICK.find(x=>x.k===st.quick).f(t))return false;
   if(st.q&&!scoreQ(t))return false;
   const any=(k,arr)=>skip===k||st[k].size===0||arr.some(x=>st[k].has(x));
-  if(!any("fsp",t.fsp)||!any("ber",[t.ber])||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
+  if(!any("fsp",t.fsp)||!any("ber",t.bers)||!any("set",t.set)||!any("src",srcOf(t))||!any("status",[t.status]))return false;
   if(skip!=="kl"&&st.kl!==null&&!covers(t,st.kl))return false;
   return true;
 }
@@ -576,7 +570,7 @@ function sorted(list){
 function chipRow(el,key,vals){
   el.innerHTML=vals.map(v=>{const [val,lab]=Array.isArray(v)?v:[v,v];return `<button type="button" class="chip" data-k="${key}" data-v="${esc(val)}" aria-pressed="false"${lab!==val?` aria-label="${esc(val)}" title="${esc(val)}"`:""}><span class="l" aria-hidden="${lab!==val}">${esc(lab)}</span> <span class="c"></span></button>`}).join("");
 }
-chipRow($("#f-fsp"),"fsp",[["Lernen","LE"],"ES","SQ","KM","HK"]);chipRow($("#f-ber"),"ber",[["Mathematik","Mathe"],"Lesen",["Rechtschreibung","Rechtschr."],"Deutsch","Sprache","Kognition",["Sozial-emotional","Sozial-emot."],["Verlaufsdiagnostik","Verlauf"]]);chipRow($("#f-set"),"set",["Einzel","Gruppe",["Fragebogen","Bogen"]]);chipRow($("#f-src"),"src",[["Suchmaschine","DSM"],["Hogrefe","Hogrefe"],["nirgends","keins"]]);
+chipRow($("#f-fsp"),"fsp",[["Lernen","LE"],"ES","SQ","KM","HK"]);chipRow($("#f-ber"),"ber",[["Sprechen und Zuhören","Sprechen/Hören"],"Lesen","Schreiben",["Grammatik","Grammatik"],["Mathematik","Mathe"],"Kognition",["Sozial-emotional","Sozial-emot."],["Verlaufsdiagnostik","Verlauf"]]);chipRow($("#f-set"),"set",["Einzel","Gruppe",["Fragebogen","Bogen"]]);chipRow($("#f-src"),"src",[["Suchmaschine","DSM"],["Hogrefe","Hogrefe"],["nirgends","keins"]]);
 $("#f-kl").innerHTML=KL.map(v=>`<button type="button" class="chip" data-k="kl" data-v="${v}" aria-pressed="false">${v}</button>`).join("");
 
 function syncControls(){
@@ -585,7 +579,7 @@ function syncControls(){
     const on=k==="kl"?(v==="alle"?st.kl===null:st.kl===+v):st[k].has(v);
     c.setAttribute("aria-pressed",on);
     const cnt=c.querySelector(".c");
-    if(cnt){const n=T.filter(t=>passes(t,k)&&(k==="fsp"?t.fsp.includes(v):k==="ber"?t.ber===v:k==="set"?t.set.includes(v):srcOf(t).includes(v))).length;cnt.textContent=n;c.disabled=n===0&&!on}
+    if(cnt){const n=T.filter(t=>passes(t,k)&&(k==="fsp"?t.fsp.includes(v):k==="ber"?t.bers.includes(v):k==="set"?t.set.includes(v):srcOf(t).includes(v))).length;cnt.textContent=n;c.disabled=n===0&&!on}
   });
   document.querySelectorAll(".qchip").forEach(c=>c.setAttribute("aria-pressed",st.quick===c.dataset.quick));
   document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.view===st.view));
@@ -621,7 +615,7 @@ function band(t){
   return `<div class="band"><div class="lab"><span>Klassen bei uns</span><span>${t.jg?"Kl. "+esc(klLabel(t)):"keine Angabe"}</span></div><div class="cells" aria-hidden="true">${cells}</div></div>`;
 }
 function tagRow(t){
-  return `<div class="tags"><span class="tag st st-${t.status}">${statusLabel(t.status)}</span><span class="tag ${t.vorh?"have":t.frei?"freetag":"nohave"}">${t.vorh?"Im Bestand":t.frei?"Online frei":"Vorschlag"}</span>${t.fsp.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}<span class="tag">${esc(t.ber)}</span></div>`;
+  return `<div class="tags"><span class="tag st st-${t.status}">${statusLabel(t.status)}</span><span class="tag ${t.vorh?"have":t.frei?"freetag":"nohave"}">${t.vorh?"Im Bestand":t.frei?"Online frei":"Vorschlag"}</span>${t.fsp.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}${t.bers.map(b=>`<span class="tag">${esc(berLabel(b))}</span>`).join("")}</div>`;
 }
 function card(t){
   const on=merk.has(t.id);
@@ -639,16 +633,16 @@ function card(t){
 function listView(res){
   const mini=t=>`<span class="miniband" aria-label="Klassen ${esc(klLabel(t))}">${[5,6,7,8,9,10].map(j=>`<i class="${covers(t,j)?"on":""}"></i>`).join("")}</span>`;
   return `<div class="tablewrap"><table><thead><tr><th scope="col">Verfahren</th><th scope="col">Bereich</th><th scope="col">Stand</th><th scope="col">Kl. 5–10</th><th scope="col">Form</th><th scope="col">Jahr</th><th scope="col"><span class="hint" style="font-size:inherit">Merken</span></th></tr></thead><tbody>${
-    res.map(t=>`<tr data-open="${t.id}" tabindex="0"><td class="mono">${esc(t.short)}${t.vorh?"":t.frei?' <span class="tag freetag" style="font-family:var(--f-word)">Online frei</span>':' <span class="tag nohave" style="font-family:var(--f-word)">Vorschlag</span>'}</td><td>${esc(t.ber)}</td><td><span class="tag st st-${t.status}">${statusLabel(t.status)}</span></td><td>${mini(t)}</td><td>${esc(t.set.join(" / ")||"–")}</td><td class="num">${esc(String(t.year).split(" (")[0])}</td><td><button type="button" class="star" data-merk="${t.id}" aria-pressed="${merk.has(t.id)}" aria-label="${esc(t.short)} merken">${merk.has(t.id)?ICON.starOn:ICON.star}</button></td></tr>`).join("")}</tbody></table></div>`;
+    res.map(t=>`<tr data-open="${t.id}" tabindex="0"><td class="mono">${esc(t.short)}${t.vorh?"":t.frei?' <span class="tag freetag" style="font-family:var(--f-word)">Online frei</span>':' <span class="tag nohave" style="font-family:var(--f-word)">Vorschlag</span>'}</td><td>${esc(t.bers.map(berLabel).join(", "))}</td><td><span class="tag st st-${t.status}">${statusLabel(t.status)}</span></td><td>${mini(t)}</td><td>${esc(t.set.join(" / ")||"–")}</td><td class="num">${esc(String(t.year).split(" (")[0])}</td><td><button type="button" class="star" data-merk="${t.id}" aria-pressed="${merk.has(t.id)}" aria-label="${esc(t.short)} merken">${merk.has(t.id)?ICON.starOn:ICON.star}</button></td></tr>`).join("")}</tbody></table></div>`;
 }
 function matrixView(){
   const base=T.filter(t=>passes(t,"kl"));
   const use=t=>st.countAll||t.status==="aktuell"||t.status==="brauchbar";
-  const rows=BER.filter(b=>base.some(t=>t.ber===b));
+  const rows=BER.filter(b=>base.some(t=>t.bers.includes(b)));
   const gaps=[];
   const body=rows.map(b=>{
     const cells=[5,6,7,8,9,10].map(j=>{
-      const hit=base.filter(t=>t.ber===b&&covers(t,j)&&use(t));
+      const hit=base.filter(t=>t.bers.includes(b)&&covers(t,j)&&use(t));
       const n=hit.length;if(!n)gaps.push([b,j]);
       return `<td class="cellm l${Math.min(n,3)}" data-cell="${esc(b)}|${j}" tabindex="0" title="${esc(hit.map(t=>t.short).join(", ")||"keine")}" aria-label="${esc(b)}, Klasse ${j}: ${n} Verfahren">${n}</td>`}).join("");
     return `<tr><th scope="row" style="text-align:left;background:none;text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)">${esc(b)}</th>${cells}</tr>`}).join("");
@@ -690,7 +684,7 @@ function openDrawer(id){
       <p style="margin:0">${esc(t.desc)}</p>
       ${band(t)}
       ${warn}
-      ${loanSec(t)}
+      ${locSec(t)}
       <div class="dsec"><h3>Eckdaten</h3><dl class="dl">
         <dt>Erscheinungsjahr</dt><dd>${esc(t.year)}</dd>
         <dt>Normierung</dt><dd>${esc(t.norm)}</dd>
@@ -708,6 +702,7 @@ function openDrawer(id){
         ${t.hlink?`<a class="btn" href="${t.hlink}" target="_blank" rel="noopener">Bei Hogrefe ↗</a>`:""}
         ${t.flink?`<a class="btn${t.link?"":" primary"}" href="${t.flink}" target="_blank" rel="noopener">Kostenlos beziehen ↗</a>`:""}
         <button type="button" class="btn" data-copy="${t.id}">Notiz kopieren</button>
+        ${!t.vorh&&!t.frei?`<button type="button" class="btn" data-wish="${t.id}">Kaufwunsch eintragen</button>`:""}
         <button type="button" class="btn" data-report="${t.id}">Fehler melden</button>
         <button type="button" class="btn" data-merk="${t.id}" aria-pressed="${on}">${on?"Gemerkt":"Merken"}</button>
       </div>
@@ -727,7 +722,7 @@ document.addEventListener("click",e=>{
   const m=el.closest("[data-merk]");if(m){e.stopPropagation();const id=m.dataset.merk;merk.has(id)?merk.delete(id):merk.add(id);store.set("merk",[...merk]);const inDrawer=!!m.closest(".drawer");render();if(inDrawer)openDrawer(id);return}
   const o=el.closest("[data-open]");if(o){openDrawer(o.dataset.open);return}
   if(el.closest("[data-close]")){closeDrawer();return}
-  const ln=el.closest("[data-loan]");if(ln){loanAction(ln.dataset.loan,ln.dataset.id);return}
+  const wi=el.closest("[data-wish]");if(wi){wish(T.find(x=>x.id===wi.dataset.wish));return}
   const rp=el.closest("[data-report]");if(rp){report(T.find(x=>x.id===rp.dataset.report));return}
   const cp=el.closest("[data-copy]");if(cp){copy(noteLine(T.find(x=>x.id===cp.dataset.copy)),"Notiz kopiert");return}
   const v=el.closest("[data-view]");if(v){st.view=v.dataset.view;store.set("view",st.view);render();return}
