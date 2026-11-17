@@ -209,6 +209,7 @@ td.mono{font-family:var(--f-mono);font-weight:600}
 
 .dsec h3{font-family:var(--f-word);font-size:16px}
 
+.hinweis{margin:0;font-size:14px;background:var(--tag);border-left:4px solid var(--accent);border-radius:6px;padding:6px 10px}
 .merk ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 footer{border-top:1px solid var(--line);padding-block:20px 32px;font-size:14px;color:var(--muted)}
 footer .inner{display:flex;flex-direction:column;gap:10px}
@@ -273,7 +274,7 @@ h1 .logo{flex:none}
         <span class="eyebrow"><b>HBG Köln</b> · Gemeinsames Lernen / Sonderpädagogik</span>
         <h1><svg class="logo" aria-hidden="true" width="52" height="52" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#FBE6DC"/><rect x="14" y="10" width="36" height="44" rx="5" fill="none" stroke="#B4532C" stroke-width="4"/><line x1="14" y1="32" x2="50" y2="32" stroke="#B4532C" stroke-width="4"/><rect x="20" y="16" width="5" height="12" rx="1.5" fill="#B4532C"/><rect x="28" y="16" width="5" height="12" rx="1.5" fill="#8A640C"/><rect x="36" y="18" width="5" height="10" rx="1.5" fill="#B4532C" transform="rotate(14 38.5 23)"/><line x1="28" y1="42" x2="36" y2="42" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="20" y1="54" x2="20" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/><line x1="44" y1="54" x2="44" y2="58" stroke="#B4532C" stroke-width="4" stroke-linecap="round"/></svg>Unser Testschrank</h1>
       </div>
-      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 11.11.2026</span>
+      <span class="headnote">Instrumente für die Klassen 5–10 · Stand 17.11.2026</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <label for="q" class="searchlab">Was möchtest du erfassen?</label>
@@ -372,7 +373,7 @@ const T=[
 {id:"cft",vorh:true,short:"CFT 20-R",name:"Grundintelligenztest Skala 2, Revision, mit WS/ZF-R",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[3,13],set:["Gruppe"],reg:"ja",regName:"CFT 20-R (Weiß)",hog:"2. Auflage, Normerhebung 2011–2015, lieferbar, auch digital",year:"2019 (2. Aufl.)",norm:"Erhebungen 2011–2015",alter:"ab 8;5 J.",dauer:"ca. 60 Min.",desc:"Sprachfreier Test zum schlussfolgernden Denken, mit Wortschatz- und Zahlenfolgentest kombinierbar.",note:"Aktuell. Standardverfahren für Sek I.",link:R+"/test/1002",hlink:H+"grundintelligenztest-skala-2-revision-cft-20-r-mit-wortschatztest-ws-und-zahlenfolgentest-zf-revision-ws-zf-r-94342.html"},
 {id:"sonr",vorh:true,short:"SON-R 6-40",name:"Snijders-Oomen Nonverbaler Intelligenztest",ber:"Kognition",fsp:["Lernen","SQ","HK"],status:"aktuell",jg:[1,13],set:["Einzel"],reg:"nein",hog:"Tellegen, Laros & Petermann, 1. Aufl. 2012, lieferbar",year:"2012",norm:"Erhebung 2009–2011 in DE und NL, N = 1.933",alter:"6–40 J.",dauer:"ca. 50 Min.",desc:"Nonverbaler Intelligenztest, ohne sprachliche Anforderungen durchführbar.",note:"Wichtig bei DaZ, Sprache und HK. Behalten.",link:"",hlink:"https://www.hogrefe.com/de/shop/non-verbaler-intelligenztest-49020.html"},
 {id:"kabc",vorh:true,short:"KABC-II",name:"Kaufman Assessment Battery for Children",ber:"Kognition",fsp:["Lernen"],status:"aktuell",jg:[0,12],set:["Einzel"],reg:"nein",hog:"dt. Bearbeitung Melchers & Melchers, 1. Aufl. 2015, lieferbar",year:"2015",norm:"repräsentative Normen DE/AT/CH für 16 Altersgruppen",alter:"3–18 J.",dauer:"30–75 Min.",desc:"Intelligenz- und Entwicklungstest mit Skalen zu Gedächtnis, Lernen und Planen.",note:"Nicht im Register, aber aktuell und anerkannt.",link:"",hlink:H+"kaufman-assessment-battery-for-children-second-edition.html"},
-{id:"ids",vorh:true,short:"IDS 5–10",name:"Intelligence and Development Scales",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,4],set:["Einzel"],reg:"Nachfolger",regName:"IDS-2 (Grob & Hagmann-von Arx)",hog:"IDS: 2009. Nachfolger IDS-2: 2018, 5–20 J., lieferbar",year:"2009",norm:"IDS: 2007–2008, N = 1.330. IDS-2: 2015–2017, N = 1.672",alter:"5;0–10;11 J.",dauer:"–",desc:"Intelligenz und Entwicklung in mehreren Funktionsbereichen.",note:"Eure Fassung endet bei 10;11 J.",link:R+"/test/1004",hlink:""},
+{id:"ids",vorh:true,hinweis:"Bleibt im Bestand, weil eine Unterskala Autismus erfasst.",short:"IDS 5–10",name:"Intelligence and Development Scales",ber:"Kognition",fsp:["Lernen"],status:"veraltet",jg:[0,4],set:["Einzel"],reg:"Nachfolger",regName:"IDS-2 (Grob & Hagmann-von Arx)",hog:"IDS: 2009. Nachfolger IDS-2: 2018, 5–20 J., lieferbar",year:"2009",norm:"IDS: 2007–2008, N = 1.330. IDS-2: 2015–2017, N = 1.672",alter:"5;0–10;11 J.",dauer:"–",desc:"Intelligenz und Entwicklung in mehreren Funktionsbereichen.",note:"Eure Fassung endet bei 10;11 J.",link:R+"/test/1004",hlink:""},
 {id:"svs",vorh:true,short:"SVS",name:"Screening für Verhaltensauffälligkeiten im Schulbereich",ber:"Sozial-emotional",fsp:["ES"],status:"unklar",jg:null,set:[],reg:"nein",hog:"noch nicht geprüft",year:"unklar",norm:"unklar",alter:"–",dauer:"–",desc:"Screening für Verhaltensauffälligkeiten im Schulbereich.",note:"Titel geklärt (12.11.2026). Autor:innen, Jahr, Klassen, Durchführung und Normen noch prüfen.",link:"",hlink:""},
 {id:"itrf",vorh:true,short:"ITRF-G",name:"Integrated Teacher Report Form, deutsche Fassung",ber:"Sozial-emotional",fsp:["ES"],status:"brauchbar",jg:null,set:["Fragebogen"],reg:"ja",regName:"ITRF Kurzversion (Volpe & Fabiano)",hog:"nicht bei Hogrefe (frei verfügbar über die Forschung)",year:"2013",norm:"deutsche Fassung im Register nicht beschrieben",alter:"–",dauer:"–",desc:"Lehrkräfte schätzen lernförderliches und störendes Verhalten im Unterricht ein.",note:"Passt zur Verlaufsdiagnostik mit DBR bzw. der Lens-App.",link:R+"/test/12",hlink:""},
 {id:"sdm",vorh:true,short:"Schnell-Diagnose Mathe",name:"Schnell-Diagnosetests Mathematik (Persen)",ber:"Mathematik",fsp:["Lernen"],status:"informell",jg:null,set:["Gruppe"],reg:"nein",hog:"nicht bei Hogrefe (Persen)",year:"–",norm:"keine Normen",alter:"–",dauer:"–",desc:"Kurze informelle Aufgaben zum Lernstand in Mathematik.",note:"Nur informell nutzbar. Klassen noch prüfen.",link:"",hlink:""},
@@ -460,6 +461,7 @@ const SYN=[
   ["Sprechen","Zuhören","Hörverstehen","mündlich","Gesprächsführung","Wortschatz","Sprachverständnis","Aussprache"],
   ["Grammatik","Sprachreflexion","Reflexion","Sprachgebrauch","Satzbau","Wortarten","Syntax"],
   ["Kognition","Intelligenz","IQ","kognitiv","Denken","Begabung","Hochbegabung","Intelligenztest","Grundintelligenz","Entwicklungsstand"],
+  ["Autismus","Autismus-Spektrum","Autist","autistisch"],
   ["Konzentration","konzentriert","Aufmerksamkeit","aufmerksam","ADHS","ADS","Ablenkbarkeit","Unaufmerksamkeit"],
   ["Angst","Ängstlichkeit","ängstlich","Ängste","Prüfungsangst","Schulangst","Schulunlust"],
   ["Arbeitsverhalten","Lernverhalten","Motivation","Lernmotivation","Lernstrategien","Arbeitshaltung","Selbstkonzept"],
@@ -500,7 +502,7 @@ function hayOf(t){
     [5,fold(t.short).split(" ").concat(fold(t.short).replace(/ /g,""))],
     [3,fold([t.name,t.ber,t.bers.some(b=>DEU.includes(b))||/\bDeutsch\b/.test(t.name)?"Deutsch":"",t.fsp.join(" "),t.regName||""].join(" ")).split(" ")],
     [2,fold([t.set.join(" "),statusLabel(t.status),t.vorh?"im Bestand":t.frei?"kostenlos online frei":"Vorschlag"].join(" ")).split(" ")],
-    [1,free([t.desc,t.note,t.hog||"",t.alter||""].join(" "))]
+    [1,free([t.hinweis||"",t.desc,t.note,t.hog||"",t.alter||""].join(" "))]
   ].map(([w,ws])=>[w,[...new Set(ws.filter(Boolean))]]);
   return HAY[t.id]=f;
 }
@@ -605,6 +607,7 @@ function card(t){
       <button type="button" class="star" data-merk="${t.id}" aria-pressed="${on}" aria-label="${esc(t.short)} ${on?"von der Merkliste nehmen":"merken"}">${on?ICON.starOn:ICON.star}</button></div>
     ${tagRow(t)}
     <p class="desc">${esc(t.desc)}</p>
+    ${t.hinweis?`<p class="hinweis"><b>Hinweis:</b> ${esc(t.hinweis)}</p>`:""}
     ${band(t)}
     ${locLine(t)}
     <div class="afoot"><span class="facts">${[t.set.join(" / "),t.dauer!=="–"?"<b>"+esc(t.dauer)+"</b>":"",String(t.year).split(" (")[0]].filter(x=>x&&x!=="–").map(x=>x.startsWith("<b>")?x:esc(x)).join(" · ")||"&nbsp;"}</span>
@@ -664,6 +667,7 @@ function openDrawer(id){
       ${tagRow(t)}
       <p style="margin:0">${esc(t.desc)}</p>
       ${band(t)}
+      ${t.hinweis?`<p class="hinweis"><b>Hinweis:</b> ${esc(t.hinweis)}</p>`:""}
       ${warn}
       ${locSec(t)}
       <div class="dsec"><h3>Eckdaten</h3><dl class="dl">
